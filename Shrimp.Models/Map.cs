@@ -11,9 +11,8 @@ namespace Shrimp.Models
 {
     public class Map : Model
     {
-        public Map(MapCollection mapCollection, int id)
+        public Map(int id)
         {
-            this.MapCollection = mapCollection;
             this.Id = id;
             this.Clear();
         }
@@ -24,13 +23,6 @@ namespace Shrimp.Models
         public const int MaxWidth = 500;
         public const int MinHeight = 15;
         public const int MaxHeight = 500;
-
-        public MapCollection MapCollection { get; private set; }
-
-        public ViewModel ViewModel
-        {
-            get { return this.MapCollection.ViewModel; }
-        }
 
         public int Id { get; private set; }
 

@@ -216,7 +216,7 @@ namespace Shrimp.Models
                 throw new ArgumentException("Invalid id", "parentId");
             }
             int id = Util.GetNewId(this.Nodes.Select(n => n.Id));
-            Node node = new Node(id, new Map(this, id), false);
+            Node node = new Node(id, new Map(id), false);
             node.Parent = this.GetNode(parentId);
             node.Parent.Children.Add(node);
             this.OnNodeAdded(new NodeEventArgs(id));
@@ -301,7 +301,7 @@ namespace Shrimp.Models
         private void AddNodeFromJson(Node parentNode, JObject json)
         {
             int id = json.Value<int>("Id");
-            Map map = new Map(this, id);
+            Map map = new Map(id);
             map.LoadJson(json["Map"]);
             Node node = new Node(id, map, json.Value<bool>("IsExpanded"));
             parentNode.Children.Add(node);
