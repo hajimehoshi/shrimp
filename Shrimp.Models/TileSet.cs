@@ -24,26 +24,14 @@ namespace Shrimp.Models
 
         public int Id { get; private set; }
 
-        public string ImageFileName
-        {
-            get { return this.Id.ToString() + ".png"; }
-        }
-
         public string ImageFileFullPath
         {
             get
             {
-                if (this.ImageFileName != null)
-                {
-                    string path = this.TileSetCollection.ViewModel.DirectoryPath;
-                    path = Path.Combine(path, this.TileSetCollection.TilesGraphicsDirectory);
-                    path = Path.Combine(path, this.ImageFileName);
-                    return path;
-                }
-                else
-                {
-                    return null;
-                }
+                string path = this.TileSetCollection.ViewModel.DirectoryPath;
+                path = Path.Combine(path, this.TileSetCollection.TilesGraphicsDirectory);
+                path = Path.Combine(path, this.Id.ToString() + ".png");
+                return path;
             }
         }
 
@@ -134,7 +122,6 @@ namespace Shrimp.Models
         public override JToken ToJson()
         {
             return new JObject(
-                new JProperty("ImageFileName", this.ImageFileName),
                 new JProperty("TilePassageTypes", this.GetTilePassageTypes().ToJson()));
         }
 

@@ -184,7 +184,7 @@ namespace Shrimp
                 {
                     TileSet tileSet = tileSets[i];
                     indexToId.Add(i, tileSet.Id);
-                    this.TileSetsToolStripComboBox.Items.Add(tileSet.ImageFileName);
+                    this.TileSetsToolStripComboBox.Items.Add(tileSet.Id.ToString());
                 }
                 this.TileSetsToolStripComboBox.Tag = indexToId;
                 this.TileSetsToolStripComboBox.EndUpdate();

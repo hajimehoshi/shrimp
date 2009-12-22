@@ -78,7 +78,7 @@ namespace Shrimp.Models
             string path = Path.Combine(this.ViewModel.DirectoryPath, this.TilesGraphicsDirectory);
             var files = from f in Directory.GetFiles(path, "*.png", SearchOption.TopDirectoryOnly)
                         select Path.GetFileName(f);
-            var registeredFiles = this.TileSets.Select(p => p.Value.ImageFileName).ToArray();
+            var registeredFiles = this.TileSets.Select(p => p.Value.Id + ".png").ToArray();
             foreach (string file in files.Except(registeredFiles))
             {
                 Match match = (new Regex(@"^(\d+)\.png$", RegexOptions.IgnoreCase)).Match(file);
