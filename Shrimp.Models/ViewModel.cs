@@ -17,7 +17,7 @@ namespace Shrimp.Models
         {
             this.Project = new Project();
             this.EditorState = new EditorState(this);
-            this.MapCollection = new MapCollection(this);
+            this.MapCollection = new MapCollection();
             this.TileSetCollection = new TileSetCollection(this);
 
             foreach (IModel modelStore in this.Models)

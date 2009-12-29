@@ -17,7 +17,7 @@ namespace Shrimp.Models
             this.Clear();
         }
 
-        public ViewModel ViewModel { get; private set; }
+        private ViewModel ViewModel { get; set; }
 
         private Dictionary<int, TileSet> TileSets = new Dictionary<int, TileSet>();
 

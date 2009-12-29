@@ -82,15 +82,12 @@ namespace Shrimp.Models
             public TrashNode(bool isExpanded) : base(-1, "Trash", isExpanded) { }
         }
 
-        public MapCollection(ViewModel viewModel)
+        public MapCollection()
         {
-            this.ViewModel = viewModel;
             this.ProjectNodeInstance = new ProjectNode(false);
             this.TrashNodeInstance = new TrashNode(false);
             this.Clear();
         }
-
-        public ViewModel ViewModel { get; private set; }
 
         private Node ProjectNodeInstance;
         private Node TrashNodeInstance;

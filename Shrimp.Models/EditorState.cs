@@ -101,7 +101,7 @@ namespace Shrimp.Models
             this.Clear();
         }
 
-        public ViewModel ViewModel { get; private set; }
+        private ViewModel ViewModel { get; set; }
 
         public Map Map
         {
