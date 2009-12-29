@@ -469,20 +469,4 @@ namespace Shrimp
             }
         }
     }
-
-    internal class ToolStripTrackBar : ToolStripControlHost
-    {
-        public ToolStripTrackBar()
-            : base(new TrackBar())
-        {
-        }
-
-        public TrackBar TrackBar
-        {
-            get
-            {
-                return (TrackBar)this.Control;
-            }
-        }
-    }
 }
