@@ -67,7 +67,8 @@ namespace Shrimp.Models
             foreach (JObject j in json as JArray)
             {
                 int id = j.Value<int>("Id");
-                TileSet tileSet = new TileSet(this, id);
+                string dir = Path.Combine(this.ViewModel.DirectoryPath, this.TilesGraphicsDirectory);
+                TileSet tileSet = new TileSet(id, dir);
                 tileSet.LoadJson(j["Value"]);
                 this.TileSets.Add(id, tileSet);
             }
@@ -85,7 +86,8 @@ namespace Shrimp.Models
                 if (match.Success)
                 {
                     int id = int.Parse(match.Groups[1].Value);
-                    TileSet tileSet = new TileSet(this, id);
+                    string dir = Path.Combine(this.ViewModel.DirectoryPath, this.TilesGraphicsDirectory);
+                    TileSet tileSet = new TileSet(id, dir);
                     this.TileSets.Add(id, tileSet);
                 }
             }

@@ -11,29 +11,15 @@ namespace Shrimp.Models
 {
     public class TileSet : Model
     {
-        public TileSet(TileSetCollection tileSetCollection, int id)
+        public TileSet(int id, string imageDirectoryPath)
         {
-            this.TileSetCollection = tileSetCollection;
             this.Id = id;
-            this.OriginalBitmap = new Bitmap(this.ImageFileFullPath);
+            this.OriginalBitmap = new Bitmap(Path.Combine(imageDirectoryPath, this.Id.ToString() + ".png"));
             this.SetTilePassageTypes(new ObservedArray<TilePassageType>(this.Width * this.Height));
             this.Clear();
         }
 
-        private TileSetCollection TileSetCollection;
-
         public int Id { get; private set; }
-
-        public string ImageFileFullPath
-        {
-            get
-            {
-                string path = this.TileSetCollection.ViewModel.DirectoryPath;
-                path = Path.Combine(path, this.TileSetCollection.TilesGraphicsDirectory);
-                path = Path.Combine(path, this.Id.ToString() + ".png");
-                return path;
-            }
-        }
 
         public int Width
         {
