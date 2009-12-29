@@ -6,7 +6,7 @@ using NUnit.Framework;
 using Shrimp;
 using Shrimp.Models;
 
-namespace Shrimp.Tests
+namespace Shrimp.Models.Tests
 {
     [TestFixture]
     public class TileTest
