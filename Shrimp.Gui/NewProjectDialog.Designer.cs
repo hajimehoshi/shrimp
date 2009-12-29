@@ -1,4 +1,4 @@
-﻿namespace Shrimp
+﻿namespace Shrimp.Gui
 {
     partial class NewProjectDialog
     {

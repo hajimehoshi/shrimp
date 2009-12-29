@@ -1,4 +1,4 @@
-﻿namespace Shrimp
+﻿namespace Shrimp.Gui
 {
     partial class MainForm
     {
@@ -35,8 +35,8 @@
             this.TileSetPaletteToolStrip = new System.Windows.Forms.ToolStrip();
             this.TileSetsToolStripComboBox = new System.Windows.Forms.ToolStripComboBox();
             this.PassageToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.TileSetPalette = new Shrimp.TileSetPalette();
-            this.MapTreeView = new Shrimp.MapTreeView();
+            this.TileSetPalette = new Shrimp.Gui.TileSetPalette();
+            this.MapTreeView = new Shrimp.Gui.MapTreeView();
             this.ToolStripContainer = new System.Windows.Forms.ToolStripContainer();
             this.ToolStrip = new System.Windows.Forms.ToolStrip();
             this.NewToolStripButton = new System.Windows.Forms.ToolStripButton();

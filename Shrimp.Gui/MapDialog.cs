@@ -8,7 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using Shrimp.Models;
 
-namespace Shrimp
+namespace Shrimp.Gui
 {
     internal partial class MapDialog : Form
     {

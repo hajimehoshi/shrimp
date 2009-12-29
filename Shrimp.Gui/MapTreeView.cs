@@ -8,7 +8,7 @@ using System.Windows.Forms;
 using Shrimp.Gui.Properties;
 using Shrimp.Models;
 
-namespace Shrimp
+namespace Shrimp.Gui
 {
     internal class MapTreeView : TreeView
     {
