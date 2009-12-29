@@ -13,7 +13,7 @@ using Shrimp.Models;
 
 namespace Shrimp
 {
-    internal partial class MainForm : Form, IMainForm
+    public partial class MainForm : Form, IMainForm
     {
         public event EventHandler NewButtonClicked;
         protected void OnNewButtonClicked(EventArgs e)

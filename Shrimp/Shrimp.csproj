@@ -39,6 +39,7 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -46,91 +47,11 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
-    <Reference Include="System.Deployment" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MainForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MainForm.Designer.cs">
-      <DependentUpon>MainForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="MapDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MapDialog.Designer.cs">
-      <DependentUpon>MapDialog.cs</DependentUpon>
-    </Compile>
-    <Compile Include="MapEditor.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="MapEditor.Designer.cs">
-      <DependentUpon>MapEditor.cs</DependentUpon>
-    </Compile>
-    <Compile Include="MapTreeView.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="NewProjectDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="NewProjectDialog.Designer.cs">
-      <DependentUpon>NewProjectDialog.cs</DependentUpon>
-    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="MainForm.resx">
-      <DependentUpon>MainForm.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MapDialog.resx">
-      <DependentUpon>MapDialog.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MapEditor.resx">
-      <DependentUpon>MapEditor.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MapTreeView.resx">
-      <DependentUpon>MapTreeView.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="NewProjectDialog.resx">
-      <DependentUpon>NewProjectDialog.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="TileSetPalette.resx">
-      <DependentUpon>TileSetPalette.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="TileSetPalette.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="TileSetPalette.Designer.cs">
-      <DependentUpon>TileSetPalette.cs</DependentUpon>
-    </Compile>
-    <Compile Include="NativeMethods.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="ProjectTemplate\Graphics\Tiles\Copyright.txt">
@@ -142,26 +63,12 @@
     <Content Include="ProjectTemplate\Graphics\Tiles\2.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Readme.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <None Include="Resources\traffic_light.png" />
-    <None Include="Resources\arrow_return_180_left.png" />
-    <None Include="Resources\balloons.png" />
-    <None Include="Resources\map.png" />
-    <None Include="Resources\pencil.png" />
-    <None Include="Resources\home.png" />
-    <None Include="Resources\card.png" />
-    <None Include="Resources\database.png" />
-    <None Include="Resources\disk.png" />
-    <None Include="Resources\folder_open.png" />
-    <None Include="Resources\document.png" />
-    <None Include="Resources\folder.png" />
-    <None Include="Resources\toggle_small_collapse.png" />
-    <None Include="Resources\toggle_small.png" />
-    <None Include="Resources\bin.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Shrimp.Gui\Shrimp.Gui.csproj">
+      <Project>{9BA6A76F-61CC-40E0-BB7E-361332757756}</Project>
+      <Name>Shrimp.Gui</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Shrimp.IViews\Shrimp.IViews.csproj">
       <Project>{09E69804-A0B3-4FF7-992E-02DAE7701874}</Project>
       <Name>Shrimp.IViews</Name>

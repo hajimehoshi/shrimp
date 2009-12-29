@@ -325,8 +325,19 @@
 </value>
     <comment>toggle_small_collapse.png</comment>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="TrafficLight" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\traffic_light.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="TrafficLight" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAehJREFUOE+FU79r
+        WmEU1WcyJEsXeUOGuufBs2AgiiAo6iSigmMLIiiiOFhEEATpIIggDoGE0KG0f0ACIWmngmBbKHQJyZI1
+        hZT8A9k8vec2XzGiRLicd3581/td3vMC8FiW5Xn8RQRfS9lGWMB7ef4k9YPafD7/Z7GB1+s1dVitVu8G
+        gwFGoxEmkwnG4zGGwyFqtdqd5A5NludYpsGJGFr9fh+NRgOu68K2bUVy6iZDXG4QkmF+5XI59Ho9JJNJ
+        NLe3cOKzFMmp02dOGoSWG/A2e2KcdbtdxGIxfPNbuPZ7FMmp03/M6eSLVzA7uOh0Osjn8zh+tYPbXZ8i
+        OXVpcLFuB1/E0Gq323ogGAwiEAgoklM3GeLyBPsy2k0qlUKr1UI8Hsfb2gucfvApklOnz5w02F+1g7AY
+        X5vNJhKJBL5/9uF65lEkp05fGjC3dgfTer2uI78/eInfVxuK5NTl4HTdDmZiaMkLg0KhgHA4DMdxFMmp
+        mwxx+QpRGe0+EomgUqkgnU7DfmNj892mIjl1+sxJg+iqHUTF+Fkul/XFsY9s+D/6Fcmp05cGzD3dwcIH
+        c1kqlZDJZOD2XDjnjiI5dcldmuyTCRYaTOXfHorFIrLZrI5OJKcuuelzDTIS4Jh/VhR1+v+/Yk7xF4j4
+        h7O6PbBVAAAAAElFTkSuQmCC
+</value>
   </data>
 </root>

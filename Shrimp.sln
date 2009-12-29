@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shrimp.Models.Tests", "Shri
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shrimp.IViews", "Shrimp.IViews\Shrimp.IViews.csproj", "{09E69804-A0B3-4FF7-992E-02DAE7701874}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shrimp.Gui", "Shrimp.Gui\Shrimp.Gui.csproj", "{9BA6A76F-61CC-40E0-BB7E-361332757756}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +37,10 @@ Global
 		{09E69804-A0B3-4FF7-992E-02DAE7701874}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{09E69804-A0B3-4FF7-992E-02DAE7701874}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{09E69804-A0B3-4FF7-992E-02DAE7701874}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9BA6A76F-61CC-40E0-BB7E-361332757756}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9BA6A76F-61CC-40E0-BB7E-361332757756}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9BA6A76F-61CC-40E0-BB7E-361332757756}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9BA6A76F-61CC-40E0-BB7E-361332757756}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

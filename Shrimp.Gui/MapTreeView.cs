@@ -5,7 +5,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using Shrimp.Properties;
+using Shrimp.Gui.Properties;
 using Shrimp.Models;
 
 namespace Shrimp
