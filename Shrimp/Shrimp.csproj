@@ -162,6 +162,10 @@
     <None Include="Resources\bin.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Shrimp.IViews\Shrimp.IViews.csproj">
+      <Project>{09E69804-A0B3-4FF7-992E-02DAE7701874}</Project>
+      <Name>Shrimp.IViews</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Shrimp.Models\Shrimp.Models.csproj">
       <Project>{F143745F-8E0C-4DD0-A0FE-C780680D95A7}</Project>
       <Name>Shrimp.Models</Name>

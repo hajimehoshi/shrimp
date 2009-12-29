@@ -8,12 +8,55 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using Shrimp.IViews;
 using Shrimp.Models;
 
 namespace Shrimp
 {
-    internal partial class MainForm : Form
+    internal partial class MainForm : Form, IMainForm
     {
+        public event EventHandler NewButtonClicked;
+        protected void OnNewButtonClicked(EventArgs e)
+        {
+            if (this.NewButtonClicked != null) { this.NewButtonClicked(this, e); }
+        }
+
+        public event EventHandler OpenButtonClicked;
+        protected void OnOpenButtonClicked(EventArgs e)
+        {
+            if (this.OpenButtonClicked != null) { this.OpenButtonClicked(this, e); }
+        }
+
+        public event EventHandler CloseButtonClicked;
+        protected void OnCloseButtonClicked(EventArgs e)
+        {
+            if (this.CloseButtonClicked != null) { this.CloseButtonClicked(this, e); }
+        }
+
+        public event EventHandler SaveButtonClicked;
+        protected void OnSaveButtonClicked(EventArgs e)
+        {
+            if (this.SaveButtonClicked != null) { this.SaveButtonClicked(this, e); }
+        }
+        
+        public event EventHandler UndoButtonClicked;
+        protected void OnUndoButtonClicked(EventArgs e)
+        {
+            if (this.UndoButtonClicked != null) { this.UndoButtonClicked(this, e); }
+        }
+
+        public event EventHandler PassageButtonClicked;
+        protected void OnPassageButtonClicked(EventArgs e)
+        {
+            if (this.PassageButtonClicked != null) { this.PassageButtonClicked(this, e); }
+        }
+
+        public event EventHandler SelectedTileSetChanged;
+        protected void OnSelectedTileSetChanged(EventArgs e)
+        {
+            if (this.SelectedTileSetChanged != null) { this.SelectedTileSetChanged(this, e); }
+        }
+
         private class CustomToolStripSystemRenderer : ToolStripSystemRenderer
         {
             protected override void OnRenderToolStripBorder(ToolStripRenderEventArgs e)
