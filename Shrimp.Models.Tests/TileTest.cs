@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NUnit.Framework;
-using Shrimp;
 using Shrimp.Models;
 
 namespace Shrimp.Models.Tests
