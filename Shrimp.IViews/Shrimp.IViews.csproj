@@ -35,7 +35,6 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -47,6 +46,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IMainForm.cs" />
+    <Compile Include="IMapEditor.cs" />
+    <Compile Include="IMapTreeView.cs" />
+    <Compile Include="ITileSetPalette.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

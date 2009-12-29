@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Windows.Forms;
 
 namespace Shrimp.IViews
 {
@@ -15,6 +14,16 @@ namespace Shrimp.IViews
         event EventHandler UndoButtonClicked;
         event EventHandler PassageButtonClicked;
         event EventHandler SelectedTileSetChanged;
-        event FormClosingEventHandler FormClosing;
+        event EventHandler<ClosingEventArgs> Closing;
+    }
+
+    public class ClosingEventArgs : EventArgs
+    {
+        public ClosingEventArgs()
+        {
+            this.Cancel = false;
+        }
+
+        public bool Cancel { get; set; }
     }
 }
