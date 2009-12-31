@@ -14,16 +14,5 @@ namespace Shrimp.IViews
         event EventHandler UndoButtonClicked;
         event EventHandler PassageButtonClicked;
         event EventHandler SelectedTileSetChanged;
-        event EventHandler<ClosingEventArgs> Closing;
-    }
-
-    public class ClosingEventArgs : EventArgs
-    {
-        public ClosingEventArgs()
-        {
-            this.Cancel = false;
-        }
-
-        public bool Cancel { get; set; }
     }
 }

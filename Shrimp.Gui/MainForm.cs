@@ -57,12 +57,6 @@ namespace Shrimp.Gui
             if (this.SelectedTileSetChanged != null) { this.SelectedTileSetChanged(this, e); }
         }
 
-        public new event EventHandler<ClosingEventArgs> Closing;
-        protected void OnClosing(ClosingEventArgs e)
-        {
-            if (this.Closing != null) { this.Closing(this, e); }
-        }
-
         private class CustomToolStripSystemRenderer : ToolStripSystemRenderer
         {
             protected override void OnRenderToolStripBorder(ToolStripRenderEventArgs e)
