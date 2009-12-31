@@ -11,7 +11,7 @@ using System.Windows.Forms;
 using Shrimp.IViews;
 using Shrimp.Models;
 
-namespace Shrimp.Gui
+namespace Shrimp.Views
 {
     public partial class MainForm : Form, IMainForm
     {

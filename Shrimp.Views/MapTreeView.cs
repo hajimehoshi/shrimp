@@ -5,10 +5,10 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using Shrimp.Gui.Properties;
+using Shrimp.Views.Properties;
 using Shrimp.Models;
 
-namespace Shrimp.Gui
+namespace Shrimp.Views
 {
     internal class MapTreeView : TreeView
     {

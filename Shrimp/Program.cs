@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
-using Shrimp.Gui;
+using Shrimp.Views;
 
 namespace Shrimp
 {

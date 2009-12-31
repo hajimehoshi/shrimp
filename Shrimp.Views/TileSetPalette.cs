@@ -12,7 +12,7 @@ using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Shrimp.Models;
 
-namespace Shrimp.Gui
+namespace Shrimp.Views
 {
     partial class TileSetPalette : UserControl
     {

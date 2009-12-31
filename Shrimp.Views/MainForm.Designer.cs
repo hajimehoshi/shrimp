@@ -1,4 +1,4 @@
-﻿namespace Shrimp.Gui
+﻿namespace Shrimp.Views
 {
     partial class MainForm
     {
@@ -35,8 +35,8 @@
             this.TileSetPaletteToolStrip = new System.Windows.Forms.ToolStrip();
             this.TileSetsToolStripComboBox = new System.Windows.Forms.ToolStripComboBox();
             this.PassageToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.TileSetPalette = new Shrimp.Gui.TileSetPalette();
-            this.MapTreeView = new Shrimp.Gui.MapTreeView();
+            this.TileSetPalette = new Shrimp.Views.TileSetPalette();
+            this.MapTreeView = new Shrimp.Views.MapTreeView();
             this.ToolStripContainer = new System.Windows.Forms.ToolStripContainer();
             this.ToolStrip = new System.Windows.Forms.ToolStrip();
             this.NewToolStripButton = new System.Windows.Forms.ToolStripButton();
@@ -129,7 +129,7 @@
             // PassageToolStripButton
             // 
             this.PassageToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.PassageToolStripButton.Image = global::Shrimp.Gui.Properties.Resources.TrafficLight;
+            this.PassageToolStripButton.Image = global::Shrimp.Views.Properties.Resources.TrafficLight;
             this.PassageToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.PassageToolStripButton.Name = "PassageToolStripButton";
             this.PassageToolStripButton.Size = new System.Drawing.Size(23, 23);
@@ -217,7 +217,7 @@
             // 
             // NewToolStripButton
             // 
-            this.NewToolStripButton.Image = global::Shrimp.Gui.Properties.Resources.Document;
+            this.NewToolStripButton.Image = global::Shrimp.Views.Properties.Resources.Document;
             this.NewToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.NewToolStripButton.Name = "NewToolStripButton";
             this.NewToolStripButton.Size = new System.Drawing.Size(38, 38);
@@ -227,7 +227,7 @@
             // 
             // OpenToolStripButton
             // 
-            this.OpenToolStripButton.Image = global::Shrimp.Gui.Properties.Resources.FolderOpen;
+            this.OpenToolStripButton.Image = global::Shrimp.Views.Properties.Resources.FolderOpen;
             this.OpenToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.OpenToolStripButton.Name = "OpenToolStripButton";
             this.OpenToolStripButton.Size = new System.Drawing.Size(42, 38);
@@ -237,7 +237,7 @@
             // 
             // CloseToolStripButton
             // 
-            this.CloseToolStripButton.Image = global::Shrimp.Gui.Properties.Resources.Folder;
+            this.CloseToolStripButton.Image = global::Shrimp.Views.Properties.Resources.Folder;
             this.CloseToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.CloseToolStripButton.Name = "CloseToolStripButton";
             this.CloseToolStripButton.Size = new System.Drawing.Size(43, 38);
@@ -247,7 +247,7 @@
             // 
             // SaveToolStripButton
             // 
-            this.SaveToolStripButton.Image = global::Shrimp.Gui.Properties.Resources.Disk;
+            this.SaveToolStripButton.Image = global::Shrimp.Views.Properties.Resources.Disk;
             this.SaveToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.SaveToolStripButton.Name = "SaveToolStripButton";
             this.SaveToolStripButton.Size = new System.Drawing.Size(41, 38);
@@ -262,7 +262,7 @@
             // 
             // UndoToolStripButton
             // 
-            this.UndoToolStripButton.Image = global::Shrimp.Gui.Properties.Resources.ArrowReturn180Left;
+            this.UndoToolStripButton.Image = global::Shrimp.Views.Properties.Resources.ArrowReturn180Left;
             this.UndoToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.UndoToolStripButton.Name = "UndoToolStripButton";
             this.UndoToolStripButton.Size = new System.Drawing.Size(42, 38);
@@ -277,7 +277,7 @@
             // 
             // Layer1ToolStripButton
             // 
-            this.Layer1ToolStripButton.Image = global::Shrimp.Gui.Properties.Resources.Map;
+            this.Layer1ToolStripButton.Image = global::Shrimp.Views.Properties.Resources.Map;
             this.Layer1ToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.Layer1ToolStripButton.Name = "Layer1ToolStripButton";
             this.Layer1ToolStripButton.Size = new System.Drawing.Size(56, 38);
@@ -286,7 +286,7 @@
             // 
             // Layer2ToolStripButton
             // 
-            this.Layer2ToolStripButton.Image = global::Shrimp.Gui.Properties.Resources.Map;
+            this.Layer2ToolStripButton.Image = global::Shrimp.Views.Properties.Resources.Map;
             this.Layer2ToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.Layer2ToolStripButton.Name = "Layer2ToolStripButton";
             this.Layer2ToolStripButton.Size = new System.Drawing.Size(56, 38);
@@ -295,7 +295,7 @@
             // 
             // EventToolStripButton
             // 
-            this.EventToolStripButton.Image = global::Shrimp.Gui.Properties.Resources.Balloons;
+            this.EventToolStripButton.Image = global::Shrimp.Views.Properties.Resources.Balloons;
             this.EventToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.EventToolStripButton.Name = "EventToolStripButton";
             this.EventToolStripButton.Size = new System.Drawing.Size(45, 38);
@@ -309,7 +309,7 @@
             // 
             // PenToolStripButton
             // 
-            this.PenToolStripButton.Image = global::Shrimp.Gui.Properties.Resources.Pencil;
+            this.PenToolStripButton.Image = global::Shrimp.Views.Properties.Resources.Pencil;
             this.PenToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.PenToolStripButton.Name = "PenToolStripButton";
             this.PenToolStripButton.Size = new System.Drawing.Size(33, 38);

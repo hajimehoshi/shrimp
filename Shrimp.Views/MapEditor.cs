@@ -12,7 +12,7 @@ using System.Text;
 using System.Windows.Forms;
 using Shrimp.Models;
 
-namespace Shrimp.Gui
+namespace Shrimp.Views
 {
     internal partial class MapEditor : UserControl
     {

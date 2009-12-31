@@ -10,7 +10,7 @@ using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Shrimp.IViews;
 
-namespace Shrimp.Gui
+namespace Shrimp.Views
 {
     internal partial class NewProjectDialog : Form, INewProjectDialog
     {

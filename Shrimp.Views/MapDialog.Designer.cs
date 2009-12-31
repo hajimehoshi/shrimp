@@ -1,4 +1,4 @@
-﻿namespace Shrimp.Gui
+﻿namespace Shrimp.Views
 {
     partial class MapDialog
     {
