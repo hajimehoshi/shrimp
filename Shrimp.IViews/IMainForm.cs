@@ -14,5 +14,7 @@ namespace Shrimp.IViews
         event EventHandler UndoButtonClicked;
         event EventHandler PassageButtonClicked;
         event EventHandler SelectedTileSetChanged;
+
+        INewProjectDialog CreateNewProjectDialog();
     }
 }

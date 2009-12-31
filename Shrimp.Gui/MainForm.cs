@@ -57,6 +57,11 @@ namespace Shrimp.Gui
             if (this.SelectedTileSetChanged != null) { this.SelectedTileSetChanged(this, e); }
         }
 
+        public INewProjectDialog CreateNewProjectDialog()
+        {
+            return new NewProjectDialog();
+        }
+
         private class CustomToolStripSystemRenderer : ToolStripSystemRenderer
         {
             protected override void OnRenderToolStripBorder(ToolStripRenderEventArgs e)
@@ -389,7 +394,8 @@ namespace Shrimp.Gui
         private void NewToolStripButton_Click(object sender, EventArgs e)
         {
             Debug.Assert(!this.ViewModel.IsOpened);
-            using (var dialog = new NewProjectDialog())
+            this.OnNewButtonClicked(EventArgs.Empty);
+            /*using (var dialog = new NewProjectDialog())
             {
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
@@ -398,7 +404,7 @@ namespace Shrimp.Gui
                     Debug.Assert(this.ViewModel.IsOpened);
                     Debug.Assert(!this.ViewModel.IsDirty);
                 }
-            }
+            }*/
         }
 
         private void OpenToolStripButton_Click(object sender, EventArgs e)

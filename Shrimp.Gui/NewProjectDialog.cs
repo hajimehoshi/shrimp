@@ -8,17 +8,17 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using Shrimp.IViews;
 
 namespace Shrimp.Gui
 {
-    internal partial class NewProjectDialog : Form
+    internal partial class NewProjectDialog : Form, INewProjectDialog
     {
         public NewProjectDialog()
         {
             this.InitializeComponent();
             string myDocumentPath =
                 Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            //string defaultPath = Path.Combine(myDocumentPath, "ShrimpProjects");
             string defaultPath = myDocumentPath;
             this.BasePathTextBox.Text = defaultPath;
             this.ValidateValues();
