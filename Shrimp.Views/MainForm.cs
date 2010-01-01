@@ -15,6 +15,12 @@ namespace Shrimp.Views
 {
     public partial class MainForm : Form, IMainForm
     {
+        static MainForm()
+        {
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+        }
+
         public event EventHandler NewButtonClicked;
         protected void OnNewButtonClicked(EventArgs e)
         {
@@ -60,6 +66,11 @@ namespace Shrimp.Views
         public INewProjectDialog CreateNewProjectDialog()
         {
             return new NewProjectDialog();
+        }
+
+        public void Run()
+        {
+            Application.Run(this);
         }
 
         private class CustomToolStripSystemRenderer : ToolStripSystemRenderer
@@ -184,7 +195,8 @@ namespace Shrimp.Views
             this.ResumeLayout(false);
         }
 
-        private ViewModel ViewModel;
+        // TODO: remove ViewModel
+        public ViewModel ViewModel { get; private set; }
 
         private MapEditor MapEditor;
 

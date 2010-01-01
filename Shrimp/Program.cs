@@ -2,18 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using Shrimp.Presenters;
 using Shrimp.Views;
 
 namespace Shrimp
 {
-    static class Program
+    public static class Program
     {
         [STAThread]
-        static void Main()
+        public static void Main()
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainForm());
+            var mainForm = new MainForm();
+            using (var mainFormPresenter = new MainFormPresenter(mainForm, mainForm.ViewModel))
+            {
+                mainForm.Run();
+            }
         }
     }
 }

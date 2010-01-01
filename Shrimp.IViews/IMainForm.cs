@@ -16,5 +16,6 @@ namespace Shrimp.IViews
         event EventHandler SelectedTileSetChanged;
 
         INewProjectDialog CreateNewProjectDialog();
+        void Run();
     }
 }

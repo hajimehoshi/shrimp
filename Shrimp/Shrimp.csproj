@@ -73,6 +73,10 @@
       <Project>{F143745F-8E0C-4DD0-A0FE-C780680D95A7}</Project>
       <Name>Shrimp.Models</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Shrimp.Presenters\Shrimp.Presenters.csproj">
+      <Project>{51C53B91-FD44-47FD-8646-20AD5A439ED3}</Project>
+      <Name>Shrimp.Presenters</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Shrimp.Views\Shrimp.Views.csproj">
       <Project>{397D96C0-9C2A-4238-BF7E-A52F830324DC}</Project>
       <Name>Shrimp.Views</Name>
