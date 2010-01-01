@@ -21,7 +21,9 @@ namespace Shrimp.Presenters
             this.MainForm.CloseButtonClicked += this.MainForm_CloseButtonClicked;
             this.MainForm.SaveButtonClicked += this.MainForm_SaveButtonClicked;
             this.MainForm.UndoButtonClicked += this.MainForm_UndoButtonClicked;
-            this.MainForm.LayerSwitcherClicked += this.MainForm_LayerSwitcherClicked;
+            this.MainForm.LayerModeSwitcherClicked += this.MainForm_LayerModeSwitcherClicked;
+            this.MainForm.DrawingModeSwitcherClicked += this.MainForm_DrawingModeSwitcherClicked;
+            this.MainForm.ScaleModeSwitcherClicked += this.MainForm_ScaleModeSwitcherClicked;
         }
 
         private IMainForm MainForm;
@@ -100,9 +102,19 @@ namespace Shrimp.Presenters
             Debug.Assert(this.ViewModel.IsOpened);
         }
 
-        private void MainForm_LayerSwitcherClicked(object sender, LayerSwitcherClickedEventArgs e)
+        private void MainForm_LayerModeSwitcherClicked(object sender, LayerModeSwitcherClickedEventArgs e)
         {
             this.ViewModel.EditorState.LayerMode = e.LayerMode;
+        }
+
+        private void MainForm_DrawingModeSwitcherClicked(object sender, DrawingModeSwitcherClickedEventArgs e)
+        {
+            this.ViewModel.EditorState.DrawingMode = e.DrawingMode;
+        }
+        
+        private void MainForm_ScaleModeSwitcherClicked(object sender, ScaleModeSwitcherClickedEventArgs e)
+        {
+            this.ViewModel.EditorState.ScaleMode = e.ScaleMode;
         }
 
         public void Dispose()

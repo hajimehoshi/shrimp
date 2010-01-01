@@ -51,10 +51,31 @@ namespace Shrimp.Views
             if (this.UndoButtonClicked != null) { this.UndoButtonClicked(this, e); }
         }
 
-        public event EventHandler<LayerSwitcherClickedEventArgs> LayerSwitcherClicked;
-        protected void OnLayerSwitcherClicked(LayerSwitcherClickedEventArgs e)
+        public event EventHandler<LayerModeSwitcherClickedEventArgs> LayerModeSwitcherClicked;
+        protected void OnLayerModeSwitcherClicked(LayerModeSwitcherClickedEventArgs e)
         {
-            if (this.LayerSwitcherClicked != null) { this.LayerSwitcherClicked(this, e); }
+            if (this.LayerModeSwitcherClicked != null)
+            {
+                this.LayerModeSwitcherClicked(this, e);
+            }
+        }
+
+        public event EventHandler<DrawingModeSwitcherClickedEventArgs> DrawingModeSwitcherClicked;
+        protected void OnDrawingModeSwitcherClicked(DrawingModeSwitcherClickedEventArgs e)
+        {
+            if (this.DrawingModeSwitcherClicked != null)
+            {
+                this.DrawingModeSwitcherClicked(this, e);
+            }
+        }
+
+        public event EventHandler<ScaleModeSwitcherClickedEventArgs> ScaleModeSwitcherClicked;
+        protected void OnScaleModeSwitcherClicked(ScaleModeSwitcherClickedEventArgs e)
+        {
+            if (this.ScaleModeSwitcherClicked != null)
+            {
+                this.ScaleModeSwitcherClicked(this, e);
+            }
         }
 
         public event EventHandler PassageButtonClicked;
@@ -119,20 +140,20 @@ namespace Shrimp.Views
             this.EventToolStripButton.Tag = LayerMode.Event;
             foreach (var item in this.LayerModeSwitchers)
             {
-                item.Click += (s, e) =>
+                item.Click += (sender, e) =>
                 {
-                    LayerMode layerMode = (LayerMode)((ToolStripButton)s).Tag;
-                    this.OnLayerSwitcherClicked(new LayerSwitcherClickedEventArgs(layerMode));
+                    LayerMode layerMode = (LayerMode)((ToolStripButton)sender).Tag;
+                    this.OnLayerModeSwitcherClicked(new LayerModeSwitcherClickedEventArgs(layerMode));
                 };
             }
 
             this.PenToolStripButton.Tag = DrawingMode.Pen;
             foreach (var item in this.DrawingModeSwitchers)
             {
-                item.Click += (s, e) =>
+                item.Click += (sender, e) =>
                 {
-                    this.ViewModel.EditorState.DrawingMode =
-                        (DrawingMode)((ToolStripButton)s).Tag;
+                    DrawingMode drawingMode = (DrawingMode)((ToolStripButton)sender).Tag;
+                    this.OnDrawingModeSwitcherClicked(new DrawingModeSwitcherClickedEventArgs(drawingMode));
                 };
             }
 
@@ -144,8 +165,8 @@ namespace Shrimp.Views
             {
                 item.Click += (s, e) =>
                 {
-                    this.ViewModel.EditorState.ScaleMode =
-                        (ScaleMode)((ToolStripButton)s).Tag;
+                    ScaleMode scaleMode = (ScaleMode)((ToolStripButton)s).Tag;
+                    this.OnScaleModeSwitcherClicked(new ScaleModeSwitcherClickedEventArgs(scaleMode));
                 };
             }
 

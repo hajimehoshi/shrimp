@@ -15,7 +15,9 @@ namespace Shrimp.IViews
         event EventHandler SaveButtonClicked;
         event EventHandler UndoButtonClicked;
 
-        event EventHandler<LayerSwitcherClickedEventArgs> LayerSwitcherClicked;
+        event EventHandler<LayerModeSwitcherClickedEventArgs> LayerModeSwitcherClicked;
+        event EventHandler<DrawingModeSwitcherClickedEventArgs> DrawingModeSwitcherClicked;
+        event EventHandler<ScaleModeSwitcherClickedEventArgs> ScaleModeSwitcherClicked;
 
         event EventHandler PassageButtonClicked;
         event EventHandler SelectedTileSetChanged;
@@ -25,13 +27,33 @@ namespace Shrimp.IViews
         void Run();
     }
 
-    public class LayerSwitcherClickedEventArgs : EventArgs
+    public class LayerModeSwitcherClickedEventArgs : EventArgs
     {
-        public LayerSwitcherClickedEventArgs(LayerMode layerMode)
+        public LayerModeSwitcherClickedEventArgs(LayerMode layerMode)
         {
             this.LayerMode = layerMode;
         }
 
         public LayerMode LayerMode { get; private set; }
+    }
+
+    public class DrawingModeSwitcherClickedEventArgs : EventArgs
+    {
+        public DrawingModeSwitcherClickedEventArgs(DrawingMode drawingMode)
+        {
+            this.DrawingMode = drawingMode;
+        }
+
+        public DrawingMode DrawingMode { get; private set; }
+    }
+
+    public class ScaleModeSwitcherClickedEventArgs : EventArgs
+    {
+        public ScaleModeSwitcherClickedEventArgs(ScaleMode scaleMode)
+        {
+            this.ScaleMode = scaleMode;
+        }
+
+        public ScaleMode ScaleMode { get; private set; }
     }
 }
