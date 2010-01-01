@@ -28,7 +28,6 @@ namespace Shrimp.Presenters
 
         private IMainForm MainForm;
 
-        // TODO: Remove ViewModel
         private ViewModel ViewModel;
 
         private void MainForm_NewButtonClicked(object sender, EventArgs e)

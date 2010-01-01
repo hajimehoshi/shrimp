@@ -24,31 +24,46 @@ namespace Shrimp.Views
         public event EventHandler NewButtonClicked;
         protected void OnNewButtonClicked(EventArgs e)
         {
-            if (this.NewButtonClicked != null) { this.NewButtonClicked(this, e); }
+            if (this.NewButtonClicked != null)
+            {
+                this.NewButtonClicked(this, e);
+            }
         }
 
         public event EventHandler OpenButtonClicked;
         protected void OnOpenButtonClicked(EventArgs e)
         {
-            if (this.OpenButtonClicked != null) { this.OpenButtonClicked(this, e); }
+            if (this.OpenButtonClicked != null)
+            {
+                this.OpenButtonClicked(this, e);
+            }
         }
 
         public event EventHandler CloseButtonClicked;
         protected void OnCloseButtonClicked(EventArgs e)
         {
-            if (this.CloseButtonClicked != null) { this.CloseButtonClicked(this, e); }
+            if (this.CloseButtonClicked != null)
+            {
+                this.CloseButtonClicked(this, e);
+            }
         }
 
         public event EventHandler SaveButtonClicked;
         protected void OnSaveButtonClicked(EventArgs e)
         {
-            if (this.SaveButtonClicked != null) { this.SaveButtonClicked(this, e); }
+            if (this.SaveButtonClicked != null)
+            {
+                this.SaveButtonClicked(this, e);
+            }
         }
         
         public event EventHandler UndoButtonClicked;
         protected void OnUndoButtonClicked(EventArgs e)
         {
-            if (this.UndoButtonClicked != null) { this.UndoButtonClicked(this, e); }
+            if (this.UndoButtonClicked != null)
+            {
+                this.UndoButtonClicked(this, e);
+            }
         }
 
         public event EventHandler<LayerModeSwitcherClickedEventArgs> LayerModeSwitcherClicked;
