@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows.Forms;
 
 namespace Shrimp.IViews
 {
@@ -16,6 +17,7 @@ namespace Shrimp.IViews
         event EventHandler SelectedTileSetChanged;
 
         INewProjectDialog CreateNewProjectDialog();
+        OpenFileDialog OpenFileDialog { get; }
         void Run();
     }
 }

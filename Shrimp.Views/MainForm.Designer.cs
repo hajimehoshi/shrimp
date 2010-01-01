@@ -56,7 +56,7 @@
             this.Scale2ToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.Scale4ToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.Scale8ToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.OpenFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.MainSplitContainer.Panel1.SuspendLayout();
             this.MainSplitContainer.SuspendLayout();
             this.LeftSplitContainer.Panel1.SuspendLayout();
@@ -357,9 +357,9 @@
             this.Scale8ToolStripButton.Size = new System.Drawing.Size(31, 38);
             this.Scale8ToolStripButton.Text = "1/8";
             // 
-            // OpenFileDialog
+            // openFileDialog
             // 
-            this.OpenFileDialog.Filter = "Project File (*.json)|*.json|All Files (*.*)|*.*";
+            this.openFileDialog.Filter = "Project File (*.json)|*.json|All Files (*.*)|*.*";
             // 
             // MainForm
             // 
@@ -398,7 +398,6 @@
         private System.Windows.Forms.ToolStripButton NewToolStripButton;
         private System.Windows.Forms.SplitContainer LeftSplitContainer;
         private System.Windows.Forms.ToolStripButton OpenToolStripButton;
-        private System.Windows.Forms.OpenFileDialog OpenFileDialog;
         private System.Windows.Forms.ToolStripButton CloseToolStripButton;
         private TileSetPalette TileSetPalette;
         private System.Windows.Forms.ToolStrip TileSetPaletteToolStrip;
@@ -419,6 +418,7 @@
         private System.Windows.Forms.ToolStripButton Scale4ToolStripButton;
         private System.Windows.Forms.ToolStripButton Scale8ToolStripButton;
         private System.Windows.Forms.ToolStripButton PassageToolStripButton;
+        private System.Windows.Forms.OpenFileDialog openFileDialog;
     }
 }
 

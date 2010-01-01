@@ -68,6 +68,11 @@ namespace Shrimp.Views
             return new NewProjectDialog();
         }
 
+        public OpenFileDialog OpenFileDialog
+        {
+            get { return this.openFileDialog; }
+        }
+
         public void Run()
         {
             Application.Run(this);
@@ -405,65 +410,22 @@ namespace Shrimp.Views
 
         private void NewToolStripButton_Click(object sender, EventArgs e)
         {
-            Debug.Assert(!this.ViewModel.IsOpened);
             this.OnNewButtonClicked(EventArgs.Empty);
-            /*using (var dialog = new NewProjectDialog())
-            {
-                if (dialog.ShowDialog() == DialogResult.OK)
-                {
-                    string directoryPath = Path.Combine(dialog.BasePath, dialog.DirectoryName);
-                    this.ViewModel.New(directoryPath, dialog.GameTitle);
-                    Debug.Assert(this.ViewModel.IsOpened);
-                    Debug.Assert(!this.ViewModel.IsDirty);
-                }
-            }*/
         }
 
         private void OpenToolStripButton_Click(object sender, EventArgs e)
         {
-            Debug.Assert(!this.ViewModel.IsOpened);
-            if (this.OpenFileDialog.ShowDialog() == DialogResult.OK)
-            {
-                this.ViewModel.Open(this.OpenFileDialog.FileName);
-                Debug.Assert(this.ViewModel.IsOpened);
-                // Debug.Assert(!this.ViewModel.IsDirty);
-            }
+            this.OnOpenButtonClicked(EventArgs.Empty);
         }
 
         private void CloseToolStripButton_Click(object sender, EventArgs e)
         {
-            Debug.Assert(this.ViewModel.IsOpened);
-            if (this.ViewModel.IsDirty)
-            {
-                DialogResult result = MessageBox.Show("Save?", "",
-                    MessageBoxButtons.YesNoCancel,
-                    MessageBoxIcon.Question,
-                    MessageBoxDefaultButton.Button1);
-                switch (result)
-                {
-                case DialogResult.Yes:
-                    this.ViewModel.Save();
-                    break;
-                case DialogResult.No:
-                    break;
-                case DialogResult.Cancel:
-                    return;
-                }
-            }
-            this.ViewModel.Close();
-            Debug.Assert(!this.ViewModel.IsOpened);
-            Debug.Assert(!this.ViewModel.IsDirty);
+            this.OnCloseButtonClicked(EventArgs.Empty);
         }
 
         private void SaveToolStripButton_Click(object sender, EventArgs e)
         {
-            Debug.Assert(this.ViewModel.IsOpened);
-            if (this.ViewModel.IsDirty)
-            {
-                this.ViewModel.Save();
-            }
-            Debug.Assert(this.ViewModel.IsOpened);
-            Debug.Assert(!this.ViewModel.IsDirty);
+            this.OnSaveButtonClicked(EventArgs.Empty);
         }
 
         private void UndoToolStripButton_Click(object sender, EventArgs e)
