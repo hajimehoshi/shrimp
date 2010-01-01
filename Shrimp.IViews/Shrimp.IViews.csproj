@@ -53,6 +53,12 @@
     <Compile Include="ITileSetPalette.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Shrimp.Models\Shrimp.Models.csproj">
+      <Project>{F143745F-8E0C-4DD0-A0FE-C780680D95A7}</Project>
+      <Name>Shrimp.Models</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

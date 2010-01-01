@@ -20,6 +20,8 @@ namespace Shrimp.Presenters
             this.MainForm.OpenButtonClicked += this.MainForm_OpenButtonClicked;
             this.MainForm.CloseButtonClicked += this.MainForm_CloseButtonClicked;
             this.MainForm.SaveButtonClicked += this.MainForm_SaveButtonClicked;
+            this.MainForm.UndoButtonClicked += this.MainForm_UndoButtonClicked;
+            this.MainForm.LayerSwitcherClicked += this.MainForm_LayerSwitcherClicked;
         }
 
         private IMainForm MainForm;
@@ -87,6 +89,20 @@ namespace Shrimp.Presenters
             }
             Debug.Assert(this.ViewModel.IsOpened);
             Debug.Assert(!this.ViewModel.IsDirty);
+        }
+
+        private void MainForm_UndoButtonClicked(object sender, EventArgs e)
+        {
+            Debug.Assert(this.ViewModel.IsOpened);
+            Debug.Assert(this.ViewModel.IsUndoable);
+            Debug.Assert(this.ViewModel.EditorState.Map != null);
+            this.ViewModel.Undo();
+            Debug.Assert(this.ViewModel.IsOpened);
+        }
+
+        private void MainForm_LayerSwitcherClicked(object sender, LayerSwitcherClickedEventArgs e)
+        {
+            this.ViewModel.EditorState.LayerMode = e.LayerMode;
         }
 
         public void Dispose()

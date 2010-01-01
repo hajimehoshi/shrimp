@@ -51,6 +51,12 @@ namespace Shrimp.Views
             if (this.UndoButtonClicked != null) { this.UndoButtonClicked(this, e); }
         }
 
+        public event EventHandler<LayerSwitcherClickedEventArgs> LayerSwitcherClicked;
+        protected void OnLayerSwitcherClicked(LayerSwitcherClickedEventArgs e)
+        {
+            if (this.LayerSwitcherClicked != null) { this.LayerSwitcherClicked(this, e); }
+        }
+
         public event EventHandler PassageButtonClicked;
         protected void OnPassageButtonClicked(EventArgs e)
         {
@@ -115,8 +121,8 @@ namespace Shrimp.Views
             {
                 item.Click += (s, e) =>
                 {
-                    this.ViewModel.EditorState.LayerMode =
-                        (LayerMode)((ToolStripButton)s).Tag;
+                    LayerMode layerMode = (LayerMode)((ToolStripButton)s).Tag;
+                    this.OnLayerSwitcherClicked(new LayerSwitcherClickedEventArgs(layerMode));
                 };
             }
 
@@ -430,11 +436,7 @@ namespace Shrimp.Views
 
         private void UndoToolStripButton_Click(object sender, EventArgs e)
         {
-            Debug.Assert(this.ViewModel.IsOpened);
-            Debug.Assert(this.ViewModel.IsUndoable);
-            Debug.Assert(this.ViewModel.EditorState.Map != null);
-            this.ViewModel.Undo();
-            Debug.Assert(this.ViewModel.IsOpened);
+            this.OnUndoButtonClicked(EventArgs.Empty);
         }
 
         private void PassageToolStripButton_Click(object sender, EventArgs e)
