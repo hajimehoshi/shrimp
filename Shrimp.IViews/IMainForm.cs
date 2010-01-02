@@ -22,6 +22,7 @@ namespace Shrimp.IViews
         event EventHandler UndoButtonClicked;
 
         INewProjectDialog CreateNewProjectDialog();
+        IEnumerable<string> GetTileSetSelectorItems();
         void Run();
         void SetDrawingModeSwitcherChecked(DrawingMode drawingMode, bool isChecked);
         void SetDrawingModeSwitcherEnabled(DrawingMode drawingMode, bool isEnabled);
@@ -32,6 +33,7 @@ namespace Shrimp.IViews
         void SetTileSetSelectorItems(IEnumerable<string> items);
 
         bool IsCloseButtonEnabled { get; set; }
+        bool IsMapEditorEnabled { get; set; }
         bool IsMapTreeViewEnabled { get; set; }
         bool IsNewButtonEnabled { get; set; }
         bool IsOpenButtonEnabled { get; set; }

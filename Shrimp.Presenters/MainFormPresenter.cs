@@ -27,6 +27,10 @@ namespace Shrimp.Presenters
             this.MainForm.TileSetSelectorSelectedIndexChanged += this.MainForm_TileSetSelectorSelectedIndexChanged;
             this.MainForm.UndoButtonClicked += this.MainForm_UndoButtonClicked;
 
+            this.ViewModel.IsOpenedChanged += delegate
+            {
+                this.IsOpenedChanged();
+            };
             this.ViewModel.IsUndoableChanged += delegate
             {
                 this.IsUndoableChanged();
@@ -39,27 +43,35 @@ namespace Shrimp.Presenters
                     this.GameTitleChanged();
                 }
             };
-        }
-
-        private void MapIdChanged()
-        {
-        }
-
-        private void IsUndoableChanged()
-        {
-            this.MainForm.IsUndoButtonEnabled = this.ViewModel.IsOpened && this.ViewModel.IsUndoable;
-        }
-
-        private void GameTitleChanged()
-        {
-            if (this.ViewModel.IsOpened)
+            this.ViewModel.EditorState.Updated += (sender, e) =>
             {
-                this.MainForm.Text = this.ViewModel.Project.GameTitle + " - Shrimp";
-            }
-            else
-            {
-                this.MainForm.Text = "Shrimp";
-            }
+                EditorState editorState = (EditorState)sender;
+                if (e.Property == editorState.GetProperty(_ => _.MapId))
+                {
+                    this.MapIdChanged();
+                }
+                else if (e.Property == editorState.GetProperty(_ => _.SelectedTileSetIds))
+                {
+                    this.SelectedTileSetIdsChanged();
+                }
+                else if (e.Property == editorState.GetProperty(_ => _.LayerMode))
+                {
+                    this.LayerModeChanged();
+                }
+                else if (e.Property == editorState.GetProperty(_ => _.DrawingMode))
+                {
+                    this.DrawingModeChanged();
+                }
+                else if (e.Property == editorState.GetProperty(_ => _.ScaleMode))
+                {
+                    this.ScaleModeChanged();
+                }
+                else if (e.Property == editorState.GetProperty(_ => _.TileSetMode))
+                {
+                    this.TileSetModeChanged();
+                }
+            };
+            this.IsOpenedChanged();
         }
 
         private IMainForm MainForm;
@@ -190,5 +202,173 @@ namespace Shrimp.Presenters
         {
             // Do Nothing
         }
+
+        private void IsOpenedChanged()
+        {
+            bool isOpened = this.ViewModel.IsOpened;
+            Debug.Assert((isOpened == true && !this.ViewModel.IsDirty) || isOpened == false);
+
+            if (isOpened)
+            {
+                this.MainForm.SetTileSetSelectorItems(this.ViewModel.TileSetCollection.Items.Select(t => t.Id.ToString()));
+            }
+            else
+            {
+                this.MainForm.SetTileSetSelectorItems(Enumerable.Empty<string>());
+            }
+
+            this.MainForm.IsMapTreeViewEnabled = isOpened;
+            this.MainForm.IsNewButtonEnabled = !isOpened;
+            this.MainForm.IsOpenButtonEnabled = !isOpened;
+            this.MainForm.IsCloseButtonEnabled = isOpened;
+            this.MainForm.IsSaveButtonEnabled = isOpened;
+            this.MainForm.IsUndoButtonEnabled = isOpened;
+            foreach (LayerMode layerMode in Enum.GetValues(typeof(LayerMode)))
+            {
+                this.MainForm.SetLayerModeSwitcherEnabled(layerMode, isOpened);
+            }
+            foreach (DrawingMode drawingMode in Enum.GetValues(typeof(DrawingMode)))
+            {
+                this.MainForm.SetDrawingModeSwitcherEnabled(drawingMode, isOpened);
+            }
+            foreach (ScaleMode scaleMode in Enum.GetValues(typeof(ScaleMode)))
+            {
+                this.MainForm.SetScaleModeSwitcherEnabled(scaleMode, isOpened);
+            }
+            this.MainForm.IsTileSetPaletteEnabled = isOpened;
+            this.MainForm.IsTileSetSelectorEnabled = isOpened;
+            this.MainForm.IsPassageButtonEnabled = isOpened;
+
+            this.IsUndoableChanged();
+            this.GameTitleChanged();
+            this.MapIdChanged();
+            this.SelectedTileSetIdsChanged();
+            this.LayerModeChanged();
+            this.DrawingModeChanged();
+            this.ScaleModeChanged();
+            this.TileSetModeChanged();
+
+            // To prevent the map editor from being edited wrongly
+            Application.DoEvents();
+            this.MainForm.IsMapEditorEnabled = isOpened;
+        }
+
+        private void IsUndoableChanged()
+        {
+            this.MainForm.IsUndoButtonEnabled = this.ViewModel.IsOpened && this.ViewModel.IsUndoable;
+        }
+
+        private void GameTitleChanged()
+        {
+            if (this.ViewModel.IsOpened)
+            {
+                this.MainForm.Text = this.ViewModel.Project.GameTitle + " - Shrimp";
+            }
+            else
+            {
+                this.MainForm.Text = "Shrimp";
+            }
+        }
+
+        private void MapIdChanged()
+        {
+            this.AdjustTileSetsToolStripComboBox();
+            this.MainForm.IsTileSetSelectorEnabled = (this.ViewModel.EditorState.Map != null);
+        }
+
+        private void SelectedTileSetIdsChanged()
+        {
+            this.AdjustTileSetsToolStripComboBox();
+        }
+
+        private void AdjustTileSetsToolStripComboBox()
+        {
+            if (this.ViewModel.IsOpened)
+            {
+                int tileSetId = this.ViewModel.EditorState.SelectedTileSetId;
+                int index = 0;
+                var items = this.MainForm.GetTileSetSelectorItems().ToArray();
+                for (int i = 0; i < items.Length; i++)
+                {
+                    if (int.Parse((string)items[i]) == tileSetId)
+                    {
+                        index = i;
+                        break;
+                    }
+                }
+                this.MainForm.TileSetSelectorSelectedIndex = index;
+            }
+        }
+
+        private void LayerModeChanged()
+        {
+            if (this.ViewModel.IsOpened)
+            {
+                foreach (LayerMode layerMode in Enum.GetValues(typeof(LayerMode)))
+                {
+                    bool isChecked = (layerMode == this.ViewModel.EditorState.LayerMode);
+                    this.MainForm.SetLayerModeSwitcherChecked(layerMode, isChecked);
+                }
+            }
+            else
+            {
+                foreach (LayerMode layerMode in Enum.GetValues(typeof(LayerMode)))
+                {
+                    this.MainForm.SetLayerModeSwitcherChecked(layerMode, false);
+                }
+            }
+        }
+
+        private void DrawingModeChanged()
+        {
+            if (this.ViewModel.IsOpened)
+            {
+                foreach (DrawingMode drawingMode in Enum.GetValues(typeof(DrawingMode)))
+                {
+                    bool isChecked = (drawingMode == this.ViewModel.EditorState.DrawingMode);
+                    this.MainForm.SetDrawingModeSwitcherChecked(drawingMode, isChecked);
+                }
+            }
+            else
+            {
+                foreach (DrawingMode drawingMode in Enum.GetValues(typeof(DrawingMode)))
+                {
+                    this.MainForm.SetDrawingModeSwitcherChecked(drawingMode, false);
+                }
+            }
+        }
+
+        private void ScaleModeChanged()
+        {
+            if (this.ViewModel.IsOpened)
+            {
+                foreach (ScaleMode scaleMode in Enum.GetValues(typeof(ScaleMode)))
+                {
+                    bool isChecked = (scaleMode == this.ViewModel.EditorState.ScaleMode);
+                    this.MainForm.SetScaleModeSwitcherChecked(scaleMode, isChecked);
+                }
+            }
+            else
+            {
+                foreach (ScaleMode scaleMode in Enum.GetValues(typeof(ScaleMode)))
+                {
+                    this.MainForm.SetScaleModeSwitcherChecked(scaleMode, false);
+                }
+            }
+        }
+
+        private void TileSetModeChanged()
+        {
+            if (this.ViewModel.IsOpened)
+            {
+                this.MainForm.IsPassageButtonChecked =
+                    (this.ViewModel.EditorState.TileSetMode == TileSetMode.Passage);
+            }
+            else
+            {
+                this.MainForm.IsPassageButtonChecked = false;
+            }
+        }
+
     }
 }

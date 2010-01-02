@@ -122,6 +122,11 @@ namespace Shrimp.Views
             return new NewProjectDialog();
         }
 
+        public IEnumerable<string> GetTileSetSelectorItems()
+        {
+            return this.TileSetsToolStripComboBox.Items.Cast<string>();
+        }
+
         public void Run()
         {
             Application.Run(this);
@@ -236,6 +241,12 @@ namespace Shrimp.Views
             set { this.CloseToolStripButton.Enabled = value; }
         }
 
+        public bool IsMapEditorEnabled
+        {
+            get { return this.MapEditor.Enabled; }
+            set { this.MapEditor.Enabled = value; }
+        }
+
         public bool IsMapTreeViewEnabled
         {
             get { return this.MapTreeView.Enabled; }
@@ -312,7 +323,6 @@ namespace Shrimp.Views
         public MainForm()
         {
             this.InitializeComponent();
-            this.SuspendLayout();
 
             this.MapEditor = new MapEditor();
             this.MapEditor.BorderStyle = BorderStyle.Fixed3D;
@@ -367,44 +377,10 @@ namespace Shrimp.Views
             }
 
             this.ViewModel = new ViewModel();
-            this.ViewModel.IsOpenedChanged += delegate
-            {
-                this.IsOpenedChanged();
-            };
-            this.ViewModel.EditorState.Updated += (s, e) =>
-            {
-                EditorState editorState = (EditorState)s;
-                if (e.Property == editorState.GetProperty(_ => _.MapId))
-                {
-                    this.MapIdChanged();
-                }
-                else if (e.Property == editorState.GetProperty(_ => _.SelectedTileSetIds))
-                {
-                    this.SelectedTileSetIdsChanged();
-                }
-                else if (e.Property == editorState.GetProperty(_ => _.LayerMode))
-                {
-                    this.LayerModeChanged();
-                }
-                else if (e.Property == editorState.GetProperty(_ => _.DrawingMode))
-                {
-                    this.DrawingModeChanged();
-                }
-                else if (e.Property == editorState.GetProperty(_ => _.ScaleMode))
-                {
-                    this.ScaleModeChanged();
-                }
-                else if (e.Property == editorState.GetProperty(_ => _.TileSetMode))
-                {
-                    this.TileSetModeChanged();
-                }
-            };
+            
             this.MapTreeView.ViewModel = this.ViewModel;
             this.MapEditor.ViewModel = this.ViewModel;
             this.TileSetPalette.ViewModel = this.ViewModel;
-
-            this.IsOpenedChanged();
-            this.ResumeLayout(false);
         }
 
         // TODO: remove ViewModel
@@ -438,155 +414,6 @@ namespace Shrimp.Views
                 yield return this.Scale2ToolStripButton;
                 yield return this.Scale4ToolStripButton;
                 yield return this.Scale8ToolStripButton;
-            }
-        }
-
-        private void IsOpenedChanged()
-        {
-            bool isOpened = this.ViewModel.IsOpened;
-            Debug.Assert((isOpened == true && !this.ViewModel.IsDirty) || isOpened == false);
-
-            if (isOpened)
-            {
-                this.SetTileSetSelectorItems(this.ViewModel.TileSetCollection.Items.Select(t => t.Id.ToString()));
-            }
-            else
-            {
-                this.SetTileSetSelectorItems(Enumerable.Empty<string>());
-            }
-
-            this.IsMapTreeViewEnabled = isOpened;
-            this.IsNewButtonEnabled = !isOpened;
-            this.IsOpenButtonEnabled = !isOpened;
-            this.IsCloseButtonEnabled = isOpened;
-            this.IsSaveButtonEnabled = isOpened;
-            this.IsUndoButtonEnabled = isOpened;
-            foreach (LayerMode layerMode in Enum.GetValues(typeof(LayerMode)))
-            {
-                this.SetLayerModeSwitcherEnabled(layerMode, isOpened);
-            }
-            foreach (DrawingMode drawingMode in Enum.GetValues(typeof(DrawingMode)))
-            {
-                this.SetDrawingModeSwitcherEnabled(drawingMode, isOpened);
-            }
-            foreach (ScaleMode scaleMode in Enum.GetValues(typeof(ScaleMode)))
-            {
-                this.SetScaleModeSwitcherEnabled(scaleMode, isOpened);
-            }
-            this.IsTileSetPaletteEnabled = isOpened;
-            this.IsTileSetSelectorEnabled = isOpened;
-            this.IsPassageButtonEnabled = isOpened;
-
-            // this.IsUndoableChanged(); // TODO: あとでふっかつさせる
-            // this.GameTitleChanged(); // TODO: あとでふっかつさせる
-            this.MapIdChanged();
-            this.SelectedTileSetIdsChanged();
-            this.LayerModeChanged();
-            this.DrawingModeChanged();
-            this.ScaleModeChanged();
-            this.TileSetModeChanged();
-
-            // To prevent the map editor from being edited wrongly
-            Application.DoEvents();
-            this.MapEditor.Enabled = isOpened;
-        }
-
-        private void MapIdChanged()
-        {
-            this.AdjustTileSetsToolStripComboBox();
-            this.IsTileSetSelectorEnabled = (this.ViewModel.EditorState.Map != null);
-        }
-
-        private void SelectedTileSetIdsChanged()
-        {
-            this.AdjustTileSetsToolStripComboBox();
-        }
-
-        private void AdjustTileSetsToolStripComboBox()
-        {
-            if (this.ViewModel.IsOpened)
-            {
-                int tileSetId = this.ViewModel.EditorState.SelectedTileSetId;
-                int index = 0;
-                for (int i = 0; i < this.TileSetsToolStripComboBox.Items.Count; i++)
-                {
-                    if (int.Parse((string)this.TileSetsToolStripComboBox.Items[i]) == tileSetId)
-                    {
-                        index = i;
-                        break;
-                    }
-                }
-                this.TileSetSelectorSelectedIndex = index;
-            }
-        }
-
-        private void LayerModeChanged()
-        {
-            if (this.ViewModel.IsOpened)
-            {
-                foreach (LayerMode layerMode in Enum.GetValues(typeof(LayerMode)))
-                {
-                    bool isChecked = (layerMode == this.ViewModel.EditorState.LayerMode);
-                    this.SetLayerModeSwitcherChecked(layerMode, isChecked);
-                }
-            }
-            else
-            {
-                foreach (LayerMode layerMode in Enum.GetValues(typeof(LayerMode)))
-                {
-                    this.SetLayerModeSwitcherChecked(layerMode, false);
-                }
-            }
-        }
-
-        private void DrawingModeChanged()
-        {
-            if (this.ViewModel.IsOpened)
-            {
-                foreach (DrawingMode drawingMode in Enum.GetValues(typeof(DrawingMode)))
-                {
-                    bool isChecked = (drawingMode == this.ViewModel.EditorState.DrawingMode);
-                    this.SetDrawingModeSwitcherChecked(drawingMode, isChecked);
-                }
-            }
-            else
-            {
-                foreach (DrawingMode drawingMode in Enum.GetValues(typeof(DrawingMode)))
-                {
-                    this.SetDrawingModeSwitcherChecked(drawingMode, false);
-                }
-            }
-        }
-
-        private void ScaleModeChanged()
-        {
-            if (this.ViewModel.IsOpened)
-            {
-                foreach (ScaleMode scaleMode in Enum.GetValues(typeof(ScaleMode)))
-                {
-                    bool isChecked = (scaleMode == this.ViewModel.EditorState.ScaleMode);
-                    this.SetScaleModeSwitcherChecked(scaleMode, isChecked);
-                }
-            }
-            else
-            {
-                foreach (ScaleMode scaleMode in Enum.GetValues(typeof(ScaleMode)))
-                {
-                    this.SetScaleModeSwitcherChecked(scaleMode, false);
-                }
-            }
-        }
-
-        private void TileSetModeChanged()
-        {
-            if (this.ViewModel.IsOpened)
-            {
-                this.IsPassageButtonChecked =
-                    (this.ViewModel.EditorState.TileSetMode == TileSetMode.Passage);
-            }
-            else
-            {
-                this.IsPassageButtonChecked = false;
             }
         }
 
