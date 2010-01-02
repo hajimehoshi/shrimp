@@ -432,18 +432,7 @@ namespace Shrimp.Views
 
             if (isOpened)
             {
-                var tileSets = this.ViewModel.TileSetCollection.Items.ToArray();
-                // TODO: remove this sentence
-                Dictionary<int, int> indexToId = new Dictionary<int, int>();
-                // TODO: remove this for
-                for (int i = 0; i < tileSets.Length; i++)
-                {
-                    TileSet tileSet = tileSets[i];
-                    indexToId.Add(i, tileSet.Id);
-                }
                 this.SetTileSetSelectorItems(this.ViewModel.TileSetCollection.Items.Select(t => t.Id.ToString()));
-                // TODO: remove this sentence
-                this.TileSetsToolStripComboBox.Tag = indexToId;
             }
             else
             {
@@ -503,10 +492,15 @@ namespace Shrimp.Views
             if (this.ViewModel.IsOpened)
             {
                 int tileSetId = this.ViewModel.EditorState.SelectedTileSetId;
-                var indexToId = (Dictionary<int, int>)this.TileSetsToolStripComboBox.Tag;
-                int index = (from p in indexToId
-                             where p.Value == tileSetId
-                             select p.Key).FirstOrDefault();
+                int index = 0;
+                for (int i = 0; i < this.TileSetsToolStripComboBox.Items.Count; i++)
+                {
+                    if (int.Parse((string)this.TileSetsToolStripComboBox.Items[i]) == tileSetId)
+                    {
+                        index = i;
+                        break;
+                    }
+                }
                 this.TileSetSelectorSelectedIndex = index;
             }
         }
@@ -620,13 +614,8 @@ namespace Shrimp.Views
                 if (map != null)
                 {
                     int mapId = map.Id;
-                    var indexToId = (Dictionary<int, int>)this.TileSetsToolStripComboBox.Tag;
-                    int tileSetId = indexToId[selectedIndex];
+                    int tileSetId = int.Parse((string)this.TileSetsToolStripComboBox.SelectedItem);
                     this.ViewModel.EditorState.SetSelectedTileSetId(mapId, tileSetId);
-                }
-                if (this.TileSetsToolStripComboBox.Focused)
-                {
-                    this.TileSetPalette.Focus();
                 }
             }
         }
