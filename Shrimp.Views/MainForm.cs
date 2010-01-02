@@ -110,9 +110,108 @@ namespace Shrimp.Views
             return new NewProjectDialog();
         }
 
+        public bool GetDrawingModeSwitcherEnabled(DrawingMode drawingMode)
+        {
+            switch (drawingMode)
+            {
+            case DrawingMode.Pen:
+                return this.PenToolStripButton.Enabled;
+            default:
+                Debug.Fail("Invalid DrawingMode value");
+                return false;
+            }
+        }
+
+        public bool GetLayerModeSwitcherEnabled(LayerMode layerMode)
+        {
+            switch (layerMode)
+            {
+            case LayerMode.Layer1:
+                return this.Layer1ToolStripButton.Enabled;
+            case LayerMode.Layer2:
+                return this.Layer2ToolStripButton.Enabled;
+            case LayerMode.Event:
+                return this.EventToolStripButton.Enabled;
+            default:
+                Debug.Fail("Invalid LayerMode value");
+                return false;
+            }
+        }
+
+        public bool GetScaleModeSwitcherEnabled(ScaleMode scaleMode)
+        {
+            switch (scaleMode)
+            {
+            case ScaleMode.Scale1:
+                return this.Scale1ToolStripButton.Enabled;
+            case ScaleMode.Scale2:
+                return this.Scale2ToolStripButton.Enabled;
+            case ScaleMode.Scale4:
+                return this.Scale4ToolStripButton.Enabled;
+            case ScaleMode.Scale8:
+                return this.Scale8ToolStripButton.Enabled;
+            default:
+                Debug.Fail("Invalid ScaleMode value");
+                return false;
+            }
+        }
+
         public void Run()
         {
             Application.Run(this);
+        }
+
+        public void SetDrawingModeSwitcherEnabled(DrawingMode drawingMode, bool enabled)
+        {
+            switch (drawingMode)
+            {
+            case DrawingMode.Pen:
+                this.PenToolStripButton.Enabled = enabled;
+                break;
+            }
+        }
+
+        public void SetLayerModeSwitcherEnabled(LayerMode layerMode, bool enabled)
+        {
+            switch (layerMode)
+            {
+            case LayerMode.Layer1:
+                this.Layer1ToolStripButton.Enabled = enabled;
+                break;
+            case LayerMode.Layer2:
+                this.Layer2ToolStripButton.Enabled = enabled;
+                break;
+            case LayerMode.Event:
+                this.EventToolStripButton.Enabled = enabled;
+                break;
+            }
+        }
+
+        public void SetScaleModeSwitcherEnabled(ScaleMode scaleMode, bool enabled)
+        {
+            switch (scaleMode)
+            {
+            case ScaleMode.Scale1:
+                this.Scale1ToolStripButton.Enabled = enabled;
+                break;
+            case ScaleMode.Scale2:
+                this.Scale2ToolStripButton.Enabled = enabled;
+                break;
+            case ScaleMode.Scale4:
+                this.Scale4ToolStripButton.Enabled = enabled;
+                break;
+            case ScaleMode.Scale8:
+                this.Scale8ToolStripButton.Enabled = enabled;
+                break;
+            }
+        }
+
+        public void SetTileSetSelectorItems(IEnumerable<string> items)
+        {
+            this.TileSetsToolStripComboBox.BeginUpdate();
+            this.TileSetsToolStripComboBox.Items.Clear();
+            this.TileSetsToolStripComboBox.Items.AddRange(items.ToArray());
+            this.TileSetsToolStripComboBox.EndUpdate();
         }
 
         public OpenFileDialog OpenFileDialog
@@ -144,6 +243,12 @@ namespace Shrimp.Views
             set { this.OpenToolStripButton.Enabled = value; }
         }
 
+        public bool IsPassageButtonChecked
+        {
+            get { return this.PassageToolStripButton.Checked; }
+            set { this.PassageToolStripButton.Checked = value; }
+        }
+
         public bool IsPassageButtonEnabled
         {
             get { return this.PassageToolStripButton.Enabled; }
@@ -156,6 +261,12 @@ namespace Shrimp.Views
             set { this.SaveToolStripButton.Enabled = value; }
         }
 
+        public bool IsTileSetSelectorEnabled
+        {
+            get { return this.TileSetsToolStripComboBox.Enabled; }
+            set { this.TileSetsToolStripComboBox.Enabled = value; }
+        }
+
         public bool IsTileSetPaletteEnabled
         {
             get { return this.TileSetPalette.Enabled; }
@@ -166,6 +277,12 @@ namespace Shrimp.Views
         {
             get { return this.UndoToolStripButton.Enabled; }
             set { this.UndoToolStripButton.Enabled = value; }
+        }
+
+        public int TileSetSelectorSelectedIndex
+        {
+            get { return this.TileSetsToolStripComboBox.SelectedIndex; }
+            set { this.TileSetsToolStripComboBox.SelectedIndex = value; }
         }
 
         private class CustomToolStripSystemRenderer : ToolStripSystemRenderer
@@ -313,20 +430,24 @@ namespace Shrimp.Views
             bool isOpened = this.ViewModel.IsOpened;
             Debug.Assert((isOpened == true && !this.ViewModel.IsDirty) || isOpened == false);
 
-            this.TileSetsToolStripComboBox.Items.Clear();
             if (isOpened)
             {
-                this.TileSetsToolStripComboBox.BeginUpdate();
                 var tileSets = this.ViewModel.TileSetCollection.Items.ToArray();
+                // TODO: remove this sentence
                 Dictionary<int, int> indexToId = new Dictionary<int, int>();
+                // TODO: remove this for
                 for (int i = 0; i < tileSets.Length; i++)
                 {
                     TileSet tileSet = tileSets[i];
                     indexToId.Add(i, tileSet.Id);
-                    this.TileSetsToolStripComboBox.Items.Add(tileSet.Id.ToString());
                 }
+                this.SetTileSetSelectorItems(this.ViewModel.TileSetCollection.Items.Select(t => t.Id.ToString()));
+                // TODO: remove this sentence
                 this.TileSetsToolStripComboBox.Tag = indexToId;
-                this.TileSetsToolStripComboBox.EndUpdate();
+            }
+            else
+            {
+                this.SetTileSetSelectorItems(Enumerable.Empty<string>());
             }
 
             this.IsMapTreeViewEnabled = isOpened;
@@ -335,24 +456,24 @@ namespace Shrimp.Views
             this.IsCloseButtonEnabled = isOpened;
             this.IsSaveButtonEnabled = isOpened;
             this.IsUndoButtonEnabled = isOpened;
-            foreach (var item in this.LayerModeSwitchers)
+            foreach (LayerMode layerMode in Enum.GetValues(typeof(LayerMode)))
             {
-                item.Enabled = isOpened;
+                this.SetLayerModeSwitcherEnabled(layerMode, isOpened);
             }
-            foreach (var item in this.DrawingModeSwitchers)
+            foreach (DrawingMode drawingMode in Enum.GetValues(typeof(DrawingMode)))
             {
-                item.Enabled = isOpened;
+                this.SetDrawingModeSwitcherEnabled(drawingMode, isOpened);
             }
-            foreach (var item in this.ScaleModeSwitchers)
+            foreach (ScaleMode scaleMode in Enum.GetValues(typeof(ScaleMode)))
             {
-                item.Enabled = isOpened;
+                this.SetScaleModeSwitcherEnabled(scaleMode, isOpened);
             }
             this.IsTileSetPaletteEnabled = isOpened;
-            this.TileSetPaletteToolStrip.Enabled = isOpened;
+            this.IsTileSetSelectorEnabled = isOpened;
             this.IsPassageButtonEnabled = isOpened;
 
-            // this.IsUndoableChanged();
-            // this.GameTitleChanged();
+            // this.IsUndoableChanged(); // TODO: あとでふっかつさせる
+            // this.GameTitleChanged(); // TODO: あとでふっかつさせる
             this.MapIdChanged();
             this.SelectedTileSetIdsChanged();
             this.LayerModeChanged();
@@ -386,7 +507,7 @@ namespace Shrimp.Views
                 int index = (from p in indexToId
                              where p.Value == tileSetId
                              select p.Key).FirstOrDefault();
-                this.TileSetsToolStripComboBox.SelectedIndex = index;
+                this.TileSetSelectorSelectedIndex = index;
             }
         }
 
@@ -451,12 +572,12 @@ namespace Shrimp.Views
         {
             if (this.ViewModel.IsOpened)
             {
-                this.PassageToolStripButton.Checked =
+                this.IsPassageButtonChecked =
                     (this.ViewModel.EditorState.TileSetMode == TileSetMode.Passage);
             }
             else
             {
-                this.PassageToolStripButton.Checked = false;
+                this.IsPassageButtonChecked = false;
             }
         }
 
@@ -487,20 +608,12 @@ namespace Shrimp.Views
 
         private void PassageToolStripButton_Click(object sender, EventArgs e)
         {
-            switch (this.ViewModel.EditorState.TileSetMode)
-            {
-            case TileSetMode.Normal:
-                this.ViewModel.EditorState.TileSetMode = TileSetMode.Passage;
-                break;
-            case TileSetMode.Passage:
-                this.ViewModel.EditorState.TileSetMode = TileSetMode.Normal;
-                break;
-            }
+            this.OnPassageButtonClicked(EventArgs.Empty);
         }
 
         private void TileSetsToolStripComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            int selectedIndex = this.TileSetsToolStripComboBox.SelectedIndex;
+            int selectedIndex = this.TileSetSelectorSelectedIndex;
             if (selectedIndex != -1)
             {
                 Map map = this.ViewModel.EditorState.Map;
