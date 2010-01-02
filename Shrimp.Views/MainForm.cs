@@ -72,6 +72,15 @@ namespace Shrimp.Views
             if (this.PassageButtonClicked != null) { this.PassageButtonClicked(this, e); }
         }
 
+        public event EventHandler<QuittingEventArgs> Quitting;
+        protected virtual void OnQuitting(QuittingEventArgs e)
+        {
+            if (this.Quitting != null)
+            {
+                this.Quitting(this, e);
+            }
+        }
+
         public event EventHandler SaveButtonClicked;
         protected virtual void OnSaveButtonClicked(EventArgs e)
         {
@@ -260,7 +269,7 @@ namespace Shrimp.Views
             }
         }
 
-        public MainForm()
+        public MainForm(ViewModel viewModel)
         {
             this.InitializeComponent();
 
@@ -316,15 +325,10 @@ namespace Shrimp.Views
                 };
             }
 
-            this.ViewModel = new ViewModel();
-            
-            this.MapTreeView.ViewModel = this.ViewModel;
-            this.MapEditor.ViewModel = this.ViewModel;
-            this.TileSetPalette.ViewModel = this.ViewModel;
+            this.MapTreeView.ViewModel = viewModel;
+            this.MapEditor.ViewModel = viewModel;
+            this.TileSetPalette.ViewModel = viewModel;
         }
-
-        // TODO: remove ViewModel
-        public ViewModel ViewModel { get; private set; }
 
         private MapEditor MapEditor;
 
@@ -394,24 +398,9 @@ namespace Shrimp.Views
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (this.ViewModel.IsDirty)
-            {
-                DialogResult result = MessageBox.Show("Save?", "",
-                    MessageBoxButtons.YesNoCancel,
-                    MessageBoxIcon.Question,
-                    MessageBoxDefaultButton.Button1);
-                switch (result)
-                {
-                case DialogResult.Yes:
-                    this.ViewModel.Save();
-                    break;
-                case DialogResult.No:
-                    break;
-                case DialogResult.Cancel:
-                    e.Cancel = true;
-                    return;
-                }
-            }
+            QuittingEventArgs e2 = new QuittingEventArgs();
+            this.OnQuitting(e2);
+            e.Cancel = e2.Cancel;
         }
     }
 }

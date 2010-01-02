@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using Shrimp.Models;
 using Shrimp.Presenters;
 using Shrimp.Views;
 
@@ -12,8 +13,9 @@ namespace Shrimp
         [STAThread]
         public static void Main()
         {
-            var mainForm = new MainForm();
-            var mainFormPresenter = new MainFormPresenter(mainForm, mainForm.ViewModel);
+            var viewModel = new ViewModel();
+            var mainForm = new MainForm(viewModel);
+            var mainFormPresenter = new MainFormPresenter(mainForm, viewModel);
             mainFormPresenter.Run();
         }
     }
