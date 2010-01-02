@@ -196,14 +196,6 @@ namespace Shrimp.Views
             {
                 this.IsOpenedChanged();
             };
-            this.ViewModel.Project.Updated += (s, e) =>
-            {
-                Project project = (Project)s;
-                if (e.Property == project.GetProperty(_ => _.GameTitle))
-                {
-                    this.GameTitleChanged();
-                }
-            };
             this.ViewModel.EditorState.Updated += (s, e) =>
             {
                 EditorState editorState = (EditorState)s;
@@ -318,7 +310,7 @@ namespace Shrimp.Views
             this.PassageToolStripButton.Enabled = isOpened;
 
             // this.IsUndoableChanged();
-            this.GameTitleChanged();
+            // this.GameTitleChanged();
             this.MapIdChanged();
             this.SelectedTileSetIdsChanged();
             this.LayerModeChanged();
@@ -329,18 +321,6 @@ namespace Shrimp.Views
             // To prevent the map editor from being edited wrongly
             Application.DoEvents();
             this.MapEditor.Enabled = isOpened;
-        }
-
-        private void GameTitleChanged()
-        {
-            if (this.ViewModel.IsOpened)
-            {
-                this.Text = this.ViewModel.Project.GameTitle + " - Shrimp";
-            }
-            else
-            {
-                this.Text = "Shrimp";
-            }
         }
 
         private void MapIdChanged()

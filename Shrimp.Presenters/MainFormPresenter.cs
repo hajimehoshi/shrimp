@@ -29,6 +29,21 @@ namespace Shrimp.Presenters
             {
                 this.MainForm.UndoButtonEnabled = this.ViewModel.IsOpened && this.ViewModel.IsUndoable;
             };
+            this.ViewModel.Project.Updated += (sender, e) =>
+            {
+                Project project = (Project)sender;
+                if (e.Property == project.GetProperty(_ => _.GameTitle))
+                {
+                    if (this.ViewModel.IsOpened)
+                    {
+                        this.MainForm.Text = this.ViewModel.Project.GameTitle + " - Shrimp";
+                    }
+                    else
+                    {
+                        this.MainForm.Text = "Shrimp";
+                    }
+                }
+            };
         }
 
         private IMainForm MainForm;
@@ -124,6 +139,7 @@ namespace Shrimp.Presenters
 
         public void Dispose()
         {
+            // Do Nothing
         }
     }
 }
