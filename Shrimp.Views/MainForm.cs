@@ -93,7 +93,19 @@ namespace Shrimp.Views
         public event EventHandler SelectedTileSetChanged;
         protected virtual void OnSelectedTileSetChanged(EventArgs e)
         {
-            if (this.SelectedTileSetChanged != null) { this.SelectedTileSetChanged(this, e); }
+            if (this.SelectedTileSetChanged != null)
+            {
+                this.SelectedTileSetChanged(this, e);
+            }
+        }
+
+        public event EventHandler TileSetSelectorSelectedIndexChanged;
+        protected virtual void OnTileSetSelectorSelectedIndexChanged(EventArgs e)
+        {
+            if (this.TileSetSelectorSelectedIndexChanged != null)
+            {
+                this.TileSetSelectorSelectedIndexChanged(this, e);
+            }
         }
         
         public event EventHandler UndoButtonClicked;
@@ -283,6 +295,11 @@ namespace Shrimp.Views
         {
             get { return this.TileSetsToolStripComboBox.SelectedIndex; }
             set { this.TileSetsToolStripComboBox.SelectedIndex = value; }
+        }
+
+        public string TileSetSelectorSelectedItem
+        {
+            get { return (string)this.TileSetsToolStripComboBox.SelectedItem; }
         }
 
         private class CustomToolStripSystemRenderer : ToolStripSystemRenderer
@@ -607,17 +624,7 @@ namespace Shrimp.Views
 
         private void TileSetsToolStripComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            int selectedIndex = this.TileSetSelectorSelectedIndex;
-            if (selectedIndex != -1)
-            {
-                Map map = this.ViewModel.EditorState.Map;
-                if (map != null)
-                {
-                    int mapId = map.Id;
-                    int tileSetId = int.Parse((string)this.TileSetsToolStripComboBox.SelectedItem);
-                    this.ViewModel.EditorState.SetSelectedTileSetId(mapId, tileSetId);
-                }
-            }
+            this.OnTileSetSelectorSelectedIndexChanged(EventArgs.Empty);
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)

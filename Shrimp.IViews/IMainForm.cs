@@ -18,6 +18,7 @@ namespace Shrimp.IViews
         event EventHandler SaveButtonClicked;
         event EventHandler<ScaleModeSwitcherClickedEventArgs> ScaleModeSwitcherClicked;
         event EventHandler SelectedTileSetChanged;
+        event EventHandler TileSetSelectorSelectedIndexChanged;
         event EventHandler UndoButtonClicked;
 
         INewProjectDialog CreateNewProjectDialog();
@@ -43,6 +44,7 @@ namespace Shrimp.IViews
         OpenFileDialog OpenFileDialog { get; }
         string Text { get; set; }
         int TileSetSelectorSelectedIndex { get; set; }
+        string TileSetSelectorSelectedItem { get; }
     }
 
     public class LayerModeSwitcherClickedEventArgs : EventArgs

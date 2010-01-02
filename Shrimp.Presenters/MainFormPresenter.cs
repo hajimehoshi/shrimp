@@ -24,6 +24,7 @@ namespace Shrimp.Presenters
             this.MainForm.PassageButtonClicked += this.MainForm_PassageButtonClicked;
             this.MainForm.SaveButtonClicked += this.MainForm_SaveButtonClicked;
             this.MainForm.ScaleModeSwitcherClicked += this.MainForm_ScaleModeSwitcherClicked;
+            this.MainForm.TileSetSelectorSelectedIndexChanged += this.MainForm_TileSetSelectorSelectedIndexChanged;
             this.MainForm.UndoButtonClicked += this.MainForm_UndoButtonClicked;
 
             this.ViewModel.IsUndoableChanged += delegate
@@ -153,6 +154,21 @@ namespace Shrimp.Presenters
         private void MainForm_ScaleModeSwitcherClicked(object sender, ScaleModeSwitcherClickedEventArgs e)
         {
             this.ViewModel.EditorState.ScaleMode = e.ScaleMode;
+        }
+
+        private void MainForm_TileSetSelectorSelectedIndexChanged(object sender, EventArgs e)
+        {
+            int selectedIndex = this.MainForm.TileSetSelectorSelectedIndex;
+            if (selectedIndex != -1)
+            {
+                Map map = this.ViewModel.EditorState.Map;
+                if (map != null)
+                {
+                    int mapId = map.Id;
+                    int tileSetId = int.Parse(this.MainForm.TileSetSelectorSelectedItem);
+                    this.ViewModel.EditorState.SetSelectedTileSetId(mapId, tileSetId);
+                }
+            }
         }
 
         private void MainForm_UndoButtonClicked(object sender, EventArgs e)
