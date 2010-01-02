@@ -10,7 +10,7 @@ using Shrimp.Models;
 
 namespace Shrimp.Presenters
 {
-    public class MainFormPresenter : IDisposable
+    public class MainFormPresenter
     {
         public MainFormPresenter(IMainForm mainForm, ViewModel viewModel)
         {
@@ -209,7 +209,6 @@ namespace Shrimp.Presenters
         private void MainForm_UndoButtonClicked(object sender, EventArgs e)
         {
             Debug.Assert(this.ViewModel.IsOpened);
-            // Known Bug: this assertion fails
             Debug.Assert(this.ViewModel.IsUndoable);
             Debug.Assert(this.ViewModel.EditorState.Map != null);
             this.ViewModel.Undo();
@@ -219,11 +218,6 @@ namespace Shrimp.Presenters
         public void Run()
         {
             this.MainForm.Run();
-        }
-
-        public void Dispose()
-        {
-            // Do Nothing
         }
 
         private void IsOpenedChanged()
