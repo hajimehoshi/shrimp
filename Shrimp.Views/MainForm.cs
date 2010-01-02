@@ -323,9 +323,9 @@ namespace Shrimp.Views
             this.Scale8ToolStripButton.Tag = ScaleMode.Scale8;
             foreach (var item in this.ScaleModeSwitchers)
             {
-                item.Click += (s, e) =>
+                item.Click += (sender, e) =>
                 {
-                    ScaleMode scaleMode = (ScaleMode)((ToolStripButton)s).Tag;
+                    ScaleMode scaleMode = (ScaleMode)((ToolStripButton)sender).Tag;
                     this.OnScaleModeSwitcherClicked(new ScaleModeSwitcherClickedEventArgs(scaleMode));
                 };
             }
