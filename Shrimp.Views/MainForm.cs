@@ -329,12 +329,12 @@ namespace Shrimp.Views
                 this.TileSetsToolStripComboBox.EndUpdate();
             }
 
-            this.MapTreeView.Enabled = isOpened;
-            this.NewToolStripButton.Enabled = !isOpened;
-            this.OpenToolStripButton.Enabled = !isOpened;
-            this.CloseToolStripButton.Enabled = isOpened;
-            this.SaveToolStripButton.Enabled = isOpened;
-            this.UndoToolStripButton.Enabled = isOpened;
+            this.IsMapTreeViewEnabled = isOpened;
+            this.IsNewButtonEnabled = !isOpened;
+            this.IsOpenButtonEnabled = !isOpened;
+            this.IsCloseButtonEnabled = isOpened;
+            this.IsSaveButtonEnabled = isOpened;
+            this.IsUndoButtonEnabled = isOpened;
             foreach (var item in this.LayerModeSwitchers)
             {
                 item.Enabled = isOpened;
@@ -347,9 +347,9 @@ namespace Shrimp.Views
             {
                 item.Enabled = isOpened;
             }
-            this.TileSetPalette.Enabled = isOpened;
+            this.IsTileSetPaletteEnabled = isOpened;
             this.TileSetPaletteToolStrip.Enabled = isOpened;
-            this.PassageToolStripButton.Enabled = isOpened;
+            this.IsPassageButtonEnabled = isOpened;
 
             // this.IsUndoableChanged();
             // this.GameTitleChanged();
