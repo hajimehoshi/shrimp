@@ -179,11 +179,6 @@ namespace Shrimp.Views
             this.TileSetsToolStripComboBox.EndUpdate();
         }
 
-        public OpenFileDialog OpenFileDialog
-        {
-            get { return this.openFileDialog; }
-        }
-
         public bool IsCloseButtonEnabled
         {
             get { return this.CloseToolStripButton.Enabled; }
@@ -192,8 +187,8 @@ namespace Shrimp.Views
 
         public bool IsMapEditorEnabled
         {
-            get { return this.MapEditor.Enabled; }
-            set { this.MapEditor.Enabled = value; }
+            get { return this.mapEditor.Enabled; }
+            set { this.mapEditor.Enabled = value; }
         }
 
         public bool IsMapTreeViewEnabled
@@ -250,6 +245,16 @@ namespace Shrimp.Views
             set { this.UndoToolStripButton.Enabled = value; }
         }
 
+        public IMapEditor MapEditor
+        {
+            get { return this.mapEditor; }
+        }
+
+        public OpenFileDialog OpenFileDialog
+        {
+            get { return this.openFileDialog; }
+        }
+
         public int TileSetSelectorSelectedIndex
         {
             get { return this.TileSetsToolStripComboBox.SelectedIndex; }
@@ -273,10 +278,10 @@ namespace Shrimp.Views
         {
             this.InitializeComponent();
 
-            this.MapEditor = new MapEditor();
-            this.MapEditor.BorderStyle = BorderStyle.Fixed3D;
-            this.MapEditor.Dock = DockStyle.Fill;
-            this.MainSplitContainer.Panel2.Controls.Add(this.MapEditor);
+            this.mapEditor = new MapEditor();
+            this.mapEditor.BorderStyle = BorderStyle.Fixed3D;
+            this.mapEditor.Dock = DockStyle.Fill;
+            this.MainSplitContainer.Panel2.Controls.Add(this.mapEditor);
 
             this.ToolStrip.Renderer = new CustomToolStripSystemRenderer();
             this.TileSetPaletteToolStrip.Renderer = new CustomToolStripSystemRenderer();
@@ -326,11 +331,11 @@ namespace Shrimp.Views
             }
 
             this.MapTreeView.ViewModel = viewModel;
-            this.MapEditor.ViewModel = viewModel;
+            this.mapEditor.ViewModel = viewModel;
             this.TileSetPalette.ViewModel = viewModel;
         }
 
-        private MapEditor MapEditor;
+        private MapEditor mapEditor;
 
         private IEnumerable<ToolStripButton> LayerModeSwitchers
         {

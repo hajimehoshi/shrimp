@@ -10,11 +10,12 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
+using Shrimp.IViews;
 using Shrimp.Models;
 
 namespace Shrimp.Views
 {
-    internal partial class MapEditor : UserControl
+    internal partial class MapEditor : UserControl, IMapEditor
     {
         public MapEditor()
         {
