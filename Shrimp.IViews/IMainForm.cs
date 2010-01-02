@@ -26,8 +26,11 @@ namespace Shrimp.IViews
         bool GetLayerModeSwitcherEnabled(LayerMode layerMode);
         bool GetScaleModeSwitcherEnabled(ScaleMode scaleMode);
         void Run();
+        void SetDrawingModeSwitcherChecked(DrawingMode drawingMode, bool isChecked);
         void SetDrawingModeSwitcherEnabled(DrawingMode drawingMode, bool isEnabled);
+        void SetLayerModeSwitcherChecked(LayerMode layerMode, bool isChecked);
         void SetLayerModeSwitcherEnabled(LayerMode layerMode, bool isEnabled);
+        void SetScaleModeSwitcherChecked(ScaleMode scaleMode, bool isChecked);
         void SetScaleModeSwitcherEnabled(ScaleMode scaleMode, bool isEnabled);
         void SetTileSetSelectorItems(IEnumerable<string> items);
 

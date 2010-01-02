@@ -173,12 +173,38 @@ namespace Shrimp.Views
             Application.Run(this);
         }
 
+        public void SetDrawingModeSwitcherChecked(DrawingMode drawingMode, bool isChecked)
+        {
+            switch (drawingMode)
+            {
+            case DrawingMode.Pen:
+                this.PenToolStripButton.Checked = isChecked;
+                break;
+            }
+        }
+
         public void SetDrawingModeSwitcherEnabled(DrawingMode drawingMode, bool isEnabled)
         {
             switch (drawingMode)
             {
             case DrawingMode.Pen:
                 this.PenToolStripButton.Enabled = isEnabled;
+                break;
+            }
+        }
+
+        public void SetLayerModeSwitcherChecked(LayerMode layerMode, bool isChecked)
+        {
+            switch (layerMode)
+            {
+            case LayerMode.Layer1:
+                this.Layer1ToolStripButton.Checked = isChecked;
+                break;
+            case LayerMode.Layer2:
+                this.Layer2ToolStripButton.Checked = isChecked;
+                break;
+            case LayerMode.Event:
+                this.EventToolStripButton.Checked = isChecked;
                 break;
             }
         }
@@ -195,6 +221,25 @@ namespace Shrimp.Views
                 break;
             case LayerMode.Event:
                 this.EventToolStripButton.Enabled = isEnabled;
+                break;
+            }
+        }
+
+        public void SetScaleModeSwitcherChecked(ScaleMode scaleMode, bool isChecked)
+        {
+            switch (scaleMode)
+            {
+            case ScaleMode.Scale1:
+                this.Scale1ToolStripButton.Checked = isChecked;
+                break;
+            case ScaleMode.Scale2:
+                this.Scale2ToolStripButton.Checked = isChecked;
+                break;
+            case ScaleMode.Scale4:
+                this.Scale4ToolStripButton.Checked = isChecked;
+                break;
+            case ScaleMode.Scale8:
+                this.Scale8ToolStripButton.Checked = isChecked;
                 break;
             }
         }
@@ -525,17 +570,17 @@ namespace Shrimp.Views
         {
             if (this.ViewModel.IsOpened)
             {
-                foreach (var item in this.LayerModeSwitchers)
+                foreach (LayerMode layerMode in Enum.GetValues(typeof(LayerMode)))
                 {
-                    item.Checked =
-                        ((LayerMode)item.Tag == this.ViewModel.EditorState.LayerMode);
+                    bool isChecked = (layerMode == this.ViewModel.EditorState.LayerMode);
+                    this.SetLayerModeSwitcherChecked(layerMode, isChecked);
                 }
             }
             else
             {
-                foreach (var item in this.LayerModeSwitchers)
+                foreach (LayerMode layerMode in Enum.GetValues(typeof(LayerMode)))
                 {
-                    item.Checked = false;
+                    this.SetLayerModeSwitcherChecked(layerMode, false);
                 }
             }
         }
@@ -544,17 +589,17 @@ namespace Shrimp.Views
         {
             if (this.ViewModel.IsOpened)
             {
-                foreach (var item in this.DrawingModeSwitchers)
+                foreach (DrawingMode drawingMode in Enum.GetValues(typeof(DrawingMode)))
                 {
-                    item.Checked =
-                        ((DrawingMode)item.Tag == this.ViewModel.EditorState.DrawingMode);
+                    bool isChecked = (drawingMode == this.ViewModel.EditorState.DrawingMode);
+                    this.SetDrawingModeSwitcherChecked(drawingMode, isChecked);
                 }
             }
             else
             {
-                foreach (var item in this.DrawingModeSwitchers)
+                foreach (DrawingMode drawingMode in Enum.GetValues(typeof(DrawingMode)))
                 {
-                    item.Checked = false;
+                    this.SetDrawingModeSwitcherChecked(drawingMode, false);
                 }
             }
         }
@@ -563,17 +608,17 @@ namespace Shrimp.Views
         {
             if (this.ViewModel.IsOpened)
             {
-                foreach (var item in this.ScaleModeSwitchers)
+                foreach (ScaleMode scaleMode in Enum.GetValues(typeof(ScaleMode)))
                 {
-                    item.Checked =
-                        ((ScaleMode)item.Tag == this.ViewModel.EditorState.ScaleMode);
+                    bool isChecked = (scaleMode == this.ViewModel.EditorState.ScaleMode);
+                    this.SetScaleModeSwitcherChecked(scaleMode, isChecked);
                 }
             }
             else
             {
-                foreach (var item in this.ScaleModeSwitchers)
+                foreach (ScaleMode scaleMode in Enum.GetValues(typeof(ScaleMode)))
                 {
-                    item.Checked = false;
+                    this.SetScaleModeSwitcherChecked(scaleMode, false);
                 }
             }
         }
