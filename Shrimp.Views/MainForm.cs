@@ -134,92 +134,32 @@ namespace Shrimp.Views
 
         public void SetDrawingModeSwitcherChecked(DrawingMode drawingMode, bool isChecked)
         {
-            switch (drawingMode)
-            {
-            case DrawingMode.Pen:
-                this.PenToolStripButton.Checked = isChecked;
-                break;
-            }
+            this.DrawingModeSwitchers.Where(s => (DrawingMode)s.Tag == drawingMode).First().Checked = isChecked;
         }
 
         public void SetDrawingModeSwitcherEnabled(DrawingMode drawingMode, bool isEnabled)
         {
-            switch (drawingMode)
-            {
-            case DrawingMode.Pen:
-                this.PenToolStripButton.Enabled = isEnabled;
-                break;
-            }
+            this.DrawingModeSwitchers.Where(s => (DrawingMode)s.Tag == drawingMode).First().Enabled = isEnabled;
         }
 
         public void SetLayerModeSwitcherChecked(LayerMode layerMode, bool isChecked)
         {
-            switch (layerMode)
-            {
-            case LayerMode.Layer1:
-                this.Layer1ToolStripButton.Checked = isChecked;
-                break;
-            case LayerMode.Layer2:
-                this.Layer2ToolStripButton.Checked = isChecked;
-                break;
-            case LayerMode.Event:
-                this.EventToolStripButton.Checked = isChecked;
-                break;
-            }
+            this.LayerModeSwitchers.Where(s => (LayerMode)s.Tag == layerMode).First().Checked = isChecked;
         }
 
         public void SetLayerModeSwitcherEnabled(LayerMode layerMode, bool isEnabled)
         {
-            switch (layerMode)
-            {
-            case LayerMode.Layer1:
-                this.Layer1ToolStripButton.Enabled = isEnabled;
-                break;
-            case LayerMode.Layer2:
-                this.Layer2ToolStripButton.Enabled = isEnabled;
-                break;
-            case LayerMode.Event:
-                this.EventToolStripButton.Enabled = isEnabled;
-                break;
-            }
+            this.LayerModeSwitchers.Where(s => (LayerMode)s.Tag == layerMode).First().Enabled = isEnabled;
         }
 
         public void SetScaleModeSwitcherChecked(ScaleMode scaleMode, bool isChecked)
         {
-            switch (scaleMode)
-            {
-            case ScaleMode.Scale1:
-                this.Scale1ToolStripButton.Checked = isChecked;
-                break;
-            case ScaleMode.Scale2:
-                this.Scale2ToolStripButton.Checked = isChecked;
-                break;
-            case ScaleMode.Scale4:
-                this.Scale4ToolStripButton.Checked = isChecked;
-                break;
-            case ScaleMode.Scale8:
-                this.Scale8ToolStripButton.Checked = isChecked;
-                break;
-            }
+            this.ScaleModeSwitchers.Where(s => (ScaleMode)s.Tag == scaleMode).First().Checked = isChecked;
         }
 
         public void SetScaleModeSwitcherEnabled(ScaleMode scaleMode, bool isEnabled)
         {
-            switch (scaleMode)
-            {
-            case ScaleMode.Scale1:
-                this.Scale1ToolStripButton.Enabled = isEnabled;
-                break;
-            case ScaleMode.Scale2:
-                this.Scale2ToolStripButton.Enabled = isEnabled;
-                break;
-            case ScaleMode.Scale4:
-                this.Scale4ToolStripButton.Enabled = isEnabled;
-                break;
-            case ScaleMode.Scale8:
-                this.Scale8ToolStripButton.Enabled = isEnabled;
-                break;
-            }
+            this.ScaleModeSwitchers.Where(s => (ScaleMode)s.Tag == scaleMode).First().Enabled = isEnabled;
         }
 
         public void SetTileSetSelectorItems(IEnumerable<string> items)
