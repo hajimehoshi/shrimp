@@ -17,7 +17,7 @@ namespace Shrimp.Presenters
             this.MainForm = mainForm;
             this.ViewModel = viewModel;
             this.MainForm.CloseButtonClicked += this.MainForm_CloseButtonClicked;
-            this.MainForm.Quitting += this.MainForm_Closing;
+            this.MainForm.Quitting += this.MainForm_Quitting;
             this.MainForm.DrawingModeSwitcherClicked += this.MainForm_DrawingModeSwitcherClicked;
             this.MainForm.LayerModeSwitcherClicked += this.MainForm_LayerModeSwitcherClicked;
             this.MainForm.NewButtonClicked += this.MainForm_NewButtonClicked;
@@ -104,28 +104,6 @@ namespace Shrimp.Presenters
             Debug.Assert(!this.ViewModel.IsDirty);
         }
 
-        private void MainForm_Closing(object sender, QuittingEventArgs e)
-        {
-            if (this.ViewModel.IsDirty)
-            {
-                DialogResult result = MessageBox.Show("Save?", "",
-                    MessageBoxButtons.YesNoCancel,
-                    MessageBoxIcon.Question,
-                    MessageBoxDefaultButton.Button1);
-                switch (result)
-                {
-                case DialogResult.Yes:
-                    this.ViewModel.Save();
-                    break;
-                case DialogResult.No:
-                    break;
-                case DialogResult.Cancel:
-                    e.Cancel = true;
-                    return;
-                }
-            }
-        }
-
         private void MainForm_DrawingModeSwitcherClicked(object sender, DrawingModeSwitcherClickedEventArgs e)
         {
             this.ViewModel.EditorState.DrawingMode = e.DrawingMode;
@@ -172,6 +150,28 @@ namespace Shrimp.Presenters
             case TileSetMode.Passage:
                 this.ViewModel.EditorState.TileSetMode = TileSetMode.Normal;
                 break;
+            }
+        }
+
+        private void MainForm_Quitting(object sender, QuittingEventArgs e)
+        {
+            if (this.ViewModel.IsDirty)
+            {
+                DialogResult result = MessageBox.Show("Save?", "",
+                    MessageBoxButtons.YesNoCancel,
+                    MessageBoxIcon.Question,
+                    MessageBoxDefaultButton.Button1);
+                switch (result)
+                {
+                case DialogResult.Yes:
+                    this.ViewModel.Save();
+                    break;
+                case DialogResult.No:
+                    break;
+                case DialogResult.Cancel:
+                    e.Cancel = true;
+                    return;
+                }
             }
         }
 
