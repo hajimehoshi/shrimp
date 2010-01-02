@@ -297,7 +297,7 @@ namespace Shrimp.Views
 
             this.Layer1ToolStripButton.Tag = LayerMode.Layer1;
             this.Layer2ToolStripButton.Tag = LayerMode.Layer2;
-            this.EventToolStripButton.Tag = LayerMode.Event;
+            this.LayerEventToolStripButton.Tag = LayerMode.Event;
             foreach (var item in this.LayerModeSwitchers)
             {
                 item.Click += (sender, e) =>
@@ -343,7 +343,7 @@ namespace Shrimp.Views
             {
                 yield return this.Layer1ToolStripButton;
                 yield return this.Layer2ToolStripButton;
-                yield return this.EventToolStripButton;
+                yield return this.LayerEventToolStripButton;
             }
         }
 

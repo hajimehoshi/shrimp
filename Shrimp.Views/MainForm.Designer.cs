@@ -48,7 +48,7 @@
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.Layer1ToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.Layer2ToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.EventToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.LayerEventToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.PenToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
@@ -201,7 +201,7 @@
             this.toolStripSeparator4,
             this.Layer1ToolStripButton,
             this.Layer2ToolStripButton,
-            this.EventToolStripButton,
+            this.LayerEventToolStripButton,
             this.toolStripSeparator2,
             this.PenToolStripButton,
             this.toolStripSeparator3,
@@ -295,12 +295,12 @@
             // 
             // EventToolStripButton
             // 
-            this.EventToolStripButton.Image = global::Shrimp.Views.Properties.Resources.Balloons;
-            this.EventToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.EventToolStripButton.Name = "EventToolStripButton";
-            this.EventToolStripButton.Size = new System.Drawing.Size(45, 38);
-            this.EventToolStripButton.Text = "Event";
-            this.EventToolStripButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.LayerEventToolStripButton.Image = global::Shrimp.Views.Properties.Resources.Balloons;
+            this.LayerEventToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.LayerEventToolStripButton.Name = "EventToolStripButton";
+            this.LayerEventToolStripButton.Size = new System.Drawing.Size(45, 38);
+            this.LayerEventToolStripButton.Text = "Event";
+            this.LayerEventToolStripButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
             // toolStripSeparator2
             // 
@@ -410,7 +410,7 @@
         private System.Windows.Forms.ToolStripButton Layer1ToolStripButton;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripButton Layer2ToolStripButton;
-        private System.Windows.Forms.ToolStripButton EventToolStripButton;
+        private System.Windows.Forms.ToolStripButton LayerEventToolStripButton;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.ToolStripButton UndoToolStripButton;
         private System.Windows.Forms.ToolStripButton Scale1ToolStripButton;
