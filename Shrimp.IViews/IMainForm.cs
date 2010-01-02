@@ -26,9 +26,9 @@ namespace Shrimp.IViews
         bool GetLayerModeSwitcherEnabled(LayerMode layerMode);
         bool GetScaleModeSwitcherEnabled(ScaleMode scaleMode);
         void Run();
-        void SetDrawingModeSwitcherEnabled(DrawingMode drawingMode, bool enabled);
-        void SetLayerModeSwitcherEnabled(LayerMode layerMode, bool enabled);
-        void SetScaleModeSwitcherEnabled(ScaleMode scaleMode, bool enabled);
+        void SetDrawingModeSwitcherEnabled(DrawingMode drawingMode, bool isEnabled);
+        void SetLayerModeSwitcherEnabled(LayerMode layerMode, bool isEnabled);
+        void SetScaleModeSwitcherEnabled(ScaleMode scaleMode, bool isEnabled);
         void SetTileSetSelectorItems(IEnumerable<string> items);
 
         bool IsCloseButtonEnabled { get; set; }

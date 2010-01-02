@@ -173,47 +173,47 @@ namespace Shrimp.Views
             Application.Run(this);
         }
 
-        public void SetDrawingModeSwitcherEnabled(DrawingMode drawingMode, bool enabled)
+        public void SetDrawingModeSwitcherEnabled(DrawingMode drawingMode, bool isEnabled)
         {
             switch (drawingMode)
             {
             case DrawingMode.Pen:
-                this.PenToolStripButton.Enabled = enabled;
+                this.PenToolStripButton.Enabled = isEnabled;
                 break;
             }
         }
 
-        public void SetLayerModeSwitcherEnabled(LayerMode layerMode, bool enabled)
+        public void SetLayerModeSwitcherEnabled(LayerMode layerMode, bool isEnabled)
         {
             switch (layerMode)
             {
             case LayerMode.Layer1:
-                this.Layer1ToolStripButton.Enabled = enabled;
+                this.Layer1ToolStripButton.Enabled = isEnabled;
                 break;
             case LayerMode.Layer2:
-                this.Layer2ToolStripButton.Enabled = enabled;
+                this.Layer2ToolStripButton.Enabled = isEnabled;
                 break;
             case LayerMode.Event:
-                this.EventToolStripButton.Enabled = enabled;
+                this.EventToolStripButton.Enabled = isEnabled;
                 break;
             }
         }
 
-        public void SetScaleModeSwitcherEnabled(ScaleMode scaleMode, bool enabled)
+        public void SetScaleModeSwitcherEnabled(ScaleMode scaleMode, bool isEnabled)
         {
             switch (scaleMode)
             {
             case ScaleMode.Scale1:
-                this.Scale1ToolStripButton.Enabled = enabled;
+                this.Scale1ToolStripButton.Enabled = isEnabled;
                 break;
             case ScaleMode.Scale2:
-                this.Scale2ToolStripButton.Enabled = enabled;
+                this.Scale2ToolStripButton.Enabled = isEnabled;
                 break;
             case ScaleMode.Scale4:
-                this.Scale4ToolStripButton.Enabled = enabled;
+                this.Scale4ToolStripButton.Enabled = isEnabled;
                 break;
             case ScaleMode.Scale8:
-                this.Scale8ToolStripButton.Enabled = enabled;
+                this.Scale8ToolStripButton.Enabled = isEnabled;
                 break;
             }
         }
@@ -495,8 +495,7 @@ namespace Shrimp.Views
         private void MapIdChanged()
         {
             this.AdjustTileSetsToolStripComboBox();
-            this.TileSetsToolStripComboBox.Enabled =
-                this.ViewModel.EditorState.Map != null;
+            this.IsTileSetSelectorEnabled = (this.ViewModel.EditorState.Map != null);
         }
 
         private void SelectedTileSetIdsChanged()
