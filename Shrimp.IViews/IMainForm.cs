@@ -24,6 +24,7 @@ namespace Shrimp.IViews
 
         INewProjectDialog CreateNewProjectDialog();
         OpenFileDialog OpenFileDialog { get; }
+        bool UndoButtonEnabled { get; set; }
         void Run();
     }
 

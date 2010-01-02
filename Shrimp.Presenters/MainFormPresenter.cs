@@ -24,6 +24,11 @@ namespace Shrimp.Presenters
             this.MainForm.LayerModeSwitcherClicked += this.MainForm_LayerModeSwitcherClicked;
             this.MainForm.DrawingModeSwitcherClicked += this.MainForm_DrawingModeSwitcherClicked;
             this.MainForm.ScaleModeSwitcherClicked += this.MainForm_ScaleModeSwitcherClicked;
+
+            this.ViewModel.IsUndoableChanged += delegate
+            {
+                this.MainForm.UndoButtonEnabled = this.ViewModel.IsOpened && this.ViewModel.IsUndoable;
+            };
         }
 
         private IMainForm MainForm;
@@ -95,6 +100,7 @@ namespace Shrimp.Presenters
         private void MainForm_UndoButtonClicked(object sender, EventArgs e)
         {
             Debug.Assert(this.ViewModel.IsOpened);
+            // Known Bug: this assertion fails
             Debug.Assert(this.ViewModel.IsUndoable);
             Debug.Assert(this.ViewModel.EditorState.Map != null);
             this.ViewModel.Undo();

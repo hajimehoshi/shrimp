@@ -115,6 +115,12 @@ namespace Shrimp.Views
             get { return this.openFileDialog; }
         }
 
+        public bool UndoButtonEnabled
+        {
+            get { return this.UndoToolStripButton.Enabled; }
+            set { this.UndoToolStripButton.Enabled = value; }
+        }
+
         public void Run()
         {
             Application.Run(this);
@@ -189,14 +195,6 @@ namespace Shrimp.Views
             this.ViewModel.IsOpenedChanged += delegate
             {
                 this.IsOpenedChanged();
-            };
-            this.ViewModel.IsDirtyChanged += delegate
-            {
-                this.IsDirtyChanged();
-            };
-            this.ViewModel.IsUndoableChanged += delegate
-            {
-                this.IsUndoableChanged();
             };
             this.ViewModel.Project.Updated += (s, e) =>
             {
@@ -319,8 +317,7 @@ namespace Shrimp.Views
             this.TileSetPaletteToolStrip.Enabled = isOpened;
             this.PassageToolStripButton.Enabled = isOpened;
 
-            this.IsDirtyChanged();
-            this.IsUndoableChanged();
+            // this.IsUndoableChanged();
             this.GameTitleChanged();
             this.MapIdChanged();
             this.SelectedTileSetIdsChanged();
@@ -332,15 +329,6 @@ namespace Shrimp.Views
             // To prevent the map editor from being edited wrongly
             Application.DoEvents();
             this.MapEditor.Enabled = isOpened;
-        }
-
-        private void IsDirtyChanged()
-        {
-        }
-
-        private void IsUndoableChanged()
-        {
-            this.UndoToolStripButton.Enabled = this.ViewModel.IsOpened && this.ViewModel.IsUndoable;
         }
 
         private void GameTitleChanged()
