@@ -181,6 +181,11 @@ namespace Shrimp.Presenters
             Debug.Assert(this.ViewModel.IsOpened);
         }
 
+        public void Run()
+        {
+            this.MainForm.Run();
+        }
+
         public void Dispose()
         {
             // Do Nothing

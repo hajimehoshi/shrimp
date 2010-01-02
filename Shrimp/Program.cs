@@ -13,10 +13,8 @@ namespace Shrimp
         public static void Main()
         {
             var mainForm = new MainForm();
-            using (var mainFormPresenter = new MainFormPresenter(mainForm, mainForm.ViewModel))
-            {
-                mainForm.Run();
-            }
+            var mainFormPresenter = new MainFormPresenter(mainForm, mainForm.ViewModel);
+            mainFormPresenter.Run();
         }
     }
 }
