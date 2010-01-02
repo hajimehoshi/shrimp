@@ -22,7 +22,7 @@ namespace Shrimp.Views
         }
 
         public event EventHandler NewButtonClicked;
-        protected void OnNewButtonClicked(EventArgs e)
+        protected virtual void OnNewButtonClicked(EventArgs e)
         {
             if (this.NewButtonClicked != null)
             {
@@ -31,7 +31,7 @@ namespace Shrimp.Views
         }
 
         public event EventHandler OpenButtonClicked;
-        protected void OnOpenButtonClicked(EventArgs e)
+        protected virtual void OnOpenButtonClicked(EventArgs e)
         {
             if (this.OpenButtonClicked != null)
             {
@@ -40,7 +40,7 @@ namespace Shrimp.Views
         }
 
         public event EventHandler CloseButtonClicked;
-        protected void OnCloseButtonClicked(EventArgs e)
+        protected virtual void OnCloseButtonClicked(EventArgs e)
         {
             if (this.CloseButtonClicked != null)
             {
@@ -49,7 +49,7 @@ namespace Shrimp.Views
         }
 
         public event EventHandler SaveButtonClicked;
-        protected void OnSaveButtonClicked(EventArgs e)
+        protected virtual void OnSaveButtonClicked(EventArgs e)
         {
             if (this.SaveButtonClicked != null)
             {
@@ -58,7 +58,7 @@ namespace Shrimp.Views
         }
         
         public event EventHandler UndoButtonClicked;
-        protected void OnUndoButtonClicked(EventArgs e)
+        protected virtual void OnUndoButtonClicked(EventArgs e)
         {
             if (this.UndoButtonClicked != null)
             {
@@ -67,7 +67,7 @@ namespace Shrimp.Views
         }
 
         public event EventHandler<LayerModeSwitcherClickedEventArgs> LayerModeSwitcherClicked;
-        protected void OnLayerModeSwitcherClicked(LayerModeSwitcherClickedEventArgs e)
+        protected virtual void OnLayerModeSwitcherClicked(LayerModeSwitcherClickedEventArgs e)
         {
             if (this.LayerModeSwitcherClicked != null)
             {
@@ -76,7 +76,7 @@ namespace Shrimp.Views
         }
 
         public event EventHandler<DrawingModeSwitcherClickedEventArgs> DrawingModeSwitcherClicked;
-        protected void OnDrawingModeSwitcherClicked(DrawingModeSwitcherClickedEventArgs e)
+        protected virtual void OnDrawingModeSwitcherClicked(DrawingModeSwitcherClickedEventArgs e)
         {
             if (this.DrawingModeSwitcherClicked != null)
             {
@@ -85,7 +85,7 @@ namespace Shrimp.Views
         }
 
         public event EventHandler<ScaleModeSwitcherClickedEventArgs> ScaleModeSwitcherClicked;
-        protected void OnScaleModeSwitcherClicked(ScaleModeSwitcherClickedEventArgs e)
+        protected virtual void OnScaleModeSwitcherClicked(ScaleModeSwitcherClickedEventArgs e)
         {
             if (this.ScaleModeSwitcherClicked != null)
             {
@@ -94,13 +94,13 @@ namespace Shrimp.Views
         }
 
         public event EventHandler PassageButtonClicked;
-        protected void OnPassageButtonClicked(EventArgs e)
+        protected virtual void OnPassageButtonClicked(EventArgs e)
         {
             if (this.PassageButtonClicked != null) { this.PassageButtonClicked(this, e); }
         }
 
         public event EventHandler SelectedTileSetChanged;
-        protected void OnSelectedTileSetChanged(EventArgs e)
+        protected virtual void OnSelectedTileSetChanged(EventArgs e)
         {
             if (this.SelectedTileSetChanged != null) { this.SelectedTileSetChanged(this, e); }
         }
