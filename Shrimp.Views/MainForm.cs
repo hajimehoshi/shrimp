@@ -122,52 +122,6 @@ namespace Shrimp.Views
             return new NewProjectDialog();
         }
 
-        public bool GetDrawingModeSwitcherEnabled(DrawingMode drawingMode)
-        {
-            switch (drawingMode)
-            {
-            case DrawingMode.Pen:
-                return this.PenToolStripButton.Enabled;
-            default:
-                Debug.Fail("Invalid DrawingMode value");
-                return false;
-            }
-        }
-
-        public bool GetLayerModeSwitcherEnabled(LayerMode layerMode)
-        {
-            switch (layerMode)
-            {
-            case LayerMode.Layer1:
-                return this.Layer1ToolStripButton.Enabled;
-            case LayerMode.Layer2:
-                return this.Layer2ToolStripButton.Enabled;
-            case LayerMode.Event:
-                return this.EventToolStripButton.Enabled;
-            default:
-                Debug.Fail("Invalid LayerMode value");
-                return false;
-            }
-        }
-
-        public bool GetScaleModeSwitcherEnabled(ScaleMode scaleMode)
-        {
-            switch (scaleMode)
-            {
-            case ScaleMode.Scale1:
-                return this.Scale1ToolStripButton.Enabled;
-            case ScaleMode.Scale2:
-                return this.Scale2ToolStripButton.Enabled;
-            case ScaleMode.Scale4:
-                return this.Scale4ToolStripButton.Enabled;
-            case ScaleMode.Scale8:
-                return this.Scale8ToolStripButton.Enabled;
-            default:
-                Debug.Fail("Invalid ScaleMode value");
-                return false;
-            }
-        }
-
         public void Run()
         {
             Application.Run(this);

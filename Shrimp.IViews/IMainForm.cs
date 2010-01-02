@@ -22,9 +22,6 @@ namespace Shrimp.IViews
         event EventHandler UndoButtonClicked;
 
         INewProjectDialog CreateNewProjectDialog();
-        bool GetDrawingModeSwitcherEnabled(DrawingMode drawingMode);
-        bool GetLayerModeSwitcherEnabled(LayerMode layerMode);
-        bool GetScaleModeSwitcherEnabled(ScaleMode scaleMode);
         void Run();
         void SetDrawingModeSwitcherChecked(DrawingMode drawingMode, bool isChecked);
         void SetDrawingModeSwitcherEnabled(DrawingMode drawingMode, bool isEnabled);
