@@ -9,24 +9,30 @@ namespace Shrimp.IViews
 {
     public interface IMainForm
     {
+        event EventHandler CloseButtonClicked;
+        event EventHandler<DrawingModeSwitcherClickedEventArgs> DrawingModeSwitcherClicked;
+        event EventHandler<LayerModeSwitcherClickedEventArgs> LayerModeSwitcherClicked;
         event EventHandler NewButtonClicked;
         event EventHandler OpenButtonClicked;
-        event EventHandler CloseButtonClicked;
+        event EventHandler PassageButtonClicked;
         event EventHandler SaveButtonClicked;
+        event EventHandler<ScaleModeSwitcherClickedEventArgs> ScaleModeSwitcherClicked;
+        event EventHandler SelectedTileSetChanged;
         event EventHandler UndoButtonClicked;
 
-        event EventHandler<LayerModeSwitcherClickedEventArgs> LayerModeSwitcherClicked;
-        event EventHandler<DrawingModeSwitcherClickedEventArgs> DrawingModeSwitcherClicked;
-        event EventHandler<ScaleModeSwitcherClickedEventArgs> ScaleModeSwitcherClicked;
-
-        event EventHandler PassageButtonClicked;
-        event EventHandler SelectedTileSetChanged;
-
         INewProjectDialog CreateNewProjectDialog();
+        void Run();
+
+        bool IsCloseButtonEnabled { get; set; }
+        bool IsMapTreeViewEnabled { get; set; }
+        bool IsNewButtonEnabled { get; set; }
+        bool IsOpenButtonEnabled { get; set; }
+        bool IsPassageButtonEnabled { get; set; }
+        bool IsSaveButtonEnabled { get; set; }
+        bool IsTileSetPaletteEnabled { get; set; }
+        bool IsUndoButtonEnabled { get; set; }
         OpenFileDialog OpenFileDialog { get; }
         string Text { get; set; }
-        bool UndoButtonEnabled { get; set; }
-        void Run();
     }
 
     public class LayerModeSwitcherClickedEventArgs : EventArgs

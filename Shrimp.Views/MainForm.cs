@@ -21,6 +21,33 @@ namespace Shrimp.Views
             Application.SetCompatibleTextRenderingDefault(false);
         }
 
+        public event EventHandler CloseButtonClicked;
+        protected virtual void OnCloseButtonClicked(EventArgs e)
+        {
+            if (this.CloseButtonClicked != null)
+            {
+                this.CloseButtonClicked(this, e);
+            }
+        }
+
+        public event EventHandler<DrawingModeSwitcherClickedEventArgs> DrawingModeSwitcherClicked;
+        protected virtual void OnDrawingModeSwitcherClicked(DrawingModeSwitcherClickedEventArgs e)
+        {
+            if (this.DrawingModeSwitcherClicked != null)
+            {
+                this.DrawingModeSwitcherClicked(this, e);
+            }
+        }
+
+        public event EventHandler<LayerModeSwitcherClickedEventArgs> LayerModeSwitcherClicked;
+        protected virtual void OnLayerModeSwitcherClicked(LayerModeSwitcherClickedEventArgs e)
+        {
+            if (this.LayerModeSwitcherClicked != null)
+            {
+                this.LayerModeSwitcherClicked(this, e);
+            }
+        }
+
         public event EventHandler NewButtonClicked;
         protected virtual void OnNewButtonClicked(EventArgs e)
         {
@@ -39,13 +66,10 @@ namespace Shrimp.Views
             }
         }
 
-        public event EventHandler CloseButtonClicked;
-        protected virtual void OnCloseButtonClicked(EventArgs e)
+        public event EventHandler PassageButtonClicked;
+        protected virtual void OnPassageButtonClicked(EventArgs e)
         {
-            if (this.CloseButtonClicked != null)
-            {
-                this.CloseButtonClicked(this, e);
-            }
+            if (this.PassageButtonClicked != null) { this.PassageButtonClicked(this, e); }
         }
 
         public event EventHandler SaveButtonClicked;
@@ -54,33 +78,6 @@ namespace Shrimp.Views
             if (this.SaveButtonClicked != null)
             {
                 this.SaveButtonClicked(this, e);
-            }
-        }
-        
-        public event EventHandler UndoButtonClicked;
-        protected virtual void OnUndoButtonClicked(EventArgs e)
-        {
-            if (this.UndoButtonClicked != null)
-            {
-                this.UndoButtonClicked(this, e);
-            }
-        }
-
-        public event EventHandler<LayerModeSwitcherClickedEventArgs> LayerModeSwitcherClicked;
-        protected virtual void OnLayerModeSwitcherClicked(LayerModeSwitcherClickedEventArgs e)
-        {
-            if (this.LayerModeSwitcherClicked != null)
-            {
-                this.LayerModeSwitcherClicked(this, e);
-            }
-        }
-
-        public event EventHandler<DrawingModeSwitcherClickedEventArgs> DrawingModeSwitcherClicked;
-        protected virtual void OnDrawingModeSwitcherClicked(DrawingModeSwitcherClickedEventArgs e)
-        {
-            if (this.DrawingModeSwitcherClicked != null)
-            {
-                this.DrawingModeSwitcherClicked(this, e);
             }
         }
 
@@ -93,16 +90,19 @@ namespace Shrimp.Views
             }
         }
 
-        public event EventHandler PassageButtonClicked;
-        protected virtual void OnPassageButtonClicked(EventArgs e)
-        {
-            if (this.PassageButtonClicked != null) { this.PassageButtonClicked(this, e); }
-        }
-
         public event EventHandler SelectedTileSetChanged;
         protected virtual void OnSelectedTileSetChanged(EventArgs e)
         {
             if (this.SelectedTileSetChanged != null) { this.SelectedTileSetChanged(this, e); }
+        }
+        
+        public event EventHandler UndoButtonClicked;
+        protected virtual void OnUndoButtonClicked(EventArgs e)
+        {
+            if (this.UndoButtonClicked != null)
+            {
+                this.UndoButtonClicked(this, e);
+            }
         }
 
         public INewProjectDialog CreateNewProjectDialog()
@@ -110,20 +110,62 @@ namespace Shrimp.Views
             return new NewProjectDialog();
         }
 
+        public void Run()
+        {
+            Application.Run(this);
+        }
+
         public OpenFileDialog OpenFileDialog
         {
             get { return this.openFileDialog; }
         }
 
-        public bool UndoButtonEnabled
+        public bool IsCloseButtonEnabled
+        {
+            get { return this.CloseToolStripButton.Enabled; }
+            set { this.CloseToolStripButton.Enabled = value; }
+        }
+
+        public bool IsMapTreeViewEnabled
+        {
+            get { return this.MapTreeView.Enabled; }
+            set { this.MapTreeView.Enabled = value; }
+        }
+
+        public bool IsNewButtonEnabled
+        {
+            get { return this.NewToolStripButton.Enabled; }
+            set { this.NewToolStripButton.Enabled = value; }
+        }
+
+        public bool IsOpenButtonEnabled
+        {
+            get { return this.OpenToolStripButton.Enabled; }
+            set { this.OpenToolStripButton.Enabled = value; }
+        }
+
+        public bool IsPassageButtonEnabled
+        {
+            get { return this.PassageToolStripButton.Enabled; }
+            set { this.PassageToolStripButton.Enabled = value; }
+        }
+
+        public bool IsSaveButtonEnabled
+        {
+            get { return this.SaveToolStripButton.Enabled; }
+            set { this.SaveToolStripButton.Enabled = value; }
+        }
+
+        public bool IsTileSetPaletteEnabled
+        {
+            get { return this.TileSetPalette.Enabled; }
+            set { this.TileSetPalette.Enabled = value; }
+        }
+
+        public bool IsUndoButtonEnabled
         {
             get { return this.UndoToolStripButton.Enabled; }
             set { this.UndoToolStripButton.Enabled = value; }
-        }
-
-        public void Run()
-        {
-            Application.Run(this);
         }
 
         private class CustomToolStripSystemRenderer : ToolStripSystemRenderer

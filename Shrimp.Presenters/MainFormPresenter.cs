@@ -27,23 +27,33 @@ namespace Shrimp.Presenters
 
             this.ViewModel.IsUndoableChanged += delegate
             {
-                this.MainForm.UndoButtonEnabled = this.ViewModel.IsOpened && this.ViewModel.IsUndoable;
+                this.IsUndoableChanged();
             };
             this.ViewModel.Project.Updated += (sender, e) =>
             {
                 Project project = (Project)sender;
                 if (e.Property == project.GetProperty(_ => _.GameTitle))
                 {
-                    if (this.ViewModel.IsOpened)
-                    {
-                        this.MainForm.Text = this.ViewModel.Project.GameTitle + " - Shrimp";
-                    }
-                    else
-                    {
-                        this.MainForm.Text = "Shrimp";
-                    }
+                    this.GameTitleChanged();
                 }
             };
+        }
+
+        private void IsUndoableChanged()
+        {
+            this.MainForm.IsUndoButtonEnabled = this.ViewModel.IsOpened && this.ViewModel.IsUndoable;
+        }
+
+        private void GameTitleChanged()
+        {
+            if (this.ViewModel.IsOpened)
+            {
+                this.MainForm.Text = this.ViewModel.Project.GameTitle + " - Shrimp";
+            }
+            else
+            {
+                this.MainForm.Text = "Shrimp";
+            }
         }
 
         private IMainForm MainForm;
