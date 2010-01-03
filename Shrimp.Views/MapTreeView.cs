@@ -234,21 +234,6 @@ namespace Shrimp.Views
             }
         }
 
-        private EditorState EditorState
-        {
-            get
-            {
-                if (this.ViewModel != null)
-                {
-                    return this.ViewModel.EditorState;
-                }
-                else
-                {
-                    return null;
-                }
-            }
-        }
-
         protected override void OnAfterExpand(TreeViewEventArgs e)
         {
             base.OnAfterExpand(e);
