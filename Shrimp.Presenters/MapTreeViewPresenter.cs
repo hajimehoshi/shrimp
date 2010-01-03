@@ -143,6 +143,10 @@ namespace Shrimp.Presenters
                     {
                         this.AddNodeRecursively(id, childId);
                     }
+                    if (this.ViewModel.MapCollection.IsExpanded(id))
+                    {
+                        this.MapTreeView.ExpandNode(id);
+                    }
                 }
             }
             this.MapTreeView.SetNodeImageKey(this.ViewModel.MapCollection.ProjectNodeId, "Home");
