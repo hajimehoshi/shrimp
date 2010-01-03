@@ -40,6 +40,11 @@ namespace Shrimp.Views
             }
         }
 
+        public void ClearNodes()
+        {
+            this.Nodes.Clear();
+        }
+
         public IMapDialog CreateMapDialog(int id, string name, Map map)
         {
             return new MapDialog(id, name, map);
@@ -176,7 +181,7 @@ namespace Shrimp.Views
 
         private void Initialize()
         {
-            this.Nodes.Clear();
+            this.ClearNodes();
             if (this.MapCollection != null)
             {
                 foreach (int id in this.MapCollection.Roots)
@@ -184,7 +189,7 @@ namespace Shrimp.Views
                     this.AddTreeNode(this.Nodes, id);
                 }
             }
-            this.AllNodes.First(n => (int)n.Tag == this.MapCollection.ProjectNodeId).ImageKey = "Folder";
+            this.AllNodes.First(n => (int)n.Tag == this.MapCollection.ProjectNodeId).ImageKey = "Home";
             this.AllNodes.First(n => (int)n.Tag == this.MapCollection.TrashNodeId).ImageKey = "Bin";
             int selectedId = this.EditorState.MapId;
             TreeNode selectedNode = this.AllNodes.FirstOrDefault(n => (int)n.Tag == selectedId);
@@ -324,14 +329,18 @@ namespace Shrimp.Views
                     bounds.X + this.Indent * (node.Level - 1) + 1,
                     bounds.Y + 2);
             }
-            Image image = Resources.Card;
-            if (id == this.MapCollection.ProjectNodeId)
+            Image image;
+            switch (node.ImageKey)
             {
+            case "Home":
                 image = Resources.Home;
-            }
-            else if (id == this.MapCollection.TrashNodeId)
-            {
+                break;
+            case "Bin":
                 image = Resources.Bin;
+                break;
+            default:
+                image = Resources.Card;
+                break;
             }
             g.DrawImage(image, bounds.X + this.Indent * node.Level + 1, bounds.Y + 2);
             g.DrawString(node.Text, this.Font,

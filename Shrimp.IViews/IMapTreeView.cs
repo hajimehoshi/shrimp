@@ -12,6 +12,7 @@ namespace Shrimp.IViews
         event EventHandler EditMenuItemClick;
         event EventHandler InsertMenuItemClick;
 
+        void ClearNodes();
         IMapDialog CreateMapDialog(int id, string name, Map map);
         bool HasSelectedNode { get; }
         int SelectedNodeId { get; }
