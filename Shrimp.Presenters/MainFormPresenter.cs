@@ -73,8 +73,10 @@ namespace Shrimp.Presenters
                 }
             };
             this.IsOpenedChanged();
+            this.MapTreeViewPresenter = new MapTreeViewPresenter(this.MainForm.MapTreeView, this.ViewModel);
             this.MapEditorPresenter = new MapEditorPresenter(this.MainForm.MapEditor, this.ViewModel);
         }
+        private MapTreeViewPresenter MapTreeViewPresenter;
         private MapEditorPresenter MapEditorPresenter;
 
         private IMainForm MainForm;

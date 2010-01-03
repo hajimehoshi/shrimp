@@ -96,68 +96,15 @@ namespace Shrimp.Views
             };
             this.EditToolStripMenuItem.Click += delegate
             {
-                if (this.HasSelectedNode)
-                {
-                    int id = this.SelectedNodeId;
-                    string name = this.MapCollection.GetName(id);
-                    Map map = this.MapCollection.GetMap(id);
-                    using (var dialog = this.CreateMapDialog(id, name, map))
-                    {
-                        if (dialog.ShowDialog() == DialogResult.OK)
-                        {
-                            map.Name = dialog.MapName;
-                            map.Width = dialog.MapWidth;
-                            map.Height = dialog.MapHeight;
-                        }
-                    }
-                }
+                this.OnEditMenuItemClick(EventArgs.Empty);
             };
             this.InsertToolStripMenuItem.Click += delegate
             {
-                if (this.HasSelectedNode)
-                {
-                    int selectedNodeId = this.SelectedNodeId;
-                    Debug.Assert(this.MapCollection.GetRoot(selectedNodeId) ==
-                        this.MapCollection.ProjectNodeId);
-                    int newId = Util.GetNewId(this.MapCollection.NodeIds);
-                    using (var dialog = this.CreateMapDialog(newId, "", null))
-                    {
-                        if (dialog.ShowDialog() == DialogResult.OK)
-                        {
-                            newId = this.MapCollection.Add(selectedNodeId);
-                            Map map = this.MapCollection.GetMap(newId);
-                            map.Name = dialog.MapName;
-                            map.Width = dialog.MapWidth;
-                            map.Height = dialog.MapHeight;
-                        }
-                    }
-                }
+                this.OnInsertMenuItemClick(EventArgs.Empty);
             };
             this.DeleteToolStripMenuItem.Click += delegate
             {
-                if (this.HasSelectedNode)
-                {
-                    int selectedNodeId = this.SelectedNodeId;
-                    int rootId = this.MapCollection.GetRoot(selectedNodeId);
-                    if (!this.MapCollection.Roots.Contains(selectedNodeId))
-                    {
-                        if (rootId == this.MapCollection.ProjectNodeId)
-                        {
-                            this.MapCollection.Move(selectedNodeId, this.MapCollection.TrashNodeId);
-                        }
-                        else if (rootId == this.MapCollection.TrashNodeId)
-                        {
-                            DialogResult result = MessageBox.Show("Really?", "",
-                                MessageBoxButtons.YesNo,
-                                MessageBoxIcon.Question,
-                                MessageBoxDefaultButton.Button2);
-                            if (result == DialogResult.Yes)
-                            {
-                                this.MapCollection.Remove(selectedNodeId);
-                            }
-                        }
-                    }
-                }
+                this.OnDeleteMenuItemClick(EventArgs.Empty);
             };
             this.ViewModel = viewModel;
             this.ViewModel.IsOpenedChanged += this.ViewModel_IsOpenedChanged;
