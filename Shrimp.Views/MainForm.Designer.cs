@@ -36,7 +36,6 @@
             this.TileSetsToolStripComboBox = new System.Windows.Forms.ToolStripComboBox();
             this.PassageToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.tileSetPalette = new Shrimp.Views.TileSetPalette();
-            this.mapTreeView = new Shrimp.Views.MapTreeView();
             this.ToolStripContainer = new System.Windows.Forms.ToolStripContainer();
             this.ToolStrip = new System.Windows.Forms.ToolStrip();
             this.NewToolStripButton = new System.Windows.Forms.ToolStripButton();
@@ -100,7 +99,6 @@
             // 
             // LeftSplitContainer.Panel2
             // 
-            this.LeftSplitContainer.Panel2.Controls.Add(this.mapTreeView);
             this.LeftSplitContainer.Size = new System.Drawing.Size(300, 525);
             this.LeftSplitContainer.SplitterDistance = 290;
             this.LeftSplitContainer.SplitterWidth = 3;
@@ -146,23 +144,6 @@
             this.tileSetPalette.Size = new System.Drawing.Size(100, 105);
             this.tileSetPalette.TabIndex = 0;
             this.tileSetPalette.ViewModel = null;
-            // 
-            // MapTreeView
-            // 
-            this.mapTreeView.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.mapTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mapTreeView.DrawMode = System.Windows.Forms.TreeViewDrawMode.OwnerDrawAll;
-            this.mapTreeView.FullRowSelect = true;
-            this.mapTreeView.HideSelection = false;
-            this.mapTreeView.ImageKey = "PageWhite";
-            this.mapTreeView.ItemHeight = 21;
-            this.mapTreeView.Location = new System.Drawing.Point(0, 0);
-            this.mapTreeView.Name = "MapTreeView";
-            this.mapTreeView.ShowLines = false;
-            this.mapTreeView.ShowRootLines = false;
-            this.mapTreeView.Size = new System.Drawing.Size(296, 228);
-            this.mapTreeView.TabIndex = 0;
-            this.mapTreeView.ViewModel = null;
             // 
             // ToolStripContainer
             // 
@@ -402,7 +383,6 @@
         private TileSetPalette tileSetPalette;
         private System.Windows.Forms.ToolStrip TileSetPaletteToolStrip;
         private System.Windows.Forms.ToolStripButton SaveToolStripButton;
-        private MapTreeView mapTreeView;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripButton PenToolStripButton;

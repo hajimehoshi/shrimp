@@ -288,6 +288,20 @@ namespace Shrimp.Views
         {
             this.InitializeComponent();
 
+            this.SuspendLayout();
+
+            this.mapTreeView = new MapTreeView(viewModel);
+            this.LeftSplitContainer.Panel2.Controls.Add(this.mapTreeView);
+            this.mapTreeView.BorderStyle = BorderStyle.None;
+            this.mapTreeView.Dock = DockStyle.Fill;
+            this.mapTreeView.DrawMode = TreeViewDrawMode.OwnerDrawAll;
+            this.mapTreeView.FullRowSelect = true;
+            this.mapTreeView.HideSelection = false;
+            this.mapTreeView.ImageKey = "PageWhite"; // unused?
+            this.mapTreeView.ItemHeight = 21;
+            this.mapTreeView.ShowLines = false;
+            this.mapTreeView.ShowRootLines = false;
+
             this.mapEditor = new MapEditor();
             this.mapEditor.BorderStyle = BorderStyle.Fixed3D;
             this.mapEditor.Dock = DockStyle.Fill;
@@ -304,6 +318,11 @@ namespace Shrimp.Views
             };
             this.MainSplitContainer.SplitterDistance -=
                 this.tileSetPalette.Parent.ClientSize.Width - this.tileSetPalette.Width;
+            
+            this.mapEditor.ViewModel = viewModel;
+            this.tileSetPalette.ViewModel = viewModel;
+
+            this.ResumeLayout(false);
 
             this.Layer1ToolStripButton.Tag = LayerMode.Layer1;
             this.Layer2ToolStripButton.Tag = LayerMode.Layer2;
@@ -339,12 +358,9 @@ namespace Shrimp.Views
                     this.OnScaleModeSwitcherClicked(new ScaleModeSwitcherClickedEventArgs(scaleMode));
                 };
             }
-
-            this.mapTreeView.ViewModel = viewModel;
-            this.mapEditor.ViewModel = viewModel;
-            this.tileSetPalette.ViewModel = viewModel;
         }
 
+        private MapTreeView mapTreeView;
         private MapEditor mapEditor;
 
         private IEnumerable<ToolStripButton> LayerModeSwitchers

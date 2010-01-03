@@ -40,7 +40,7 @@ namespace Shrimp.Views
             }
         }
 
-        public MapTreeView()
+        public MapTreeView(ViewModel viewModel)
             : base()
         {
             this.InitializeComponent();
@@ -140,8 +140,15 @@ namespace Shrimp.Views
                     }
                 }
             };
-
+            this.ViewModel = viewModel;
+            this.ViewModel.IsOpenedChanged += this.ViewModel_IsOpenedChanged;
+            this.ViewModel.MapCollection.NodeAdded += this.Tree_NodeAdded;
+            this.ViewModel.MapCollection.NodeRemoved += this.Tree_NodeRemoved;
+            this.ViewModel.MapCollection.NodeMoved += this.Tree_NodeMoved;
+            this.Initialize();
         }
+
+        private ViewModel ViewModel;
 
         private IEnumerable<TreeNode> AllNodes
         {
@@ -166,7 +173,7 @@ namespace Shrimp.Views
         private ToolStripMenuItem EditToolStripMenuItem;
         private ToolStripSeparator toolStripSeparator1;
 
-        public ViewModel ViewModel
+        /*public ViewModel ViewModel
         {
             get { return this.viewModel; }
             set
@@ -192,7 +199,7 @@ namespace Shrimp.Views
                 }
             }
         }
-        private ViewModel viewModel;
+        private ViewModel viewModel;*/
 
         private MapCollection MapCollection
         {
