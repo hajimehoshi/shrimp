@@ -173,34 +173,6 @@ namespace Shrimp.Views
         private ToolStripMenuItem EditToolStripMenuItem;
         private ToolStripSeparator toolStripSeparator1;
 
-        /*public ViewModel ViewModel
-        {
-            get { return this.viewModel; }
-            set
-            {
-                if (this.viewModel != value)
-                {
-                    if (this.viewModel != null)
-                    {
-                        this.viewModel.IsOpenedChanged -= this.ViewModel_IsOpenedChanged;
-                        this.viewModel.MapCollection.NodeAdded -= this.Tree_NodeAdded;
-                        this.viewModel.MapCollection.NodeRemoved -= this.Tree_NodeRemoved;
-                        this.viewModel.MapCollection.NodeMoved -= this.Tree_NodeMoved;
-                    }
-                    this.viewModel = value;
-                    if (this.viewModel != null)
-                    {
-                        this.viewModel.IsOpenedChanged += this.ViewModel_IsOpenedChanged;
-                        this.viewModel.MapCollection.NodeAdded += this.Tree_NodeAdded;
-                        this.viewModel.MapCollection.NodeRemoved += this.Tree_NodeRemoved;
-                        this.viewModel.MapCollection.NodeMoved += this.Tree_NodeMoved;
-                    }
-                    this.Initialize();
-                }
-            }
-        }
-        private ViewModel viewModel;*/
-
         private MapCollection MapCollection
         {
             get
