@@ -13,6 +13,33 @@ namespace Shrimp.Views
 {
     internal class MapTreeView : TreeView, IMapTreeView
     {
+        public event EventHandler<MapTreeViewEventArgs> AfterMapNodeExpand;
+        protected virtual void OnAfterMapNodeExpand(MapTreeViewEventArgs e)
+        {
+            if (this.AfterMapNodeExpand != null)
+            {
+                this.AfterMapNodeExpand(this, e);
+            }
+        }
+
+        public event EventHandler<MapTreeViewEventArgs> AfterMapNodeCollapse;
+        protected virtual void OnAfterMapNodeCollapse(MapTreeViewEventArgs e)
+        {
+            if (this.AfterMapNodeCollapse != null)
+            {
+                this.AfterMapNodeCollapse(this, e);
+            }
+        }
+
+        public event EventHandler<MapTreeViewEventArgs> AfterMapNodeSelect;
+        protected virtual void OnAfterMapNodeSelect(MapTreeViewEventArgs e)
+        {
+            if (this.AfterMapNodeSelect != null)
+            {
+                this.AfterMapNodeSelect(this, e);
+            }
+        }
+
         public event EventHandler DeleteMenuItemClick;
         protected virtual void OnDeleteMenuItemClick(EventArgs e)
         {
@@ -63,6 +90,7 @@ namespace Shrimp.Views
 
         public bool ContainsNode(int id)
         {
+            // TODO: Tune up later
             return this.AllNodes.Any(n => (int)n.Tag == id);
         }
 
@@ -112,6 +140,7 @@ namespace Shrimp.Views
 
         private TreeNode GetTreeNode(int id)
         {
+            // TODO: Tune up later
             return this.AllNodes.First(n => (int)n.Tag == id);
         }
 
@@ -223,21 +252,21 @@ namespace Shrimp.Views
         protected override void OnAfterExpand(TreeViewEventArgs e)
         {
             base.OnAfterExpand(e);
-            this.MapCollection.ExpandNode((int)e.Node.Tag);
+            this.OnAfterMapNodeExpand(new MapTreeViewEventArgs((int)e.Node.Tag));
             this.Invalidate();
         }
 
         protected override void OnAfterCollapse(TreeViewEventArgs e)
         {
             base.OnAfterCollapse(e);
-            this.MapCollection.CollapseNode((int)e.Node.Tag);
+            this.OnAfterMapNodeCollapse(new MapTreeViewEventArgs((int)e.Node.Tag));
             this.Invalidate();
         }
 
         protected override void OnAfterSelect(TreeViewEventArgs e)
         {
             base.OnAfterSelect(e);
-            this.EditorState.MapId = (int)this.SelectedNode.Tag;
+            this.OnAfterMapNodeSelect(new MapTreeViewEventArgs((int)e.Node.Tag));
         }
 
         protected override void OnKeyDown(KeyEventArgs e)

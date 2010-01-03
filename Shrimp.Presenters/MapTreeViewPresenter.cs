@@ -16,6 +16,19 @@ namespace Shrimp.Presenters
             this.MapTreeView = mapTreeView;
             this.ViewModel = viewModel;
 
+            this.MapTreeView.AfterMapNodeCollapse += (sender, e) =>
+            {
+                this.ViewModel.MapCollection.CollapseNode(e.Id);
+            };
+            this.MapTreeView.AfterMapNodeExpand += (sender, e) =>
+            {
+                this.ViewModel.MapCollection.ExpandNode(e.Id);
+            };
+            this.MapTreeView.AfterMapNodeSelect += (sender, e) =>
+            {
+                Debug.Assert(this.MapTreeView.SelectedNodeId == e.Id);
+                this.ViewModel.EditorState.MapId = e.Id;
+            };
             this.MapTreeView.EditMenuItemClick += delegate
             {
                 if (this.MapTreeView.HasSelectedNode)
