@@ -75,7 +75,7 @@ namespace Shrimp.Views
                     this.contextMenuStrip.Enabled = false;
                 }
             };
-            this.EditToolStripMenuItem.Click += (s, e) =>
+            this.EditToolStripMenuItem.Click += delegate
             {
                 if (this.SelectedNode != null)
                 {
@@ -93,7 +93,7 @@ namespace Shrimp.Views
                     }
                 }
             };
-            this.InsertToolStripMenuItem.Click += (s, e) =>
+            this.InsertToolStripMenuItem.Click += delegate
             {
                 if (this.SelectedNode != null)
                 {
@@ -114,7 +114,7 @@ namespace Shrimp.Views
                     }
                 }
             };
-            this.DeleteToolStripMenuItem.Click += (s, e) =>
+            this.DeleteToolStripMenuItem.Click += delegate
             {
                 if (this.SelectedNode != null)
                 {
