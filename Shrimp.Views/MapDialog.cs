@@ -7,10 +7,11 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using Shrimp.Models;
+using Shrimp.IViews;
 
 namespace Shrimp.Views
 {
-    internal partial class MapDialog : Form
+    internal partial class MapDialog : Form, IMapDialog
     {
         public MapDialog(int id, string name, Map map)
         {

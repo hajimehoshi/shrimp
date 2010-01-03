@@ -53,6 +53,7 @@
     <Compile Include="INewProjectDialog.cs" />
     <Compile Include="ITileSetPalette.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="IMapDialog.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Shrimp.Models\Shrimp.Models.csproj">

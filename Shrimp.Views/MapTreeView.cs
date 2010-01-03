@@ -40,6 +40,11 @@ namespace Shrimp.Views
             }
         }
 
+        public IMapDialog CreateMapDialog(int id, string name, Map map)
+        {
+            return new MapDialog(id, name, map);
+        }
+
         public bool HasSelectedNode
         {
             get { return this.SelectedNode != null; }
@@ -96,7 +101,7 @@ namespace Shrimp.Views
                     int id = this.SelectedNodeId;
                     string name = this.MapCollection.GetName(id);
                     Map map = this.MapCollection.GetMap(id);
-                    using (var dialog = new MapDialog(id, name, map))
+                    using (var dialog = this.CreateMapDialog(id, name, map))
                     {
                         if (dialog.ShowDialog() == DialogResult.OK)
                         {
@@ -115,7 +120,7 @@ namespace Shrimp.Views
                     Debug.Assert(this.MapCollection.GetRoot(selectedNodeId) ==
                         this.MapCollection.ProjectNodeId);
                     int newId = Util.GetNewId(this.MapCollection.NodeIds);
-                    using (var dialog = new MapDialog(newId, "", null))
+                    using (var dialog = this.CreateMapDialog(newId, "", null))
                     {
                         if (dialog.ShowDialog() == DialogResult.OK)
                         {
