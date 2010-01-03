@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Shrimp.Models
 {
-    public struct Tile
+    public struct Tile : IEquatable<Tile>
     {
         private byte TileSetIdLower;
         private byte TileSetIdUpper;
