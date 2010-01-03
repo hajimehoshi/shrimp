@@ -45,8 +45,10 @@ namespace Shrimp.IViews
         bool IsTileSetSelectorEnabled { get; set; }
         bool IsUndoButtonEnabled { get; set; }
         IMapEditor MapEditor { get; }
+        IMapTreeView MapTreeView { get; }
         OpenFileDialog OpenFileDialog { get; }
         string Text { get; set; }
+        ITileSetPalette TileSetPalette { get; }
         int TileSetSelectorSelectedIndex { get; set; }
         string TileSetSelectorSelectedItem { get; }
     }

@@ -6,11 +6,12 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using Shrimp.Views.Properties;
+using Shrimp.IViews;
 using Shrimp.Models;
 
 namespace Shrimp.Views
 {
-    internal class MapTreeView : TreeView
+    internal class MapTreeView : TreeView, IMapTreeView
     {
         public MapTreeView()
             : base()

@@ -193,8 +193,8 @@ namespace Shrimp.Views
 
         public bool IsMapTreeViewEnabled
         {
-            get { return this.MapTreeView.Enabled; }
-            set { this.MapTreeView.Enabled = value; }
+            get { return this.mapTreeView.Enabled; }
+            set { this.mapTreeView.Enabled = value; }
         }
 
         public bool IsNewButtonEnabled
@@ -235,8 +235,8 @@ namespace Shrimp.Views
 
         public bool IsTileSetPaletteEnabled
         {
-            get { return this.TileSetPalette.Enabled; }
-            set { this.TileSetPalette.Enabled = value; }
+            get { return this.tileSetPalette.Enabled; }
+            set { this.tileSetPalette.Enabled = value; }
         }
 
         public bool IsUndoButtonEnabled
@@ -250,9 +250,19 @@ namespace Shrimp.Views
             get { return this.mapEditor; }
         }
 
+        public IMapTreeView MapTreeView
+        {
+            get { return this.mapTreeView; }
+        }
+
         public OpenFileDialog OpenFileDialog
         {
             get { return this.openFileDialog; }
+        }
+
+        public ITileSetPalette TileSetPalette
+        {
+            get { return this.tileSetPalette; }
         }
 
         public int TileSetSelectorSelectedIndex
@@ -285,15 +295,15 @@ namespace Shrimp.Views
 
             this.ToolStrip.Renderer = new CustomToolStripSystemRenderer();
             this.TileSetPaletteToolStrip.Renderer = new CustomToolStripSystemRenderer();
-            this.TileSetPalette.Size = new Size
+            this.tileSetPalette.Size = new Size
             {
                 Width = Util.PaletteGridSize * Util.PaletteHorizontalCount
                     + SystemInformation.VerticalScrollBarWidth,
-                Height = this.TileSetPalette.Parent.ClientSize.Height
+                Height = this.tileSetPalette.Parent.ClientSize.Height
                     - this.TileSetPaletteToolStrip.Height,
             };
             this.MainSplitContainer.SplitterDistance -=
-                this.TileSetPalette.Parent.ClientSize.Width - this.TileSetPalette.Width;
+                this.tileSetPalette.Parent.ClientSize.Width - this.tileSetPalette.Width;
 
             this.Layer1ToolStripButton.Tag = LayerMode.Layer1;
             this.Layer2ToolStripButton.Tag = LayerMode.Layer2;
@@ -330,9 +340,9 @@ namespace Shrimp.Views
                 };
             }
 
-            this.MapTreeView.ViewModel = viewModel;
+            this.mapTreeView.ViewModel = viewModel;
             this.mapEditor.ViewModel = viewModel;
-            this.TileSetPalette.ViewModel = viewModel;
+            this.tileSetPalette.ViewModel = viewModel;
         }
 
         private MapEditor mapEditor;

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Shrimp.IViews
 {
-    interface IMapTreeView
+    public interface IMapTreeView
     {
     }
 }

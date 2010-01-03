@@ -10,11 +10,12 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using Shrimp.IViews;
 using Shrimp.Models;
 
 namespace Shrimp.Views
 {
-    partial class TileSetPalette : UserControl
+    partial class TileSetPalette : UserControl, ITileSetPalette
     {
         private enum AutoScrollingState { Up, Down, }
 
