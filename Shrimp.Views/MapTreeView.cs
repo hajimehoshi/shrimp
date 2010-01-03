@@ -40,6 +40,11 @@ namespace Shrimp.Views
             }
         }
 
+        public bool HasSelectedNode
+        {
+            get { return this.SelectedNode != null; }
+        }
+
         public MapTreeView(ViewModel viewModel)
             : base()
         {
@@ -77,7 +82,7 @@ namespace Shrimp.Views
             };
             this.EditToolStripMenuItem.Click += delegate
             {
-                if (this.SelectedNode != null)
+                if (this.HasSelectedNode)
                 {
                     int id = (int)this.SelectedNode.Tag;
                     string name = this.MapCollection.GetName(id);
@@ -95,7 +100,7 @@ namespace Shrimp.Views
             };
             this.InsertToolStripMenuItem.Click += delegate
             {
-                if (this.SelectedNode != null)
+                if (this.HasSelectedNode)
                 {
                     int selectedNodeId = (int)this.SelectedNode.Tag;
                     Debug.Assert(this.MapCollection.GetRoot(selectedNodeId) ==
@@ -116,7 +121,7 @@ namespace Shrimp.Views
             };
             this.DeleteToolStripMenuItem.Click += delegate
             {
-                if (this.SelectedNode != null)
+                if (this.HasSelectedNode)
                 {
                     int selectedNodeId = (int)this.SelectedNode.Tag;
                     int rootId = this.MapCollection.GetRoot(selectedNodeId);
