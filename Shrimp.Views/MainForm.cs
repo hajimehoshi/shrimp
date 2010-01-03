@@ -290,7 +290,7 @@ namespace Shrimp.Views
 
             this.SuspendLayout();
 
-            this.mapTreeView = new MapTreeView(viewModel);
+            this.mapTreeView = new MapTreeView();
             this.LeftSplitContainer.Panel2.Controls.Add(this.mapTreeView);
             this.mapTreeView.BorderStyle = BorderStyle.None;
             this.mapTreeView.Dock = DockStyle.Fill;

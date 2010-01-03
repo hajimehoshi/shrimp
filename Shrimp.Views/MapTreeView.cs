@@ -40,6 +40,15 @@ namespace Shrimp.Views
             }
         }
 
+        public event EventHandler ContextMenuOpening;
+        protected virtual void OnContextMenuOpening(EventArgs e)
+        {
+            if (this.ContextMenuOpening != null)
+            {
+                this.ContextMenuOpening(this, e);
+            }
+        }
+
         public event EventHandler DeleteMenuItemClick;
         protected virtual void OnDeleteMenuItemClick(EventArgs e)
         {
@@ -109,6 +118,12 @@ namespace Shrimp.Views
             get { return this.SelectedNode != null; }
         }
 
+        public bool IsContextMenuEnabled
+        {
+            get { return this.contextMenuStrip.Enabled; }
+            set { this.contextMenuStrip.Enabled = value; }
+        }
+
         public void RemoveNode(int id)
         {
             this.GetTreeNode(id).Remove();
@@ -128,6 +143,13 @@ namespace Shrimp.Views
             }
         }
 
+        public void SetContextMenuItemsEnabled(bool edit, bool insert, bool delete)
+        {
+            this.EditToolStripMenuItem.Enabled = edit;
+            this.InsertToolStripMenuItem.Enabled = insert;
+            this.DeleteToolStripMenuItem.Enabled = delete;
+        }
+
         public void SetNodeImageKey(int id, string imageKey)
         {
             this.GetTreeNode(id).ImageKey = imageKey;
@@ -144,7 +166,7 @@ namespace Shrimp.Views
             return this.AllNodes.First(n => (int)n.Tag == id);
         }
 
-        public MapTreeView(ViewModel viewModel)
+        public MapTreeView()
             : base()
         {
             this.InitializeComponent();
@@ -162,22 +184,7 @@ namespace Shrimp.Views
                 {
                     this.SelectedNode = treeNode;
                 }
-                if (this.SelectedNode != null)
-                {
-                    this.contextMenuStrip.Enabled = true;
-                    int id = (int)this.SelectedNode.Tag;
-                    int rootId = this.MapCollection.GetRoot(id);
-                    this.EditToolStripMenuItem.Enabled =
-                        !this.MapCollection.Roots.Contains(id);
-                    this.InsertToolStripMenuItem.Enabled =
-                        (rootId == this.MapCollection.ProjectNodeId);
-                    this.DeleteToolStripMenuItem.Enabled =
-                        !this.MapCollection.Roots.Contains(id);
-                }
-                else
-                {
-                    this.contextMenuStrip.Enabled = false;
-                }
+                this.OnContextMenuOpening(EventArgs.Empty);
             };
             this.EditToolStripMenuItem.Click += delegate
             {
@@ -191,10 +198,7 @@ namespace Shrimp.Views
             {
                 this.OnDeleteMenuItemClick(EventArgs.Empty);
             };
-            this.ViewModel = viewModel;
         }
-
-        private ViewModel ViewModel;
 
         private IEnumerable<TreeNode> AllNodes
         {
@@ -218,21 +222,6 @@ namespace Shrimp.Views
         private ToolStripMenuItem DeleteToolStripMenuItem;
         private ToolStripMenuItem EditToolStripMenuItem;
         private ToolStripSeparator toolStripSeparator1;
-
-        private MapCollection MapCollection
-        {
-            get
-            {
-                if (this.ViewModel != null)
-                {
-                    return this.ViewModel.MapCollection;
-                }
-                else
-                {
-                    return null;
-                }
-            }
-        }
 
         protected override void OnAfterExpand(TreeViewEventArgs e)
         {

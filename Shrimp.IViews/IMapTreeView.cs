@@ -11,6 +11,7 @@ namespace Shrimp.IViews
         event EventHandler<MapTreeViewEventArgs> AfterMapNodeExpand;
         event EventHandler<MapTreeViewEventArgs> AfterMapNodeCollapse;
         event EventHandler<MapTreeViewEventArgs> AfterMapNodeSelect;
+        event EventHandler ContextMenuOpening;
         event EventHandler DeleteMenuItemClick;
         event EventHandler EditMenuItemClick;
         event EventHandler InsertMenuItemClick;
@@ -22,8 +23,10 @@ namespace Shrimp.IViews
         IMapDialog CreateMapDialog(int id, string name, Map map);
         void ExpandNode(int id);
         bool HasSelectedNode { get; }
+        bool IsContextMenuEnabled { get; set; }
         void RemoveNode(int id);
         int SelectedNodeId { get; set; }
+        void SetContextMenuItemsEnabled(bool edit, bool insert, bool delete);
         void SetNodeImageKey(int id, string imageKey);
         void SetNodeText(int id, string text);
     }
