@@ -12,10 +12,16 @@ namespace Shrimp.IViews
         event EventHandler EditMenuItemClick;
         event EventHandler InsertMenuItemClick;
 
+        void AddNode(int parentId, int id, string text);
+        void AddNodeToRoot(int id, string text);
         void ClearNodes();
+        bool ContainsNode(int id);
         IMapDialog CreateMapDialog(int id, string name, Map map);
+        void ExpandNode(int id);
         bool HasSelectedNode { get; }
-        int SelectedNodeId { get; }
+        void RemoveNode(int id);
+        int SelectedNodeId { get; set; }
+        void SetNodeImageKey(int id, string imageKey);
         void SetNodeText(int id, string text);
     }
 }

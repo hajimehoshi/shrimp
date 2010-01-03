@@ -40,9 +40,30 @@ namespace Shrimp.Views
             }
         }
 
+        public void AddNode(int parentId, int id, string text)
+        {
+            TreeNode node = new TreeNode(text);
+            node.ImageKey = "Document";
+            node.Tag = id;
+            this.GetTreeNode(parentId).Nodes.Add(node);
+        }
+
+        public void AddNodeToRoot(int id, string text)
+        {
+            TreeNode node = new TreeNode(text);
+            node.ImageKey = "Document";
+            node.Tag = id;
+            this.Nodes.Add(node);
+        }
+
         public void ClearNodes()
         {
             this.Nodes.Clear();
+        }
+
+        public bool ContainsNode(int id)
+        {
+            return this.AllNodes.Any(n => (int)n.Tag == id);
         }
 
         public IMapDialog CreateMapDialog(int id, string name, Map map)
@@ -50,9 +71,19 @@ namespace Shrimp.Views
             return new MapDialog(id, name, map);
         }
 
+        public void ExpandNode(int id)
+        {
+            this.GetTreeNode(id).Expand();
+        }
+
         public bool HasSelectedNode
         {
             get { return this.SelectedNode != null; }
+        }
+
+        public void RemoveNode(int id)
+        {
+            this.GetTreeNode(id).Remove();
         }
 
         public int SelectedNodeId
@@ -62,14 +93,24 @@ namespace Shrimp.Views
                 Debug.Assert(this.SelectedNode != null);
                 return (int)this.SelectedNode.Tag;
             }
+            set
+            {
+                Debug.Assert(this.ContainsNode(value));
+                this.SelectedNode = this.GetTreeNode(value);
+            }
+        }
+
+        public void SetNodeImageKey(int id, string imageKey)
+        {
+            this.GetTreeNode(id).ImageKey = imageKey;
         }
 
         public void SetNodeText(int id, string text)
         {
-            this.GetNode(id).Text = text;
+            this.GetTreeNode(id).Text = text;
         }
 
-        private TreeNode GetNode(int id)
+        private TreeNode GetTreeNode(int id)
         {
             return this.AllNodes.First(n => (int)n.Tag == id);
         }
@@ -122,11 +163,6 @@ namespace Shrimp.Views
                 this.OnDeleteMenuItemClick(EventArgs.Empty);
             };
             this.ViewModel = viewModel;
-            this.ViewModel.IsOpenedChanged += this.ViewModel_IsOpenedChanged;
-            this.ViewModel.MapCollection.NodeAdded += this.Tree_NodeAdded;
-            this.ViewModel.MapCollection.NodeRemoved += this.Tree_NodeRemoved;
-            this.ViewModel.MapCollection.NodeMoved += this.Tree_NodeMoved;
-            this.Initialize();
         }
 
         private ViewModel ViewModel;
@@ -181,99 +217,6 @@ namespace Shrimp.Views
                 {
                     return null;
                 }
-            }
-        }
-
-        private void ViewModel_IsOpenedChanged(object sender, EventArgs e)
-        {
-            this.Initialize();
-        }
-
-        private void Initialize()
-        {
-            this.ClearNodes();
-            if (this.MapCollection != null)
-            {
-                foreach (int id in this.MapCollection.Roots)
-                {
-                    this.AddTreeNode(this.Nodes, id);
-                }
-            }
-            this.GetNode(this.MapCollection.ProjectNodeId).ImageKey = "Home";
-            this.GetNode(this.MapCollection.TrashNodeId).ImageKey = "Bin";
-            int selectedId = this.EditorState.MapId;
-            TreeNode selectedNode = this.AllNodes.FirstOrDefault(n => (int)n.Tag == selectedId);
-            if (selectedNode != null)
-            {
-                this.SelectedNode = selectedNode;
-            }
-        }
-
-        private void AddTreeNode(TreeNodeCollection parentNodes, int id)
-        {
-            TreeNode node = new TreeNode(this.MapCollection.GetName(id));
-            node.ImageKey = "Document";
-            node.Tag = id;
-            Map map;
-            if (this.MapCollection.TryGetMap(id, out map))
-            {
-                map.Updated += Map_Updated;
-            }
-            parentNodes.Add(node);
-            foreach (int childId in this.MapCollection.GetChildren(id))
-            {
-                this.AddTreeNode(node.Nodes, childId);
-            }
-            if (this.MapCollection.IsExpanded(id))
-            {
-                node.Expand();
-            }
-        }
-
-        private void Tree_NodeAdded(object sender, NodeEventArgs e)
-        {
-            int id = e.NodeId;
-            TreeNode node = new TreeNode(this.MapCollection.GetName(id));
-            node.ImageKey = "Document";
-            node.Tag = id;
-            Map map;
-            if (this.MapCollection.TryGetMap(id, out map))
-            {
-                map.Updated += Map_Updated;
-            }
-            int parentId = this.MapCollection.GetParent(id);
-            TreeNode parentNode = this.GetNode(parentId);
-            parentNode.Nodes.Add(node);
-            parentNode.Expand();
-            this.SelectedNode = node;
-        }
-
-        private void Tree_NodeRemoved(object sender, NodeEventArgs e)
-        {
-            int id = e.NodeId;
-            Map map = this.MapCollection.GetMap(id);
-            map.Updated -= Map_Updated;
-            this.GetNode(id).Remove();
-        }
-
-        private void Tree_NodeMoved(object sender, NodeEventArgs e)
-        {
-            int id = e.NodeId;
-            TreeNode node = this.GetNode(id);
-            int newParentId = this.MapCollection.GetParent(id);
-            TreeNode newParentNode = this.GetNode(newParentId);
-            node.Remove();
-            newParentNode.Nodes.Add(node);
-            newParentNode.Expand();
-        }
-
-        private void Map_Updated(object sender, UpdatedEventArgs e)
-        {
-            Map map = (Map)sender;
-            if (e.Property == map.GetProperty(_ => _.Name))
-            {
-                int id = map.Id;
-                this.SetNodeText(id, map.Name);
             }
         }
 

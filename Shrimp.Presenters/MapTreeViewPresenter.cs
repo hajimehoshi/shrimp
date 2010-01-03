@@ -81,6 +81,92 @@ namespace Shrimp.Presenters
                     }
                 }
             };
+
+            this.ViewModel.IsOpenedChanged += delegate
+            {
+                this.Initialize();
+            };
+            this.ViewModel.MapCollection.NodeAdded += (sender, e) =>
+            {
+                int id = e.NodeId;
+                int parentId = this.ViewModel.MapCollection.GetParent(id);
+                this.MapTreeView.AddNode(parentId, id, this.ViewModel.MapCollection.GetName(id));
+                Map map;
+                if (this.ViewModel.MapCollection.TryGetMap(id, out map))
+                {
+                    map.Updated += Map_Updated;
+                }
+                this.MapTreeView.ExpandNode(parentId);
+                this.MapTreeView.SelectedNodeId = id;
+            };
+            this.ViewModel.MapCollection.NodeRemoved += (sender, e) =>
+            {
+                int id = e.NodeId;
+                Map map = this.ViewModel.MapCollection.GetMap(id);
+                map.Updated -= Map_Updated;
+                this.MapTreeView.RemoveNode(id);
+            };
+            this.ViewModel.MapCollection.NodeMoved += (sender, e) =>
+            {
+                int id = e.NodeId;
+                int newParentId = this.ViewModel.MapCollection.GetParent(id);
+                this.MapTreeView.RemoveNode(id);
+                this.MapTreeView.AddNode(newParentId, id, this.ViewModel.MapCollection.GetName(id));
+                this.MapTreeView.ExpandNode(newParentId);
+            };
+
+            this.Initialize();
+        }
+
+        private void Initialize()
+        {
+            this.MapTreeView.ClearNodes();
+            if (this.ViewModel.MapCollection != null)
+            {
+                foreach (int id in this.ViewModel.MapCollection.Roots)
+                {
+                    this.MapTreeView.AddNodeToRoot(id, this.ViewModel.MapCollection.GetName(id));
+                    foreach (int childId in this.ViewModel.MapCollection.GetChildren(id))
+                    {
+                        this.AddNodeRecursively(id, childId);
+                    }
+                }
+            }
+            this.MapTreeView.SetNodeImageKey(this.ViewModel.MapCollection.ProjectNodeId, "Home");
+            this.MapTreeView.SetNodeImageKey(this.ViewModel.MapCollection.TrashNodeId, "Bin");
+            int selectedId = this.ViewModel.EditorState.MapId;
+            if (this.MapTreeView.ContainsNode(selectedId))
+            {
+                this.MapTreeView.SelectedNodeId = selectedId;
+            }
+        }
+
+        private void AddNodeRecursively(int parentId, int id)
+        {
+            this.MapTreeView.AddNode(parentId, id, this.ViewModel.MapCollection.GetName(id));
+            Map map;
+            if (this.ViewModel.MapCollection.TryGetMap(id, out map))
+            {
+                map.Updated += this.Map_Updated;
+            }
+            foreach (int childId in this.ViewModel.MapCollection.GetChildren(id))
+            {
+                this.AddNodeRecursively(id, childId);
+            }
+            if (this.ViewModel.MapCollection.IsExpanded(id))
+            {
+                this.MapTreeView.ExpandNode(id);
+            }
+        }
+
+        private void Map_Updated(object sender, UpdatedEventArgs e)
+        {
+            Map map = (Map)sender;
+            if (e.Property == map.GetProperty(_ => _.Name))
+            {
+                int id = map.Id;
+                this.MapTreeView.SetNodeText(id, map.Name);
+            }
         }
 
         private IMapTreeView MapTreeView;
