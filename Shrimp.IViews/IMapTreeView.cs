@@ -7,5 +7,8 @@ namespace Shrimp.IViews
 {
     public interface IMapTreeView
     {
+        event EventHandler DeleteMenuItemClicked;
+        event EventHandler EditMenuItemClicked;
+        event EventHandler InsertMenuItemClicked;
     }
 }

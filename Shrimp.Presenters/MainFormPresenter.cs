@@ -75,12 +75,11 @@ namespace Shrimp.Presenters
             this.IsOpenedChanged();
             this.MapEditorPresenter = new MapEditorPresenter(this.MainForm.MapEditor, this.ViewModel);
         }
+        private MapEditorPresenter MapEditorPresenter;
 
         private IMainForm MainForm;
 
         private ViewModel ViewModel;
-
-        private MapEditorPresenter MapEditorPresenter;
 
         private void MainForm_CloseButtonClicked(object sender, EventArgs e)
         {

@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="MainFormPresenter.cs" />
     <Compile Include="MapEditorPresenter.cs" />
+    <Compile Include="MapTreeViewPresenter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
