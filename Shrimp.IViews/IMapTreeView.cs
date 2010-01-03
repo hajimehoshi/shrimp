@@ -12,5 +12,6 @@ namespace Shrimp.IViews
         event EventHandler InsertMenuItemClicked;
 
         bool HasSelectedNode { get; }
+        int SelectedNodeId { get; }
     }
 }
