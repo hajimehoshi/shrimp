@@ -21,55 +21,55 @@ namespace Shrimp.Views
             Application.SetCompatibleTextRenderingDefault(false);
         }
 
-        public event EventHandler CloseButtonClicked;
-        protected virtual void OnCloseButtonClicked(EventArgs e)
+        public event EventHandler CloseButtonClick;
+        protected virtual void OnCloseButtonClick(EventArgs e)
         {
-            if (this.CloseButtonClicked != null)
+            if (this.CloseButtonClick != null)
             {
-                this.CloseButtonClicked(this, e);
+                this.CloseButtonClick(this, e);
             }
         }
 
-        public event EventHandler<DrawingModeSwitcherClickedEventArgs> DrawingModeSwitcherClicked;
-        protected virtual void OnDrawingModeSwitcherClicked(DrawingModeSwitcherClickedEventArgs e)
+        public event EventHandler<DrawingModeSwitcherClickEventArgs> DrawingModeSwitcherClick;
+        protected virtual void OnDrawingModeSwitcherClick(DrawingModeSwitcherClickEventArgs e)
         {
-            if (this.DrawingModeSwitcherClicked != null)
+            if (this.DrawingModeSwitcherClick != null)
             {
-                this.DrawingModeSwitcherClicked(this, e);
+                this.DrawingModeSwitcherClick(this, e);
             }
         }
 
-        public event EventHandler<LayerModeSwitcherClickedEventArgs> LayerModeSwitcherClicked;
-        protected virtual void OnLayerModeSwitcherClicked(LayerModeSwitcherClickedEventArgs e)
+        public event EventHandler<LayerModeSwitcherClickEventArgs> LayerModeSwitcherClick;
+        protected virtual void OnLayerModeSwitcherClick(LayerModeSwitcherClickEventArgs e)
         {
-            if (this.LayerModeSwitcherClicked != null)
+            if (this.LayerModeSwitcherClick != null)
             {
-                this.LayerModeSwitcherClicked(this, e);
+                this.LayerModeSwitcherClick(this, e);
             }
         }
 
-        public event EventHandler NewButtonClicked;
-        protected virtual void OnNewButtonClicked(EventArgs e)
+        public event EventHandler NewButtonClick;
+        protected virtual void OnNewButtonClick(EventArgs e)
         {
-            if (this.NewButtonClicked != null)
+            if (this.NewButtonClick != null)
             {
-                this.NewButtonClicked(this, e);
+                this.NewButtonClick(this, e);
             }
         }
 
-        public event EventHandler OpenButtonClicked;
-        protected virtual void OnOpenButtonClicked(EventArgs e)
+        public event EventHandler OpenButtonClick;
+        protected virtual void OnOpenButtonClick(EventArgs e)
         {
-            if (this.OpenButtonClicked != null)
+            if (this.OpenButtonClick != null)
             {
-                this.OpenButtonClicked(this, e);
+                this.OpenButtonClick(this, e);
             }
         }
 
-        public event EventHandler PassageButtonClicked;
-        protected virtual void OnPassageButtonClicked(EventArgs e)
+        public event EventHandler PassageButtonClick;
+        protected virtual void OnPassageButtonClick(EventArgs e)
         {
-            if (this.PassageButtonClicked != null) { this.PassageButtonClicked(this, e); }
+            if (this.PassageButtonClick != null) { this.PassageButtonClick(this, e); }
         }
 
         public event EventHandler<QuittingEventArgs> Quitting;
@@ -81,21 +81,21 @@ namespace Shrimp.Views
             }
         }
 
-        public event EventHandler SaveButtonClicked;
-        protected virtual void OnSaveButtonClicked(EventArgs e)
+        public event EventHandler SaveButtonClick;
+        protected virtual void OnSaveButtonClick(EventArgs e)
         {
-            if (this.SaveButtonClicked != null)
+            if (this.SaveButtonClick != null)
             {
-                this.SaveButtonClicked(this, e);
+                this.SaveButtonClick(this, e);
             }
         }
 
-        public event EventHandler<ScaleModeSwitcherClickedEventArgs> ScaleModeSwitcherClicked;
-        protected virtual void OnScaleModeSwitcherClicked(ScaleModeSwitcherClickedEventArgs e)
+        public event EventHandler<ScaleModeSwitcherClickEventArgs> ScaleModeSwitcherClick;
+        protected virtual void OnScaleModeSwitcherClick(ScaleModeSwitcherClickEventArgs e)
         {
-            if (this.ScaleModeSwitcherClicked != null)
+            if (this.ScaleModeSwitcherClick != null)
             {
-                this.ScaleModeSwitcherClicked(this, e);
+                this.ScaleModeSwitcherClick(this, e);
             }
         }
 
@@ -117,12 +117,12 @@ namespace Shrimp.Views
             }
         }
         
-        public event EventHandler UndoButtonClicked;
-        protected virtual void OnUndoButtonClicked(EventArgs e)
+        public event EventHandler UndoButtonClick;
+        protected virtual void OnUndoButtonClick(EventArgs e)
         {
-            if (this.UndoButtonClicked != null)
+            if (this.UndoButtonClick != null)
             {
-                this.UndoButtonClicked(this, e);
+                this.UndoButtonClick(this, e);
             }
         }
 
@@ -332,7 +332,7 @@ namespace Shrimp.Views
                 item.Click += (sender, e) =>
                 {
                     LayerMode layerMode = (LayerMode)((ToolStripButton)sender).Tag;
-                    this.OnLayerModeSwitcherClicked(new LayerModeSwitcherClickedEventArgs(layerMode));
+                    this.OnLayerModeSwitcherClick(new LayerModeSwitcherClickEventArgs(layerMode));
                 };
             }
 
@@ -342,7 +342,7 @@ namespace Shrimp.Views
                 item.Click += (sender, e) =>
                 {
                     DrawingMode drawingMode = (DrawingMode)((ToolStripButton)sender).Tag;
-                    this.OnDrawingModeSwitcherClicked(new DrawingModeSwitcherClickedEventArgs(drawingMode));
+                    this.OnDrawingModeSwitcherClick(new DrawingModeSwitcherClickEventArgs(drawingMode));
                 };
             }
 
@@ -355,7 +355,7 @@ namespace Shrimp.Views
                 item.Click += (sender, e) =>
                 {
                     ScaleMode scaleMode = (ScaleMode)((ToolStripButton)sender).Tag;
-                    this.OnScaleModeSwitcherClicked(new ScaleModeSwitcherClickedEventArgs(scaleMode));
+                    this.OnScaleModeSwitcherClick(new ScaleModeSwitcherClickEventArgs(scaleMode));
                 };
             }
         }
@@ -394,32 +394,32 @@ namespace Shrimp.Views
 
         private void NewToolStripButton_Click(object sender, EventArgs e)
         {
-            this.OnNewButtonClicked(EventArgs.Empty);
+            this.OnNewButtonClick(EventArgs.Empty);
         }
 
         private void OpenToolStripButton_Click(object sender, EventArgs e)
         {
-            this.OnOpenButtonClicked(EventArgs.Empty);
+            this.OnOpenButtonClick(EventArgs.Empty);
         }
 
         private void CloseToolStripButton_Click(object sender, EventArgs e)
         {
-            this.OnCloseButtonClicked(EventArgs.Empty);
+            this.OnCloseButtonClick(EventArgs.Empty);
         }
 
         private void SaveToolStripButton_Click(object sender, EventArgs e)
         {
-            this.OnSaveButtonClicked(EventArgs.Empty);
+            this.OnSaveButtonClick(EventArgs.Empty);
         }
 
         private void UndoToolStripButton_Click(object sender, EventArgs e)
         {
-            this.OnUndoButtonClicked(EventArgs.Empty);
+            this.OnUndoButtonClick(EventArgs.Empty);
         }
 
         private void PassageToolStripButton_Click(object sender, EventArgs e)
         {
-            this.OnPassageButtonClicked(EventArgs.Empty);
+            this.OnPassageButtonClick(EventArgs.Empty);
         }
 
         private void TileSetsToolStripComboBox_SelectedIndexChanged(object sender, EventArgs e)

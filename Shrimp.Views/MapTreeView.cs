@@ -13,30 +13,30 @@ namespace Shrimp.Views
 {
     internal class MapTreeView : TreeView, IMapTreeView
     {
-        public event EventHandler DeleteMenuItemClicked;
-        protected virtual void OnDeleteMenuItemClicked(EventArgs e)
+        public event EventHandler DeleteMenuItemClick;
+        protected virtual void OnDeleteMenuItemClick(EventArgs e)
         {
-            if (this.DeleteMenuItemClicked != null)
+            if (this.DeleteMenuItemClick != null)
             {
-                this.DeleteMenuItemClicked(this, e);
+                this.DeleteMenuItemClick(this, e);
             }
         }
 
-        public event EventHandler EditMenuItemClicked;
-        protected virtual void OnEditMenuItemClicked(EventArgs e)
+        public event EventHandler EditMenuItemClick;
+        protected virtual void OnEditMenuItemClick(EventArgs e)
         {
-            if (this.EditMenuItemClicked != null)
+            if (this.EditMenuItemClick != null)
             {
-                this.EditMenuItemClicked(this, e);
+                this.EditMenuItemClick(this, e);
             }
         }
 
-        public event EventHandler InsertMenuItemClicked;
-        protected virtual void OnInsertMenuItemClicked(EventArgs e)
+        public event EventHandler InsertMenuItemClick;
+        protected virtual void OnInsertMenuItemClick(EventArgs e)
         {
-            if (this.InsertMenuItemClicked != null)
+            if (this.InsertMenuItemClick != null)
             {
-                this.InsertMenuItemClicked(this, e);
+                this.InsertMenuItemClick(this, e);
             }
         }
 

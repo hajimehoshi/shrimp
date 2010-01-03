@@ -8,9 +8,9 @@ namespace Shrimp.IViews
 {
     public interface IMapTreeView
     {
-        event EventHandler DeleteMenuItemClicked;
-        event EventHandler EditMenuItemClicked;
-        event EventHandler InsertMenuItemClicked;
+        event EventHandler DeleteMenuItemClick;
+        event EventHandler EditMenuItemClick;
+        event EventHandler InsertMenuItemClick;
 
         IMapDialog CreateMapDialog(int id, string name, Map map);
         bool HasSelectedNode { get; }
