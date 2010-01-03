@@ -64,6 +64,16 @@ namespace Shrimp.Views
             }
         }
 
+        public void SetNodeText(int id, string text)
+        {
+            this.GetNode(id).Text = text;
+        }
+
+        private TreeNode GetNode(int id)
+        {
+            return this.AllNodes.First(n => (int)n.Tag == id);
+        }
+
         public MapTreeView(ViewModel viewModel)
             : base()
         {
@@ -189,8 +199,8 @@ namespace Shrimp.Views
                     this.AddTreeNode(this.Nodes, id);
                 }
             }
-            this.AllNodes.First(n => (int)n.Tag == this.MapCollection.ProjectNodeId).ImageKey = "Home";
-            this.AllNodes.First(n => (int)n.Tag == this.MapCollection.TrashNodeId).ImageKey = "Bin";
+            this.GetNode(this.MapCollection.ProjectNodeId).ImageKey = "Home";
+            this.GetNode(this.MapCollection.TrashNodeId).ImageKey = "Bin";
             int selectedId = this.EditorState.MapId;
             TreeNode selectedNode = this.AllNodes.FirstOrDefault(n => (int)n.Tag == selectedId);
             if (selectedNode != null)
@@ -232,7 +242,7 @@ namespace Shrimp.Views
                 map.Updated += Map_Updated;
             }
             int parentId = this.MapCollection.GetParent(id);
-            TreeNode parentNode = this.AllNodes.First(n => (int)n.Tag == parentId);
+            TreeNode parentNode = this.GetNode(parentId);
             parentNode.Nodes.Add(node);
             parentNode.Expand();
             this.SelectedNode = node;
@@ -243,15 +253,15 @@ namespace Shrimp.Views
             int id = e.NodeId;
             Map map = this.MapCollection.GetMap(id);
             map.Updated -= Map_Updated;
-            this.AllNodes.First(n => (int)n.Tag == id).Remove();
+            this.GetNode(id).Remove();
         }
 
         private void Tree_NodeMoved(object sender, NodeEventArgs e)
         {
             int id = e.NodeId;
-            TreeNode node = this.AllNodes.First(n => (int)n.Tag == id);
+            TreeNode node = this.GetNode(id);
             int newParentId = this.MapCollection.GetParent(id);
-            TreeNode newParentNode = this.AllNodes.First(n => (int)n.Tag == newParentId);
+            TreeNode newParentNode = this.GetNode(newParentId);
             node.Remove();
             newParentNode.Nodes.Add(node);
             newParentNode.Expand();
@@ -263,8 +273,7 @@ namespace Shrimp.Views
             if (e.Property == map.GetProperty(_ => _.Name))
             {
                 int id = map.Id;
-                TreeNode node = this.AllNodes.First(n => (int)n.Tag == id);
-                node.Text = map.Name;
+                this.SetNodeText(id, map.Name);
             }
         }
 

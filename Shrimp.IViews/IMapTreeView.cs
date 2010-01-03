@@ -16,5 +16,6 @@ namespace Shrimp.IViews
         IMapDialog CreateMapDialog(int id, string name, Map map);
         bool HasSelectedNode { get; }
         int SelectedNodeId { get; }
+        void SetNodeText(int id, string text);
     }
 }
