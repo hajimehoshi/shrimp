@@ -124,6 +124,24 @@ namespace Shrimp.Views
             set { this.contextMenuStrip.Enabled = value; }
         }
 
+        public bool IsDeleteMenuItemEnabled
+        {
+            get { return this.DeleteToolStripMenuItem.Enabled; }
+            set { this.DeleteToolStripMenuItem.Enabled = value; }
+        }
+
+        public bool IsEditMenuItemEnabled
+        {
+            get { return this.EditToolStripMenuItem.Enabled; }
+            set { this.EditToolStripMenuItem.Enabled = value; }
+        }
+
+        public bool IsInsertMenuItemEnabled
+        {
+            get { return this.InsertToolStripMenuItem.Enabled; }
+            set { this.InsertToolStripMenuItem.Enabled = value; }
+        }
+
         public void RemoveNode(int id)
         {
             this.GetTreeNode(id).Remove();
@@ -141,13 +159,6 @@ namespace Shrimp.Views
                 Debug.Assert(this.ContainsNode(value));
                 this.SelectedNode = this.GetTreeNode(value);
             }
-        }
-
-        public void SetContextMenuItemsEnabled(bool edit, bool insert, bool delete)
-        {
-            this.EditToolStripMenuItem.Enabled = edit;
-            this.InsertToolStripMenuItem.Enabled = insert;
-            this.DeleteToolStripMenuItem.Enabled = delete;
         }
 
         public void SetNodeImageKey(int id, string imageKey)

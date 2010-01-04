@@ -36,10 +36,9 @@ namespace Shrimp.Presenters
                     this.MapTreeView.IsContextMenuEnabled = true;
                     int id = this.MapTreeView.SelectedNodeId;
                     int rootId = this.ViewModel.MapCollection.GetRoot(id);
-                    this.MapTreeView.SetContextMenuItemsEnabled(
-                        !this.ViewModel.MapCollection.Roots.Contains(id),
-                        (rootId == this.ViewModel.MapCollection.ProjectNodeId),
-                        !this.ViewModel.MapCollection.Roots.Contains(id));
+                    this.MapTreeView.IsEditMenuItemEnabled = !this.ViewModel.MapCollection.Roots.Contains(id);
+                    this.MapTreeView.IsInsertMenuItemEnabled = (rootId == this.ViewModel.MapCollection.ProjectNodeId);
+                    this.MapTreeView.IsDeleteMenuItemEnabled = !this.ViewModel.MapCollection.Roots.Contains(id);
                 }
                 else
                 {

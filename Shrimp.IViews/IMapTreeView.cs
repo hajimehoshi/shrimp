@@ -24,9 +24,11 @@ namespace Shrimp.IViews
         void ExpandNode(int id);
         bool HasSelectedNode { get; }
         bool IsContextMenuEnabled { get; set; }
+        bool IsDeleteMenuItemEnabled { get; set; }
+        bool IsEditMenuItemEnabled { get; set; }
+        bool IsInsertMenuItemEnabled { get; set; }
         void RemoveNode(int id);
         int SelectedNodeId { get; set; }
-        void SetContextMenuItemsEnabled(bool edit, bool insert, bool delete);
         void SetNodeImageKey(int id, string imageKey);
         void SetNodeText(int id, string text);
     }
