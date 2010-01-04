@@ -295,6 +295,7 @@ namespace Shrimp.Presenters
         {
             this.AdjustTileSetsToolStripComboBox();
             this.MainForm.IsTileSetSelectorEnabled = (this.ViewModel.EditorState.Map != null);
+            this.MainForm.IsPassageButtonEnabled = (this.ViewModel.EditorState.Map != null);
         }
 
         private void SelectedTileSetIdsChanged()
