@@ -82,6 +82,7 @@ namespace Shrimp.Views
             node.ImageKey = "Document";
             node.Tag = id;
             this.GetTreeNode(parentId).Nodes.Add(node);
+            this.IdToTreeNode.Add(id, node);
         }
 
         public void AddNodeToRoot(int id, string text)
@@ -90,17 +91,18 @@ namespace Shrimp.Views
             node.ImageKey = "Document";
             node.Tag = id;
             this.Nodes.Add(node);
+            this.IdToTreeNode.Add(id, node);
         }
 
         public void ClearNodes()
         {
+            this.IdToTreeNode.Clear();
             this.Nodes.Clear();
         }
 
         public bool ContainsNode(int id)
         {
-            // TODO: Tune up later
-            return this.AllNodes.Any(n => (int)n.Tag == id);
+            return this.IdToTreeNode.ContainsKey(id);
         }
 
         public IMapDialog CreateMapDialog(int id, string name, Map map)
@@ -144,6 +146,7 @@ namespace Shrimp.Views
 
         public void RemoveNode(int id)
         {
+            this.IdToTreeNode.Remove(id);
             this.GetTreeNode(id).Remove();
         }
 
@@ -173,8 +176,7 @@ namespace Shrimp.Views
 
         private TreeNode GetTreeNode(int id)
         {
-            // TODO: Tune up later
-            return this.AllNodes.First(n => (int)n.Tag == id);
+            return this.IdToTreeNode[id];
         }
 
         public MapTreeView()
@@ -233,6 +235,7 @@ namespace Shrimp.Views
         private ToolStripMenuItem DeleteToolStripMenuItem;
         private ToolStripMenuItem EditToolStripMenuItem;
         private ToolStripSeparator toolStripSeparator1;
+        private Dictionary<int, TreeNode> IdToTreeNode = new Dictionary<int, TreeNode>();
 
         protected override void OnAfterExpand(TreeViewEventArgs e)
         {
