@@ -323,35 +323,33 @@ namespace Shrimp.Views
             this.InsertToolStripMenuItem,
             this.DeleteToolStripMenuItem});
             this.contextMenuStrip.Name = "contextMenuStrip";
-            this.contextMenuStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.contextMenuStrip.ShowImageMargin = false;
-            this.contextMenuStrip.Size = new System.Drawing.Size(101, 76);
+            this.contextMenuStrip.Size = new System.Drawing.Size(142, 76);
             // 
             // EditToolStripMenuItem
             // 
             this.EditToolStripMenuItem.Name = "EditToolStripMenuItem";
             this.EditToolStripMenuItem.ShortcutKeyDisplayString = "";
-            this.EditToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
+            this.EditToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
             this.EditToolStripMenuItem.Text = "Edit";
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(97, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(138, 6);
             // 
             // InsertToolStripMenuItem
             // 
             this.InsertToolStripMenuItem.Name = "InsertToolStripMenuItem";
             this.InsertToolStripMenuItem.ShortcutKeyDisplayString = "";
             this.InsertToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Insert;
-            this.InsertToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
+            this.InsertToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
             this.InsertToolStripMenuItem.Text = "Insert";
             // 
             // DeleteToolStripMenuItem
             // 
             this.DeleteToolStripMenuItem.Name = "DeleteToolStripMenuItem";
             this.DeleteToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Delete;
-            this.DeleteToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
+            this.DeleteToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
             this.DeleteToolStripMenuItem.Text = "Delete";
             // 
             // MapTreeView
