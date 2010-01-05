@@ -30,11 +30,15 @@ namespace Shrimp.IViews
         int CursorTileX { get; set; }
         int CursorTileY { get; set; }
         Rectangle FrameRect { get; }
+        int HScrollBarSmallChange { get; }
+        int HScrollBarWidth { get; }
         bool IsPickingTiles { get; set; }
         int PickerStartX { get; set; }
         int PickerStartY { get; set; }
         int RenderingTileStartX { get; set; }
         int RenderingTileStartY { get; set; }
         IList<ICommand> TempCommands { get; }
+        int VScrollBarSmallChange { get; }
+        int VScrollBarHeight { get; }
     }
 }

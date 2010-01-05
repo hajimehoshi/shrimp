@@ -138,6 +138,27 @@ namespace Shrimp.Presenters
                     this.MapEditor.TempCommands.Clear();
                 }
             };
+            this.MapEditor.MouseWheel += (sender, e) =>
+            {
+                if (this.Map == null)
+                {
+                    return;
+                }
+                Point offset = this.ViewModel.EditorState.GetMapOffset(this.Map.Id);
+                if ((Control.ModifierKeys & Keys.Shift) != 0)
+                {
+                    offset.X += (e.Delta / 120) * this.MapEditor.HScrollBarSmallChange;
+                    offset.X = Math.Max(Math.Min(0, offset.X),
+                        -(this.Map.Width * this.GridSize - this.MapEditor.HScrollBarWidth));
+                }
+                else
+                {
+                    offset.Y += (e.Delta / 120) * this.MapEditor.VScrollBarSmallChange;
+                    offset.Y = Math.Max(Math.Min(0, offset.Y),
+                        -(this.Map.Height * this.GridSize - this.MapEditor.VScrollBarHeight));
+                }
+                this.ViewModel.EditorState.SetMapOffset(this.Map.Id, offset);
+            };
 
             this.ViewModel.IsOpenedChanged += delegate
             {
