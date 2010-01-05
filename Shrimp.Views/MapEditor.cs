@@ -65,34 +65,6 @@ namespace Shrimp.Views
             }
         }
 
-        private void Map_Updated(object sender, UpdatedEventArgs e)
-        {
-            Map map = (Map)sender;
-            if (e.Property == map.GetProperty(_ => _.Width) ||
-                e.Property == map.GetProperty(_ => _.Height))
-            {
-                this.AdjustScrollBars();
-                this.Invalidate();
-                this.UpdateOffscreen();
-                this.Update();
-            }
-            else if (e.Property == map.GetProperty(_ => _.Tiles))
-            {
-                Rectangle updatedTilesRect = (Rectangle)e.Bounds;
-                Point offset = this.EditorState.GetMapOffset(this.Map.Id);
-                Rectangle updatedRect = new Rectangle
-                {
-                    X = updatedTilesRect.X * this.GridSize + offset.X,
-                    Y = updatedTilesRect.Y * this.GridSize + offset.Y,
-                    Width = updatedTilesRect.Width * this.GridSize,
-                    Height = updatedTilesRect.Height * this.GridSize,
-                };
-                this.Invalidate(updatedRect);
-                this.UpdateOffscreen(updatedRect);
-                this.Update();
-            }
-        }
-
         public void AdjustScrollBars()
         {
             if (this.Map != null)
