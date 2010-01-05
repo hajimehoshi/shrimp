@@ -138,6 +138,85 @@ namespace Shrimp.Presenters
                     this.MapEditor.TempCommands.Clear();
                 }
             };
+
+            Point mapOffsetOnSavingFrameRect = Point.Empty;
+            this.MapEditor.MouseMove += (sender, e) =>
+            {
+                if (this.Map != null)
+                {
+                    if (this.ViewModel.EditorState.LayerMode != LayerMode.Event)
+                    {
+                        Point offset = this.ViewModel.EditorState.GetMapOffset(this.Map.Id);
+                        Point mousePosition = new Point
+                        {
+                            X = e.X - offset.X,
+                            Y = e.Y - offset.Y,
+                        };
+                        this.MapEditor.CursorTileX =
+                            Math.Min(Math.Max(mousePosition.X / this.GridSize, 0), this.Map.Width - 1);
+                        this.MapEditor.CursorTileY =
+                            Math.Min(Math.Max(mousePosition.Y / this.GridSize, 0), this.Map.Height - 1);
+                        if (!this.MapEditor.IsPickingTiles)
+                        {
+                            if ((e.Button & MouseButtons.Left) != 0)
+                            {
+                                if (0 < this.MapEditor.TempCommands.Count)
+                                {
+                                    SelectedTiles selectedTiles = this.ViewModel.EditorState.SelectedTiles;
+                                    int layer = 0;
+                                    switch (this.ViewModel.EditorState.LayerMode)
+                                    {
+                                    case LayerMode.Layer1: layer = 0; break;
+                                    case LayerMode.Layer2: layer = 1; break;
+                                    default: Debug.Fail("Invalid layer"); break;
+                                    }
+                                    int x = this.MapEditor.CursorTileX + this.MapEditor.CursorOffsetX;
+                                    int y = this.MapEditor.CursorTileY + this.MapEditor.CursorOffsetY;
+                                    Command command = this.Map.CreateSettingTilesCommand(
+                                        layer, x, y, selectedTiles,
+                                        x - this.MapEditor.RenderingTileStartX, y - this.MapEditor.RenderingTileStartY);
+                                    command.Do();
+                                    this.MapEditor.TempCommands.Add(command);
+                                }
+                            }
+                        }
+                    }
+                }
+                if (this.PreviousFrameRect != this.MapEditor.FrameRect)
+                {
+                    this.MapEditor.Invalidate(this.PreviousFrameRect);
+                    this.MapEditor.Invalidate(this.MapEditor.FrameRect);
+                    this.MapEditor.Update();
+                }
+                this.PreviousFrameRect = this.MapEditor.FrameRect;
+                if (this.Map != null)
+                {
+                    mapOffsetOnSavingFrameRect = this.ViewModel.EditorState.GetMapOffset(this.Map.Id);
+                }
+                else
+                {
+                    mapOffsetOnSavingFrameRect = Point.Empty;
+                }
+            };
+            this.MapEditor.MouseLeave += (sender, e) =>
+            {
+                if (this.Map == null)
+                {
+                    return;
+                }
+                Rectangle previousFrameRect = this.PreviousFrameRect;
+                Point offset = this.ViewModel.EditorState.GetMapOffset(this.Map.Id);
+                previousFrameRect.X += -mapOffsetOnSavingFrameRect.X + offset.X;
+                previousFrameRect.Y += -mapOffsetOnSavingFrameRect.Y + offset.Y;
+                if (previousFrameRect != this.MapEditor.FrameRect)
+                {
+                    this.MapEditor.Invalidate(previousFrameRect);
+                }
+                this.MapEditor.Invalidate(this.MapEditor.FrameRect);
+                this.MapEditor.Update();
+                this.PreviousFrameRect = Rectangle.Empty;
+            };
+
             this.MapEditor.MouseWheel += (sender, e) =>
             {
                 if (this.Map == null)
