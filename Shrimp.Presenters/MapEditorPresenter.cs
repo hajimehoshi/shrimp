@@ -147,13 +147,13 @@ namespace Shrimp.Presenters
                 Point offset = this.ViewModel.EditorState.GetMapOffset(this.Map.Id);
                 if ((Control.ModifierKeys & Keys.Shift) != 0)
                 {
-                    offset.X += (e.Delta / 120) * this.MapEditor.HScrollBarSmallChange;
+                    offset.X += (int)((e.Delta / 120.0) * this.MapEditor.HScrollBarSmallChange);
                     offset.X = Math.Max(Math.Min(0, offset.X),
                         -(this.Map.Width * this.GridSize - this.MapEditor.HScrollBarWidth));
                 }
                 else
                 {
-                    offset.Y += (e.Delta / 120) * this.MapEditor.VScrollBarSmallChange;
+                    offset.Y += (int)((e.Delta / 120.0) * this.MapEditor.VScrollBarSmallChange);
                     offset.Y = Math.Max(Math.Min(0, offset.Y),
                         -(this.Map.Height * this.GridSize - this.MapEditor.VScrollBarHeight));
                 }
