@@ -16,7 +16,6 @@ namespace Shrimp.IViews
         event EventHandler NewButtonClick;
         event EventHandler OpenButtonClick;
         event EventHandler PassageButtonClick;
-        //event EventHandler<QuittingEventArgs> Quitting;
         event EventHandler SaveButtonClick;
         event EventHandler<ScaleModeSwitcherClickEventArgs> ScaleModeSwitcherClick;
         event EventHandler SelectedTileSetChanged;
