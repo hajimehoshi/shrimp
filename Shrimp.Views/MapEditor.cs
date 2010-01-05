@@ -52,17 +52,7 @@ namespace Shrimp.Views
 
         private EditorState EditorState
         {
-            get
-            {
-                if (this.ViewModel != null)
-                {
-                    return this.ViewModel.EditorState;
-                }
-                else
-                {
-                    return null;
-                }
-            }
+            get { return this.ViewModel.EditorState; }
         }
 
         public void AdjustScrollBars()
