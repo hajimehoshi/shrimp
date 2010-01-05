@@ -73,6 +73,71 @@ namespace Shrimp.Presenters
                     this.MapEditor.Update();
                 }
             };
+            this.MapEditor.MouseUp += (sender, e) =>
+            {
+                if (this.Map == null)
+                {
+                    return;
+                }
+                if (this.MapEditor.IsPickingTiles)
+                {
+                    if ((e.Button & MouseButtons.Right) != 0)
+                    {
+                        int pickedRegionX = Math.Min(this.MapEditor.CursorTileX, this.MapEditor.PickerStartX);
+                        int pickedRegionY = Math.Min(this.MapEditor.CursorTileY, this.MapEditor.PickerStartY);
+                        int pickedRegionWidth = Math.Abs(this.MapEditor.CursorTileX - this.MapEditor.PickerStartX) + 1;
+                        int pickedRegionHeight = Math.Abs(this.MapEditor.CursorTileY - this.MapEditor.PickerStartY) + 1;
+                        this.MapEditor.CursorOffsetX = pickedRegionX - this.MapEditor.CursorTileX;
+                        this.MapEditor.CursorOffsetY = pickedRegionY - this.MapEditor.CursorTileY;
+                        int layer = 0;
+                        switch (this.ViewModel.EditorState.LayerMode)
+                        {
+                        case LayerMode.Layer1: layer = 0; break;
+                        case LayerMode.Layer2: layer = 1; break;
+                        default: Debug.Fail("Invalid layer"); break;
+                        }
+                        Map map = this.Map;
+                        List<Tile> tiles = new List<Tile>();
+                        for (int j = 0; j < pickedRegionHeight; j++)
+                        {
+                            for (int i = 0; i < pickedRegionWidth; i++)
+                            {
+                                tiles.Add(map.GetTile(layer, i + pickedRegionX, j + pickedRegionY));
+                            }
+                        }
+                        if (tiles.Count == 1)
+                        {
+                            this.ViewModel.EditorState.SelectedTiles = SelectedTiles.Single(tiles[0]);
+                        }
+                        else
+                        {
+                            this.ViewModel.EditorState.SelectedTiles =
+                                SelectedTiles.Picker(tiles, pickedRegionWidth, pickedRegionHeight);
+                        }
+                    }
+                    this.MapEditor.IsPickingTiles = false;
+                }
+                if (0 < this.MapEditor.TempCommands.Count)
+                {
+                    IEnumerable<ICommand> commands = this.MapEditor.TempCommands.ToArray();
+                    var command = new Command();
+                    command.Done += delegate
+                    {
+                        foreach (var c in commands) { c.Do(); }
+                    };
+                    command.Undone += delegate
+                    {
+                        this.Map.Updated -= this.Map_Updated;
+                        foreach (var c in commands.Reverse()) { c.Undo(); }
+                        this.Map.Updated += this.Map_Updated;
+                        this.MapEditor.Invalidate();
+                        this.MapEditor.UpdateOffscreen();
+                        this.MapEditor.Update();
+                    };
+                    this.ViewModel.EditorState.AddCommand(command);
+                    this.MapEditor.TempCommands.Clear();
+                }
+            };
 
             this.ViewModel.IsOpenedChanged += delegate
             {
