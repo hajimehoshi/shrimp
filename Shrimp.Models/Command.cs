@@ -23,17 +23,17 @@ namespace Shrimp.Models
             this.OnUndone(EventArgs.Empty);
         }
 
-        public event EventHandler Done;
-        public event EventHandler Undone;
+        public event EventHandler Doing;
+        public event EventHandler Undoing;
 
         protected virtual void OnDone(EventArgs e)
         {
-            if (this.Done != null) { this.Done(this, e); }
+            if (this.Doing != null) { this.Doing(this, e); }
         }
 
         protected virtual void OnUndone(EventArgs e)
         {
-            if (this.Undone != null) { this.Undone(this, e); }
+            if (this.Undoing != null) { this.Undoing(this, e); }
         }
     }
 }

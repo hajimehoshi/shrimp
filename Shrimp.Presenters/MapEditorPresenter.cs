@@ -123,11 +123,11 @@ namespace Shrimp.Presenters
                 {
                     IEnumerable<ICommand> commands = tempCommands.ToArray(); // Copy
                     var command = new Command();
-                    command.Done += delegate
+                    command.Doing += delegate
                     {
                         foreach (var c in commands) { c.Do(); }
                     };
-                    command.Undone += delegate
+                    command.Undoing += delegate
                     {
                         this.Map.Updated -= this.Map_Updated;
                         foreach (var c in commands.Reverse()) { c.Undo(); }

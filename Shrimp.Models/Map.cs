@@ -157,7 +157,7 @@ namespace Shrimp.Models
                 }
             }
             Command command = new Command();
-            command.Done += delegate
+            command.Doing += delegate
             {
                 bool isChanged = false;
                 List<Tile> layer = this.Layers[layerNumber];
@@ -184,7 +184,7 @@ namespace Shrimp.Models
                     this.OnUpdated(new UpdatedEventArgs(this.GetProperty(_ => _.Tiles), region));
                 }
             };
-            command.Undone += delegate
+            command.Undoing += delegate
             {
                 bool isChanged = false;
                 List<Tile> layer = this.Layers[layerNumber];
