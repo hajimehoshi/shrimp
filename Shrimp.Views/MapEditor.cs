@@ -17,6 +17,13 @@ namespace Shrimp.Views
 {
     internal partial class MapEditor : UserControl, IMapEditor
     {
+        public void InvalidateScrolling(int dx, int dy)
+        {
+            NativeMethods.ScrollWindowEx(this.Handle, dx, dy,
+                IntPtr.Zero, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero,
+                NativeMethods.SW_INVALIDATE);
+        }
+
         public MapEditor(ViewModel viewModel)
         {
             this.InitializeComponent();
@@ -35,115 +42,13 @@ namespace Shrimp.Views
             this.ResumeLayout(false);
 
             this.ViewModel = viewModel;
-            this.ViewModel.IsOpenedChanged += this.ViewModel_IsOpenedChanged;
-            this.ViewModel.EditorState.Updated += this.EditorState_Updated;
-            this.Map = this.ViewModel.EditorState.Map;
         }
 
         private ViewModel ViewModel;
-
-        private void ViewModel_IsOpenedChanged(object sender, EventArgs e)
-        {
-            this.Map = this.EditorState.Map;
-        }
-
-        private void EditorState_Updated(object sender, UpdatedEventArgs e)
-        {
-            EditorState editorState = (EditorState)sender;
-            if (e.Property == editorState.GetProperty(_ => _.MapId))
-            {
-                this.Map = editorState.Map;
-            }
-            else if (e.Property == editorState.GetProperty(_ => _.LayerMode))
-            {
-                this.Invalidate();
-                this.UpdateOffscreen();
-                this.Update();
-            }
-            else if (e.Property == editorState.GetProperty(_ => _.ScaleMode))
-            {
-                this.AdjustScrollBars();
-                this.Invalidate();
-                this.UpdateOffscreen();
-                this.Update();               
-            }
-            else if (e.Property == editorState.GetProperty(_ => _.MapOffsets))
-            {
-                if (this.Map == null)
-                {
-                    return;
-                }
-                this.AdjustScrollBars();
-                int mapId = this.Map.Id;
-                Point offset = this.EditorState.GetMapOffset(mapId);
-                if (!this.PreviousMapOffsets.ContainsKey(mapId))
-                {
-                    this.PreviousMapOffsets.Add(mapId, Point.Empty);
-                }
-                int dx = offset.X - this.PreviousMapOffsets[mapId].X;
-                int dy = offset.Y - this.PreviousMapOffsets[mapId].Y;
-                if (dx != 0)
-                {
-                    this.UpdateOffscreen(new Rectangle
-                    {
-                        X = (0 < dx) ? this.OffscreenSize.Width - dx : 0,
-                        Y = 0,
-                        Width = Math.Abs(dx),
-                        Height = this.OffscreenSize.Height,
-                    });
-                }
-                if (dy != 0)
-                {
-                    this.UpdateOffscreen(new Rectangle
-                    {
-                        X = 0,
-                        Y = (0 < dy) ? this.OffscreenSize.Height - dy : 0,
-                        Width = this.OffscreenSize.Width,
-                        Height = Math.Abs(dy),
-                    });
-                }
-                NativeMethods.ScrollWindowEx(this.Handle, dx, dy,
-                    IntPtr.Zero, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero,
-                    NativeMethods.SW_INVALIDATE);
-                this.Update();
-                this.PreviousMapOffsets[mapId] = offset;
-            }
-            else if (e.Property == editorState.GetProperty(_ => _.SelectedTiles))
-            {
-                if (this.EditorState.SelectedTiles.SelectedTilesType != SelectedTilesType.Picker)
-                {
-                    this.CursorOffsetX = 0;
-                    this.CursorOffsetY = 0;
-                }
-            }
-        }
-        private Dictionary<int, Point> PreviousMapOffsets = new Dictionary<int, Point>();
-
         private Map Map
         {
-            get { return this.map; }
-            set
-            {
-                if (this.map != value)
-                {
-                    this.PreviousFrameRect = Rectangle.Empty;
-                    if (this.map != null)
-                    {
-                        this.map.Updated -= this.Map_Updated;
-                    }
-                    this.map = value;
-                    if (this.map != null)
-                    {
-                        this.map.Updated += this.Map_Updated;
-                    }
-                    this.AdjustScrollBars();
-                    this.Invalidate();
-                    this.UpdateOffscreen();
-                    this.Update();
-                }
-            }
+            get { return this.ViewModel.EditorState.Map; }
         }
-        private Map map;
 
         private EditorState EditorState
         {
@@ -188,7 +93,7 @@ namespace Shrimp.Views
             }
         }
 
-        private void AdjustScrollBars()
+        public void AdjustScrollBars()
         {
             if (this.Map != null)
             {
@@ -242,8 +147,8 @@ namespace Shrimp.Views
 
         private int CursorTileX = 0;
         private int CursorTileY = 0;
-        private int CursorOffsetX = 0;
-        private int CursorOffsetY = 0;
+        public int CursorOffsetX { get; set; }
+        public int CursorOffsetY { get; set; }
         private bool IsPickingTiles = false;
         private int PickerStartX = 0;
         private int PickerStartY = 0;
@@ -426,9 +331,9 @@ namespace Shrimp.Views
                     };
                     command.Undone += delegate
                     {
-                        this.Map.Updated -= this.Map_Updated;
+                        //this.Map.Updated -= this.Map_Updated;
                         foreach (var c in commands.Reverse()) { c.Undo(); }
-                        this.Map.Updated += this.Map_Updated;
+                        //this.Map.Updated += this.Map_Updated;
                         this.Invalidate();
                         this.UpdateOffscreen();
                         this.Update();
@@ -501,7 +406,7 @@ namespace Shrimp.Views
             }
         }
 
-        private Size OffscreenSize = Size.Empty;
+        public Size OffscreenSize { get; private set; }
         private IntPtr HOffscreen = IntPtr.Zero;
         private IntPtr HOffscreenDC = IntPtr.Zero;
         private unsafe IntPtr OffscreenPixels = IntPtr.Zero;
@@ -558,12 +463,12 @@ namespace Shrimp.Views
             this.Update();
         }
 
-        private void UpdateOffscreen()
+        public void UpdateOffscreen()
         {
             this.UpdateOffscreen(new Rectangle(new Point(0, 0), this.OffscreenSize));
         }
 
-        private void UpdateOffscreen(Rectangle rect)
+        public void UpdateOffscreen(Rectangle rect)
         {
             if (this.ViewModel == null || this.EditorState == null)
             {
