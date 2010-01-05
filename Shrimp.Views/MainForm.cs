@@ -302,7 +302,7 @@ namespace Shrimp.Views
             this.mapTreeView.ShowLines = false;
             this.mapTreeView.ShowRootLines = false;
 
-            this.mapEditor = new MapEditor();
+            this.mapEditor = new MapEditor(viewModel);
             this.mapEditor.BorderStyle = BorderStyle.Fixed3D;
             this.mapEditor.Dock = DockStyle.Fill;
             this.MainSplitContainer.Panel2.Controls.Add(this.mapEditor);
@@ -319,7 +319,6 @@ namespace Shrimp.Views
             this.MainSplitContainer.SplitterDistance -=
                 this.tileSetPalette.Parent.ClientSize.Width - this.tileSetPalette.Width;
             
-            this.mapEditor.ViewModel = viewModel;
             this.tileSetPalette.ViewModel = viewModel;
 
             this.ResumeLayout(false);

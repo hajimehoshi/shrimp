@@ -17,9 +17,10 @@ namespace Shrimp.Views
 {
     internal partial class MapEditor : UserControl, IMapEditor
     {
-        public MapEditor()
+        public MapEditor(ViewModel viewModel)
         {
             this.InitializeComponent();
+
             this.SuspendLayout();
             this.SetStyle(ControlStyles.UserPaint, true);
             this.SetStyle(ControlStyles.AllPaintingInWmPaint, true);
@@ -32,31 +33,14 @@ namespace Shrimp.Views
             this.VScrollBar.Left = this.ClientSize.Width - SystemInformation.VerticalScrollBarWidth;
             this.VScrollBar.Top = 0;
             this.ResumeLayout(false);
+
+            this.ViewModel = viewModel;
+            this.ViewModel.IsOpenedChanged += this.ViewModel_IsOpenedChanged;
+            this.ViewModel.EditorState.Updated += this.EditorState_Updated;
+            this.Map = this.ViewModel.EditorState.Map;
         }
 
-        public ViewModel ViewModel
-        {
-            get { return this.viewModel; }
-            set
-            {
-                if (this.viewModel != value)
-                {
-                    if (this.viewModel != null)
-                    {
-                        this.viewModel.IsOpenedChanged -= this.ViewModel_IsOpenedChanged;
-                        this.viewModel.EditorState.Updated -= this.EditorState_Updated;
-                    }
-                    this.viewModel = value;
-                    if (this.viewModel != null)
-                    {
-                        this.viewModel.IsOpenedChanged += this.ViewModel_IsOpenedChanged;
-                        this.viewModel.EditorState.Updated += this.EditorState_Updated;
-                    }
-                    this.Map = this.viewModel.EditorState.Map;
-                }
-            }
-        }
-        private ViewModel viewModel;
+        private ViewModel ViewModel;
 
         private void ViewModel_IsOpenedChanged(object sender, EventArgs e)
         {
