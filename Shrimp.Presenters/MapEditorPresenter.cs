@@ -121,7 +121,7 @@ namespace Shrimp.Presenters
                 }
                 if (0 < tempCommands.Count)
                 {
-                    IEnumerable<ICommand> commands = tempCommands.ToArray();
+                    IEnumerable<ICommand> commands = tempCommands.ToArray(); // Copy
                     var command = new Command();
                     command.Done += delegate
                     {
