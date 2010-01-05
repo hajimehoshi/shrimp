@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using Shrimp.Models;
 
 namespace Shrimp.IViews
 {
@@ -26,5 +27,14 @@ namespace Shrimp.IViews
         Size OffscreenSize { get; }
         int CursorOffsetX { get; set; }
         int CursorOffsetY { get; set; }
+        int CursorTileX { get; set; }
+        int CursorTileY { get; set; }
+        Rectangle FrameRect { get; }
+        bool IsPickingTiles { get; set; }
+        int PickerStartX { get; set; }
+        int PickerStartY { get; set; }
+        int RenderingTileStartX { get; set; }
+        int RenderingTileStartY { get; set; }
+        IList<ICommand> TempCommands { get; }
     }
 }

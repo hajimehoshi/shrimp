@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Windows.Forms;
 using Shrimp.IViews;
 using Shrimp.Models;
 
@@ -15,6 +16,63 @@ namespace Shrimp.Presenters
         {
             this.MapEditor = mapEditor;
             this.ViewModel = viewModel;
+
+            this.MapEditor.MouseDown += (sender, e) =>
+            {
+                if (this.Map == null)
+                {
+                    return;
+                }
+                Point offset = this.ViewModel.EditorState.GetMapOffset(this.Map.Id);
+                Point mousePosition = new Point
+                {
+                    X = e.X - offset.X,
+                    Y = e.Y - offset.Y,
+                };
+                Rectangle oldFrameRect = this.MapEditor.FrameRect;
+                this.MapEditor.CursorTileX =
+                    Math.Min(Math.Max(mousePosition.X / this.GridSize, 0), this.Map.Width - 1);
+                this.MapEditor.CursorTileY =
+                    Math.Min(Math.Max(mousePosition.Y / this.GridSize, 0), this.Map.Height - 1);
+                this.MapEditor.TempCommands.Clear();
+                if (this.ViewModel.EditorState.LayerMode != LayerMode.Event)
+                {
+                    if ((e.Button & MouseButtons.Left) != 0)
+                    {
+                        int layer = 0;
+                        switch (this.ViewModel.EditorState.LayerMode)
+                        {
+                        case LayerMode.Layer1: layer = 0; break;
+                        case LayerMode.Layer2: layer = 1; break;
+                        default: Debug.Fail("Invalid layer"); break;
+                        }
+                        int x = this.MapEditor.CursorTileX + this.MapEditor.CursorOffsetX;
+                        int y = this.MapEditor.CursorTileY + this.MapEditor.CursorOffsetY;
+                        this.MapEditor.RenderingTileStartX = x;
+                        this.MapEditor.RenderingTileStartY = y;
+                        Command command =
+                            this.Map.CreateSettingTilesCommand(layer, x, y, this.ViewModel.EditorState.SelectedTiles, 0, 0);
+                        command.Do();
+                        this.MapEditor.TempCommands.Add(command);
+                    }
+                    else if ((e.Button & MouseButtons.Right) != 0)
+                    {
+                        this.MapEditor.CursorOffsetX = 0;
+                        this.MapEditor.CursorOffsetY = 0;
+                        this.MapEditor.PickerStartX = this.MapEditor.CursorTileX;
+                        this.MapEditor.PickerStartY = this.MapEditor.CursorTileY;
+                        this.MapEditor.IsPickingTiles = true;
+                        this.MapEditor.Invalidate(oldFrameRect);
+                        this.MapEditor.Update();
+                    }
+                }
+                else
+                {
+                    this.MapEditor.Invalidate(oldFrameRect);
+                    this.MapEditor.Invalidate(this.MapEditor.FrameRect);
+                    this.MapEditor.Update();
+                }
+            };
 
             this.ViewModel.IsOpenedChanged += delegate
             {
