@@ -137,6 +137,7 @@ namespace Shrimp.Views
         public int RenderingTileStartX { get; set; }
         public int RenderingTileStartY { get; set; }
 
+        // TODO: Remove this later
         private int GridSize
         {
             get
