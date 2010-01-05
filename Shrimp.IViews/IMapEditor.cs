@@ -37,7 +37,6 @@ namespace Shrimp.IViews
         int PickerStartY { get; set; }
         int RenderingTileStartX { get; set; }
         int RenderingTileStartY { get; set; }
-        IList<ICommand> TempCommands { get; }
         int VScrollBarSmallChange { get; }
         int VScrollBarHeight { get; }
     }

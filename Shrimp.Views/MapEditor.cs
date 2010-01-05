@@ -62,8 +62,6 @@ namespace Shrimp.Views
             this.ResumeLayout(false);
 
             this.ViewModel = viewModel;
-
-            this.TempCommands = new List<ICommand>();
         }
 
         private ViewModel ViewModel;
@@ -138,8 +136,6 @@ namespace Shrimp.Views
         public int PickerStartY { get; set; }
         public int RenderingTileStartX { get; set; }
         public int RenderingTileStartY { get; set; }
-
-        public IList<ICommand> TempCommands { get; private set; }
 
         private int GridSize
         {

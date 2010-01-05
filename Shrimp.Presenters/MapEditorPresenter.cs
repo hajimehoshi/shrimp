@@ -17,6 +17,8 @@ namespace Shrimp.Presenters
             this.MapEditor = mapEditor;
             this.ViewModel = viewModel;
 
+            var tempCommands = new List<ICommand>();
+
             this.MapEditor.MouseDown += (sender, e) =>
             {
                 if (this.Map == null)
@@ -34,7 +36,7 @@ namespace Shrimp.Presenters
                     Math.Min(Math.Max(mousePosition.X / this.GridSize, 0), this.Map.Width - 1);
                 this.MapEditor.CursorTileY =
                     Math.Min(Math.Max(mousePosition.Y / this.GridSize, 0), this.Map.Height - 1);
-                this.MapEditor.TempCommands.Clear();
+                tempCommands.Clear();
                 if (this.ViewModel.EditorState.LayerMode != LayerMode.Event)
                 {
                     if ((e.Button & MouseButtons.Left) != 0)
@@ -53,7 +55,7 @@ namespace Shrimp.Presenters
                         Command command =
                             this.Map.CreateSettingTilesCommand(layer, x, y, this.ViewModel.EditorState.SelectedTiles, 0, 0);
                         command.Do();
-                        this.MapEditor.TempCommands.Add(command);
+                        tempCommands.Add(command);
                     }
                     else if ((e.Button & MouseButtons.Right) != 0)
                     {
@@ -117,9 +119,9 @@ namespace Shrimp.Presenters
                     }
                     this.MapEditor.IsPickingTiles = false;
                 }
-                if (0 < this.MapEditor.TempCommands.Count)
+                if (0 < tempCommands.Count)
                 {
-                    IEnumerable<ICommand> commands = this.MapEditor.TempCommands.ToArray();
+                    IEnumerable<ICommand> commands = tempCommands.ToArray();
                     var command = new Command();
                     command.Done += delegate
                     {
@@ -135,7 +137,7 @@ namespace Shrimp.Presenters
                         this.MapEditor.Update();
                     };
                     this.ViewModel.EditorState.AddCommand(command);
-                    this.MapEditor.TempCommands.Clear();
+                    tempCommands.Clear();
                 }
             };
 
@@ -160,7 +162,7 @@ namespace Shrimp.Presenters
                         {
                             if ((e.Button & MouseButtons.Left) != 0)
                             {
-                                if (0 < this.MapEditor.TempCommands.Count)
+                                if (0 < tempCommands.Count)
                                 {
                                     SelectedTiles selectedTiles = this.ViewModel.EditorState.SelectedTiles;
                                     int layer = 0;
@@ -176,7 +178,7 @@ namespace Shrimp.Presenters
                                         layer, x, y, selectedTiles,
                                         x - this.MapEditor.RenderingTileStartX, y - this.MapEditor.RenderingTileStartY);
                                     command.Do();
-                                    this.MapEditor.TempCommands.Add(command);
+                                    tempCommands.Add(command);
                                 }
                             }
                         }
