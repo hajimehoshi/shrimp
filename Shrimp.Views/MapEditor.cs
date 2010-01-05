@@ -122,7 +122,7 @@ namespace Shrimp.Views
         public IList<ICommand> TempCommands { get; private set; }
 
         private Rectangle PreviousFrameRect = Rectangle.Empty;
-        private Point MapOffsetWhenFrameRectSaved = Point.Empty;
+        private Point MapOffsetOnSavingFrameRect = Point.Empty;
 
         protected override void OnMouseMove(MouseEventArgs e)
         {
@@ -176,11 +176,11 @@ namespace Shrimp.Views
             this.PreviousFrameRect = this.FrameRect;
             if (this.Map != null)
             {
-                this.MapOffsetWhenFrameRectSaved = this.EditorState.GetMapOffset(this.Map.Id);
+                this.MapOffsetOnSavingFrameRect = this.EditorState.GetMapOffset(this.Map.Id);
             }
             else
             {
-                this.MapOffsetWhenFrameRectSaved = Point.Empty;
+                this.MapOffsetOnSavingFrameRect = Point.Empty;
             }
         }
 
@@ -257,8 +257,8 @@ namespace Shrimp.Views
             {
                 Rectangle previousFrameRect = this.PreviousFrameRect;
                 Point offset = this.EditorState.GetMapOffset(this.Map.Id);
-                previousFrameRect.X += -this.MapOffsetWhenFrameRectSaved.X + offset.X;
-                previousFrameRect.Y += -this.MapOffsetWhenFrameRectSaved.Y + offset.Y;
+                previousFrameRect.X += -this.MapOffsetOnSavingFrameRect.X + offset.X;
+                previousFrameRect.Y += -this.MapOffsetOnSavingFrameRect.Y + offset.Y;
                 if (previousFrameRect != this.FrameRect)
                 {
                     this.Invalidate(previousFrameRect);
