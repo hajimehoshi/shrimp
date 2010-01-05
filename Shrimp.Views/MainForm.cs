@@ -72,15 +72,6 @@ namespace Shrimp.Views
             if (this.PassageButtonClick != null) { this.PassageButtonClick(this, e); }
         }
 
-        public event EventHandler<QuittingEventArgs> Quitting;
-        protected virtual void OnQuitting(QuittingEventArgs e)
-        {
-            if (this.Quitting != null)
-            {
-                this.Quitting(this, e);
-            }
-        }
-
         public event EventHandler SaveButtonClick;
         protected virtual void OnSaveButtonClick(EventArgs e)
         {
@@ -424,13 +415,6 @@ namespace Shrimp.Views
         private void TileSetsToolStripComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             this.OnTileSetSelectorSelectedIndexChanged(EventArgs.Empty);
-        }
-
-        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            QuittingEventArgs e2 = new QuittingEventArgs();
-            this.OnQuitting(e2);
-            e.Cancel = e2.Cancel;
         }
     }
 }

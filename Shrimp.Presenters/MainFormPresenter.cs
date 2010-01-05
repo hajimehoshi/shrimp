@@ -17,8 +17,28 @@ namespace Shrimp.Presenters
             this.MainForm = mainForm;
             this.ViewModel = viewModel;
             this.MainForm.CloseButtonClick += this.MainForm_CloseButtonClick;
-            this.MainForm.Quitting += this.MainForm_Quitting;
             this.MainForm.DrawingModeSwitcherClick += this.MainForm_DrawingModeSwitcherClick;
+            this.MainForm.FormClosing += (sender, e) =>
+            {
+                if (this.ViewModel.IsDirty)
+                {
+                    DialogResult result = MessageBox.Show("Save?", "",
+                        MessageBoxButtons.YesNoCancel,
+                        MessageBoxIcon.Question,
+                        MessageBoxDefaultButton.Button1);
+                    switch (result)
+                    {
+                    case DialogResult.Yes:
+                        this.ViewModel.Save();
+                        break;
+                    case DialogResult.No:
+                        break;
+                    case DialogResult.Cancel:
+                        e.Cancel = true;
+                        return;
+                    }
+                }
+            };
             this.MainForm.LayerModeSwitcherClick += this.MainForm_LayerModeSwitcherClick;
             this.MainForm.NewButtonClick += this.MainForm_NewButtonClick;
             this.MainForm.OpenButtonClick += this.MainForm_OpenButtonClick;
@@ -154,28 +174,6 @@ namespace Shrimp.Presenters
             case TileSetMode.Passage:
                 this.ViewModel.EditorState.TileSetMode = TileSetMode.Normal;
                 break;
-            }
-        }
-
-        private void MainForm_Quitting(object sender, QuittingEventArgs e)
-        {
-            if (this.ViewModel.IsDirty)
-            {
-                DialogResult result = MessageBox.Show("Save?", "",
-                    MessageBoxButtons.YesNoCancel,
-                    MessageBoxIcon.Question,
-                    MessageBoxDefaultButton.Button1);
-                switch (result)
-                {
-                case DialogResult.Yes:
-                    this.ViewModel.Save();
-                    break;
-                case DialogResult.No:
-                    break;
-                case DialogResult.Cancel:
-                    e.Cancel = true;
-                    return;
-                }
             }
         }
 

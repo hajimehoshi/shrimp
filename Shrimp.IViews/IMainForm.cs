@@ -11,11 +11,12 @@ namespace Shrimp.IViews
     {
         event EventHandler CloseButtonClick;
         event EventHandler<DrawingModeSwitcherClickEventArgs> DrawingModeSwitcherClick;
+        event FormClosingEventHandler FormClosing;
         event EventHandler<LayerModeSwitcherClickEventArgs> LayerModeSwitcherClick;
         event EventHandler NewButtonClick;
         event EventHandler OpenButtonClick;
         event EventHandler PassageButtonClick;
-        event EventHandler<QuittingEventArgs> Quitting;
+        //event EventHandler<QuittingEventArgs> Quitting;
         event EventHandler SaveButtonClick;
         event EventHandler<ScaleModeSwitcherClickEventArgs> ScaleModeSwitcherClick;
         event EventHandler SelectedTileSetChanged;

@@ -351,7 +351,6 @@
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Shrimp";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.MainSplitContainer.Panel1.ResumeLayout(false);
             this.MainSplitContainer.ResumeLayout(false);
             this.LeftSplitContainer.Panel1.ResumeLayout(false);
