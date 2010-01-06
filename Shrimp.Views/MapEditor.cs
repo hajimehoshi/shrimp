@@ -562,8 +562,7 @@ namespace Shrimp.Views
                 NativeMethods.RECT rect;
                 Size offscreenSize = this.OffscreenSize;
                 bool renderCorner = false;
-                bool test;
-                if (test = NativeMethods.GetUpdateRect(m.HWnd, out rect, false))
+                if (NativeMethods.GetUpdateRect(m.HWnd, out rect, false))
                 {
                     renderCorner = (offscreenSize.Width < rect.Right) &&
                         (offscreenSize.Height < rect.Bottom);
