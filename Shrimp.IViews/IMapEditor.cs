@@ -10,11 +10,13 @@ namespace Shrimp.IViews
 {
     public interface IMapEditor
     {
+        event ScrollEventHandler HScrollBarScroll;
         event MouseEventHandler MouseDown;
         event MouseEventHandler MouseMove;
         event EventHandler MouseLeave;
         event MouseEventHandler MouseUp;
         event MouseEventHandler MouseWheel;
+        event ScrollEventHandler VScrollBarScroll;
 
         void AdjustScrollBars();
         void Invalidate();

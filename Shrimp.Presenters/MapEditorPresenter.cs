@@ -218,7 +218,6 @@ namespace Shrimp.Presenters
                 this.MapEditor.Update();
                 this.PreviousFrameRect = Rectangle.Empty;
             };
-
             this.MapEditor.MouseWheel += (sender, e) =>
             {
                 if (this.Map == null)
@@ -239,6 +238,24 @@ namespace Shrimp.Presenters
                         -(this.Map.Height * this.GridSize - this.MapEditor.VScrollBarHeight));
                 }
                 this.ViewModel.EditorState.SetMapOffset(this.Map.Id, offset);
+            };
+            this.MapEditor.HScrollBarScroll += (sender, e) =>
+            {
+                Point offset = this.ViewModel.EditorState.GetMapOffset(this.Map.Id);
+                this.ViewModel.EditorState.SetMapOffset(this.Map.Id, new Point
+                {
+                    X = -e.NewValue,
+                    Y = offset.Y,
+                });
+            };
+            this.MapEditor.VScrollBarScroll += (sender, e) =>
+            {
+                Point offset = this.ViewModel.EditorState.GetMapOffset(this.Map.Id);
+                this.ViewModel.EditorState.SetMapOffset(this.Map.Id, new Point
+                {
+                    X = offset.X,
+                    Y = -e.NewValue,
+                });
             };
 
             this.ViewModel.IsOpenedChanged += delegate

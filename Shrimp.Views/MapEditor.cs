@@ -17,6 +17,24 @@ namespace Shrimp.Views
 {
     internal partial class MapEditor : UserControl, IMapEditor
     {
+        public event ScrollEventHandler HScrollBarScroll;
+        protected void OnHScrollBarScroll(ScrollEventArgs e)
+        {
+            if (this.HScrollBarScroll != null)
+            {
+                this.HScrollBarScroll(this, e);
+            }
+        }
+
+        public event ScrollEventHandler VScrollBarScroll;
+        protected void OnVScrollBarScroll(ScrollEventArgs e)
+        {
+            if (this.VScrollBarScroll != null)
+            {
+                this.VScrollBarScroll(this, e);
+            }
+        }
+
         public void InvalidateScrolling(int dx, int dy)
         {
             NativeMethods.ScrollWindowEx(this.Handle, dx, dy,
@@ -60,6 +78,9 @@ namespace Shrimp.Views
             this.VScrollBar.Left = this.ClientSize.Width - SystemInformation.VerticalScrollBarWidth;
             this.VScrollBar.Top = 0;
             this.ResumeLayout(false);
+
+            this.HScrollBar.Scroll += (sender, e) => { this.OnHScrollBarScroll(e); };
+            this.VScrollBar.Scroll += (sender, e) => { this.OnVScrollBarScroll(e); };
 
             this.ViewModel = viewModel;
         }
@@ -655,26 +676,5 @@ namespace Shrimp.Views
                 }
             }
         }
-
-        private void HScrollBar_Scroll(object sender, ScrollEventArgs e)
-        {
-            Point offset = this.EditorState.GetMapOffset(this.Map.Id);
-            this.EditorState.SetMapOffset(this.Map.Id, new Point
-            {
-                X = -e.NewValue,
-                Y = offset.Y,
-            });
-        }
-
-        private void VScrollBar_Scroll(object sender, ScrollEventArgs e)
-        {
-            Point offset = this.EditorState.GetMapOffset(this.Map.Id);
-            this.EditorState.SetMapOffset(this.Map.Id, new Point
-            {
-                X = offset.X,
-                Y = -e.NewValue,
-            });
-        }
-
     }
 }
