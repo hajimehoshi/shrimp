@@ -44,17 +44,17 @@ namespace Shrimp.Views
             }
         }
 
-        public Rectangle GetFrameRect(Map map)
+        public Rectangle GetFrameRect(EditorState editorState, Map map)
         {
             if (map != null)
             {
-                Point offset = this.EditorState.GetMapOffset(map.Id);
+                Point offset = editorState.GetMapOffset(map.Id);
                 int gridSize = this.GridSize;
                 if (!this.IsPickingTiles)
                 {
-                    SelectedTiles selectedTiles = this.EditorState.SelectedTiles;
+                    SelectedTiles selectedTiles = editorState.SelectedTiles;
                     int cursorHorizontalCount, cursorVerticalCount;
-                    bool isEvent = this.EditorState.LayerMode == LayerMode.Event;
+                    bool isEvent = editorState.LayerMode == LayerMode.Event;
                     if (!isEvent)
                     {
                         cursorHorizontalCount = this.CursorTileX + this.CursorOffsetX;
@@ -291,14 +291,14 @@ namespace Shrimp.Views
         private IntPtr HOffscreenDC = IntPtr.Zero;
         private unsafe IntPtr OffscreenPixels = IntPtr.Zero;
 
-        public void UpdateOffscreen(Map map)
+        public void UpdateOffscreen(EditorState editorState, Map map)
         {
-            this.UpdateOffscreen(map, new Rectangle(new Point(0, 0), this.OffscreenSize));
+            this.UpdateOffscreen(editorState, map, new Rectangle(new Point(0, 0), this.OffscreenSize));
         }
 
-        public void UpdateOffscreen(Map map, Rectangle rect)
+        public void UpdateOffscreen(EditorState editorState, Map map, Rectangle rect)
         {
-            if (this.ViewModel == null || this.EditorState == null)
+            if (this.ViewModel == null || editorState == null)
             {
                 return;
             }
@@ -307,7 +307,7 @@ namespace Shrimp.Views
                 return;
             }
             Debug.Assert(this.HOffscreenDC != IntPtr.Zero);
-            Point offset = this.EditorState.GetMapOffset(map.Id);
+            Point offset = editorState.GetMapOffset(map.Id);
             int offscreenWidth = this.OffscreenSize.Width;
             int offscreenHeight = this.OffscreenSize.Height;
             Size offscreenSize = this.OffscreenSize;
@@ -347,8 +347,8 @@ namespace Shrimp.Views
                 {
                     TileSetCollection tileSetCollection = this.ViewModel.TileSetCollection;
                     bdHash = new Dictionary<Bitmap, BitmapData>();
-                    LayerMode layerMode = this.EditorState.LayerMode;
-                    ScaleMode scaleMode = this.EditorState.ScaleMode;
+                    LayerMode layerMode = editorState.LayerMode;
+                    ScaleMode scaleMode = editorState.ScaleMode;
                     int reductionRatio = 0;
                     switch (scaleMode)
                     {
@@ -464,7 +464,7 @@ namespace Shrimp.Views
                                 this.DrawGrayLineOnOffscreen(xMin, xMax, y2, y2);
                             }
                         }
-                        if (this.EditorState.LayerMode == LayerMode.Layer2 && layer == 0)
+                        if (editorState.LayerMode == LayerMode.Layer2 && layer == 0)
                         {
                             this.DarkenOffscreen(new Rectangle
                             {
@@ -654,7 +654,7 @@ namespace Shrimp.Views
                 {
                     NativeMethods.FillRect(hDstDC, ref rect, (IntPtr)(NativeMethods.COLOR_BTNFACE + 1));
                 }
-                Rectangle frameRect = this.GetFrameRect(this.Map);
+                Rectangle frameRect = this.GetFrameRect(this.EditorState, this.Map);
                 Point mousePosition = this.PointToClient(Control.MousePosition);
                 if ((this.EditorState.LayerMode == LayerMode.Event) ||
                     (0 <= mousePosition.X && mousePosition.X < offscreenSize.Width &&

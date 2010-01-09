@@ -21,14 +21,14 @@ namespace Shrimp.IViews
         event ScrollEventHandler VScrollBarScroll;
 
         void AdjustScrollBars(EditorState editorState, Map map);
-        Rectangle GetFrameRect(Map map);
+        Rectangle GetFrameRect(EditorState editorState, Map map);
         void Invalidate();
         void Invalidate(Rectangle rect);
         void InvalidateScrolling(int dx, int dy);
         void RecreateOffscreen();
         void Update();
-        void UpdateOffscreen(Map map);
-        void UpdateOffscreen(Map map, Rectangle rect);
+        void UpdateOffscreen(EditorState editorState, Map map);
+        void UpdateOffscreen(EditorState editorState, Map map, Rectangle rect);
 
         Size OffscreenSize { get; }
         int CursorOffsetX { get; set; }
