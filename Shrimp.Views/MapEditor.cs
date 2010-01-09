@@ -232,24 +232,23 @@ namespace Shrimp.Views
         private IntPtr HOffscreenDC = IntPtr.Zero;
         private unsafe IntPtr OffscreenPixels = IntPtr.Zero;
 
-        public void UpdateOffscreen()
+        public void UpdateOffscreen(Map map)
         {
-            this.UpdateOffscreen(new Rectangle(new Point(0, 0), this.OffscreenSize));
+            this.UpdateOffscreen(map, new Rectangle(new Point(0, 0), this.OffscreenSize));
         }
 
-        public void UpdateOffscreen(Rectangle rect)
+        public void UpdateOffscreen(Map map, Rectangle rect)
         {
             if (this.ViewModel == null || this.EditorState == null)
             {
                 return;
             }
-            Map map = this.Map;
             if (map == null)
             {
                 return;
             }
             Debug.Assert(this.HOffscreenDC != IntPtr.Zero);
-            Point offset = this.EditorState.GetMapOffset(this.Map.Id);
+            Point offset = this.EditorState.GetMapOffset(map.Id);
             int offscreenWidth = this.OffscreenSize.Width;
             int offscreenHeight = this.OffscreenSize.Height;
             Size offscreenSize = this.OffscreenSize;

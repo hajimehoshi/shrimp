@@ -25,8 +25,8 @@ namespace Shrimp.IViews
         void InvalidateScrolling(int dx, int dy);
         void RecreateOffscreen();
         void Update();
-        void UpdateOffscreen();
-        void UpdateOffscreen(Rectangle rect);
+        void UpdateOffscreen(Map map);
+        void UpdateOffscreen(Map map, Rectangle rect);
 
         Size OffscreenSize { get; }
         int CursorOffsetX { get; set; }
