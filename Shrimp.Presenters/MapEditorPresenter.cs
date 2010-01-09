@@ -39,7 +39,7 @@ namespace Shrimp.Presenters
                     X = e.X - offset.X,
                     Y = e.Y - offset.Y,
                 };
-                Rectangle oldFrameRect = this.MapEditor.FrameRect;
+                Rectangle oldFrameRect = this.MapEditor.GetFrameRect(this.Map);
                 this.MapEditor.CursorTileX =
                     Math.Min(Math.Max(mousePosition.X / this.GridSize, 0), this.Map.Width - 1);
                 this.MapEditor.CursorTileY =
@@ -79,7 +79,7 @@ namespace Shrimp.Presenters
                 else
                 {
                     this.MapEditor.Invalidate(oldFrameRect);
-                    this.MapEditor.Invalidate(this.MapEditor.FrameRect);
+                    this.MapEditor.Invalidate(this.MapEditor.GetFrameRect(this.Map));
                     this.MapEditor.Update();
                 }
             };
@@ -126,13 +126,14 @@ namespace Shrimp.Presenters
                         }
                     }
                 }
-                if (this.PreviousFrameRect != this.MapEditor.FrameRect)
+                Rectangle frameRect = this.MapEditor.GetFrameRect(this.Map);
+                if (this.PreviousFrameRect != frameRect)
                 {
                     this.MapEditor.Invalidate(this.PreviousFrameRect);
-                    this.MapEditor.Invalidate(this.MapEditor.FrameRect);
+                    this.MapEditor.Invalidate(frameRect);
                     this.MapEditor.Update();
                 }
-                this.PreviousFrameRect = this.MapEditor.FrameRect;
+                this.PreviousFrameRect = frameRect;
                 if (this.Map != null)
                 {
                     mapOffsetOnSavingFrameRect = this.ViewModel.EditorState.GetMapOffset(this.Map.Id);
@@ -218,11 +219,12 @@ namespace Shrimp.Presenters
                 Point offset = this.ViewModel.EditorState.GetMapOffset(this.Map.Id);
                 previousFrameRect.X += -mapOffsetOnSavingFrameRect.X + offset.X;
                 previousFrameRect.Y += -mapOffsetOnSavingFrameRect.Y + offset.Y;
-                if (previousFrameRect != this.MapEditor.FrameRect)
+                Rectangle frameRect = this.MapEditor.GetFrameRect(this.Map);
+                if (previousFrameRect != frameRect)
                 {
                     this.MapEditor.Invalidate(previousFrameRect);
                 }
-                this.MapEditor.Invalidate(this.MapEditor.FrameRect);
+                this.MapEditor.Invalidate(frameRect);
                 this.MapEditor.Update();
                 this.PreviousFrameRect = Rectangle.Empty;
             };

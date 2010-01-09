@@ -35,6 +35,56 @@ namespace Shrimp.Views
             }
         }
 
+        public Rectangle GetFrameRect(Map map)
+        {
+            if (map != null)
+            {
+                Point offset = this.EditorState.GetMapOffset(map.Id);
+                int gridSize = this.GridSize;
+                if (!this.IsPickingTiles)
+                {
+                    SelectedTiles selectedTiles = this.EditorState.SelectedTiles;
+                    int cursorHorizontalCount, cursorVerticalCount;
+                    bool isEvent = this.EditorState.LayerMode == LayerMode.Event;
+                    if (!isEvent)
+                    {
+                        cursorHorizontalCount = this.CursorTileX + this.CursorOffsetX;
+                        cursorVerticalCount = this.CursorTileY + this.CursorOffsetY;
+                    }
+                    else
+                    {
+                        cursorHorizontalCount = this.CursorTileX;
+                        cursorVerticalCount = this.CursorTileY;
+                    }
+                    return new Rectangle
+                    {
+                        X = cursorHorizontalCount * gridSize + offset.X,
+                        Y = cursorVerticalCount * gridSize + offset.Y,
+                        Width = gridSize * (!isEvent ? selectedTiles.Width : 1),
+                        Height = gridSize * (!isEvent ? selectedTiles.Height : 1),
+                    };
+                }
+                else
+                {
+                    int pickedRegionX = Math.Min(this.CursorTileX, this.PickerStartX);
+                    int pickedRegionY = Math.Min(this.CursorTileY, this.PickerStartY);
+                    int pickedRegionWidth = Math.Abs(this.CursorTileX - this.PickerStartX) + 1;
+                    int pickedRegionHeight = Math.Abs(this.CursorTileY - this.PickerStartY) + 1;
+                    return new Rectangle
+                    {
+                        X = pickedRegionX * gridSize + offset.X,
+                        Y = pickedRegionY * gridSize + offset.Y,
+                        Width = gridSize * pickedRegionWidth,
+                        Height = gridSize * pickedRegionHeight,
+                    };
+                }
+            }
+            else
+            {
+                return Rectangle.Empty;
+            }
+        }
+
         public void InvalidateScrolling(int dx, int dy)
         {
             NativeMethods.ScrollWindowEx(this.Handle, dx, dy,
@@ -589,7 +639,7 @@ namespace Shrimp.Views
                 {
                     NativeMethods.FillRect(hDstDC, ref rect, (IntPtr)(NativeMethods.COLOR_BTNFACE + 1));
                 }
-                Rectangle frameRect = this.FrameRect;
+                Rectangle frameRect = this.GetFrameRect(this.Map);
                 Point mousePosition = this.PointToClient(Control.MousePosition);
                 if ((this.EditorState.LayerMode == LayerMode.Event) ||
                     (0 <= mousePosition.X && mousePosition.X < offscreenSize.Width &&
@@ -615,59 +665,6 @@ namespace Shrimp.Views
                 break;
             }
             base.WndProc(ref m);
-        }
-
-        public Rectangle FrameRect
-        {
-            get
-            {
-                if (this.Map != null)
-                {
-                    Point offset = this.EditorState.GetMapOffset(this.Map.Id);
-                    int gridSize = this.GridSize;
-                    if (!this.IsPickingTiles)
-                    {
-                        SelectedTiles selectedTiles = this.EditorState.SelectedTiles;
-                        int cursorHorizontalCount, cursorVerticalCount;
-                        bool isEvent = this.EditorState.LayerMode == LayerMode.Event;
-                        if (!isEvent)
-                        {
-                            cursorHorizontalCount = this.CursorTileX + this.CursorOffsetX;
-                            cursorVerticalCount = this.CursorTileY + this.CursorOffsetY;
-                        }
-                        else
-                        {
-                            cursorHorizontalCount = this.CursorTileX;
-                            cursorVerticalCount = this.CursorTileY;
-                        }
-                        return new Rectangle
-                        {
-                            X = cursorHorizontalCount * gridSize + offset.X,
-                            Y = cursorVerticalCount * gridSize + offset.Y,
-                            Width = gridSize * (!isEvent ? selectedTiles.Width : 1),
-                            Height = gridSize * (!isEvent ? selectedTiles.Height : 1),
-                        };
-                    }
-                    else
-                    {
-                        int pickedRegionX = Math.Min(this.CursorTileX, this.PickerStartX);
-                        int pickedRegionY = Math.Min(this.CursorTileY, this.PickerStartY);
-                        int pickedRegionWidth = Math.Abs(this.CursorTileX - this.PickerStartX) + 1;
-                        int pickedRegionHeight = Math.Abs(this.CursorTileY - this.PickerStartY) + 1;
-                        return new Rectangle
-                        {
-                            X = pickedRegionX * gridSize + offset.X,
-                            Y = pickedRegionY * gridSize + offset.Y,
-                            Width = gridSize * pickedRegionWidth,
-                            Height = gridSize * pickedRegionHeight,
-                        };
-                    }
-                }
-                else
-                {
-                    return Rectangle.Empty;
-                }
-            }
         }
     }
 }
