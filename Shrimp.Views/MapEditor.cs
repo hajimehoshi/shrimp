@@ -96,12 +96,12 @@ namespace Shrimp.Views
             get { return this.ViewModel.EditorState; }
         }
 
-        public void AdjustScrollBars()
+        public void AdjustScrollBars(EditorState editorState, Map map)
         {
-            if (this.Map != null)
+            if (map != null)
             {
-                Point offset = this.EditorState.GetMapOffset(this.Map.Id);
-                int hMax = this.Map.Width * this.GridSize - this.HScrollBar.Width;
+                Point offset = editorState.GetMapOffset(map.Id);
+                int hMax = map.Width * this.GridSize - this.HScrollBar.Width;
                 if (0 < hMax)
                 {
                     this.HScrollBar.Enabled = true;
@@ -117,7 +117,7 @@ namespace Shrimp.Views
                     this.HScrollBar.Enabled = false;
                     this.HScrollBar.Value = 0;
                 }
-                int vMax = this.Map.Height * this.GridSize - this.VScrollBar.Height;
+                int vMax = map.Height * this.GridSize - this.VScrollBar.Height;
                 if (0 < vMax)
                 {
                     this.VScrollBar.Enabled = true;
@@ -133,7 +133,7 @@ namespace Shrimp.Views
                     this.VScrollBar.Enabled = false;
                     this.VScrollBar.Value = 0;
                 }
-                this.EditorState.SetMapOffset(this.Map.Id, new Point
+                editorState.SetMapOffset(map.Id, new Point
                 {
                     X = -this.HScrollBar.Value,
                     Y = -this.VScrollBar.Value,
@@ -188,7 +188,7 @@ namespace Shrimp.Views
         protected override void OnLayout(LayoutEventArgs e)
         {
             base.OnLayout(e);
-            this.AdjustScrollBars();
+            this.AdjustScrollBars(this.EditorState, this.Map);
             if (this.HOffscreen != IntPtr.Zero)
             {
                 NativeMethods.DeleteDC(this.HOffscreenDC);

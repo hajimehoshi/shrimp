@@ -278,7 +278,7 @@ namespace Shrimp.Presenters
                 }
                 else if (e.Property == editorState.GetProperty(_ => _.ScaleMode))
                 {
-                    this.MapEditor.AdjustScrollBars();
+                    this.MapEditor.AdjustScrollBars(editorState, this.Map);
                     this.MapEditor.Invalidate();
                     this.MapEditor.UpdateOffscreen();
                     this.MapEditor.Update();
@@ -289,7 +289,7 @@ namespace Shrimp.Presenters
                     {
                         return;
                     }
-                    this.MapEditor.AdjustScrollBars();
+                    this.MapEditor.AdjustScrollBars(editorState, this.Map);
                     int mapId = this.Map.Id;
                     Point offset = editorState.GetMapOffset(mapId);
                     if (!previousMapOffsets.ContainsKey(mapId))
@@ -356,7 +356,7 @@ namespace Shrimp.Presenters
                     {
                         this.map.Updated += this.Map_Updated;
                     }
-                    this.MapEditor.AdjustScrollBars();
+                    this.MapEditor.AdjustScrollBars(this.ViewModel.EditorState, this.map);
                     this.MapEditor.Invalidate();
                     this.MapEditor.UpdateOffscreen();
                     this.MapEditor.Update();
@@ -371,7 +371,7 @@ namespace Shrimp.Presenters
             if (e.Property == map.GetProperty(_ => _.Width) ||
                 e.Property == map.GetProperty(_ => _.Height))
             {
-                this.MapEditor.AdjustScrollBars();
+                this.MapEditor.AdjustScrollBars(this.ViewModel.EditorState, this.Map);
                 this.MapEditor.Invalidate();
                 this.MapEditor.UpdateOffscreen();
                 this.MapEditor.Update();

@@ -14,11 +14,12 @@ namespace Shrimp.IViews
         event MouseEventHandler MouseDown;
         event MouseEventHandler MouseMove;
         event EventHandler MouseLeave;
+        event LayoutEventHandler Layout;
         event MouseEventHandler MouseUp;
         event MouseEventHandler MouseWheel;
         event ScrollEventHandler VScrollBarScroll;
 
-        void AdjustScrollBars();
+        void AdjustScrollBars(EditorState editorState, Map map);
         void Invalidate();
         void Invalidate(Rectangle rect);
         void InvalidateScrolling(int dx, int dy);
