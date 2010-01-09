@@ -17,7 +17,7 @@ namespace Shrimp.Presenters
             this.MapEditor = mapEditor;
             this.ViewModel = viewModel;
 
-            this.MapEditor.Layout += (sender, e) =>
+            this.MapEditor.AfterLayout += (sender, e) =>
             {
                 this.MapEditor.AdjustScrollBars(this.ViewModel.EditorState, this.Map);
                 this.MapEditor.RecreateOffscreen();

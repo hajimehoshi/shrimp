@@ -10,6 +10,7 @@ namespace Shrimp.IViews
 {
     public interface IMapEditor
     {
+        event EventHandler AfterLayout;
         event ScrollEventHandler HScrollBarScroll;
         event MouseEventHandler MouseDown;
         event MouseEventHandler MouseMove;

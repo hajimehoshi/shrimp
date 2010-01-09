@@ -17,6 +17,15 @@ namespace Shrimp.Views
 {
     internal partial class MapEditor : UserControl, IMapEditor
     {
+        public event EventHandler AfterLayout;
+        protected void OnAfterLayout(EventArgs e)
+        {
+            if (this.AfterLayout != null)
+            {
+                this.AfterLayout(this, e);
+            }
+        }
+
         public event ScrollEventHandler HScrollBarScroll;
         protected void OnHScrollBarScroll(ScrollEventArgs e)
         {
@@ -185,12 +194,12 @@ namespace Shrimp.Views
         private ViewModel ViewModel;
         private Map Map
         {
-            get { return this.ViewModel.EditorState.Map; }
+            get { return this.EditorState != null ? this.ViewModel.EditorState.Map : null; }
         }
 
         private EditorState EditorState
         {
-            get { return this.ViewModel.EditorState; }
+            get { return this.ViewModel != null ? this.ViewModel.EditorState : null; }
         }
 
         public void AdjustScrollBars(EditorState editorState, Map map)
@@ -480,6 +489,12 @@ namespace Shrimp.Views
                     }
                 }
             }
+        }
+
+        protected override void OnLayout(LayoutEventArgs e)
+        {
+            base.OnLayout(e);
+            this.OnAfterLayout(EventArgs.Empty);
         }
 
         private void DrawRectOffscreen(Rectangle rect, byte r, byte g, byte b)
