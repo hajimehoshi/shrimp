@@ -17,8 +17,16 @@ namespace Shrimp.Presenters
             this.MapEditor = mapEditor;
             this.ViewModel = viewModel;
 
-            var tempCommands = new List<ICommand>();
+            this.MapEditor.Layout += (sender, e) =>
+            {
+                this.MapEditor.AdjustScrollBars(this.ViewModel.EditorState, this.Map);
+                this.MapEditor.RecreateOffscreen();
+                this.MapEditor.Invalidate();
+                this.MapEditor.UpdateOffscreen();
+                this.MapEditor.Update();
+            };
 
+            var tempCommands = new List<ICommand>();
             this.MapEditor.MouseDown += (sender, e) =>
             {
                 if (this.Map == null)

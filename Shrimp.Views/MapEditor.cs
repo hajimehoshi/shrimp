@@ -42,6 +42,53 @@ namespace Shrimp.Views
                 NativeMethods.SW_INVALIDATE);
         }
 
+        public void RecreateOffscreen()
+        {
+            if (this.HOffscreen != IntPtr.Zero)
+            {
+                NativeMethods.DeleteDC(this.HOffscreenDC);
+                NativeMethods.DeleteObject(this.HOffscreen);
+                this.OffscreenPixels = IntPtr.Zero;
+                this.HOffscreenDC = IntPtr.Zero;
+                this.HOffscreen = IntPtr.Zero;
+                this.OffscreenSize = Size.Empty;
+            }
+            this.OffscreenSize = new Size
+            {
+                Width = this.HScrollBar.Width,
+                Height = this.VScrollBar.Height,
+            };
+            NativeMethods.BITMAPINFO bitmapInfo = new NativeMethods.BITMAPINFO
+            {
+                bmiHeader = new NativeMethods.BITMAPINFOHEADER
+                {
+                    biSize = (uint)Marshal.SizeOf(typeof(NativeMethods.BITMAPINFOHEADER)),
+                    biWidth = this.OffscreenSize.Width,
+                    biHeight = -this.OffscreenSize.Height,
+                    biPlanes = 1,
+                    biBitCount = 32,
+                    biCompression = NativeMethods.BI_RGB,
+                },
+            };
+            IntPtr hDC = IntPtr.Zero;
+            try
+            {
+                hDC = NativeMethods.GetDC(this.Handle);
+                this.HOffscreen = NativeMethods.CreateDIBSection(hDC, ref bitmapInfo,
+                    NativeMethods.DIB_RGB_COLORS, out this.OffscreenPixels, IntPtr.Zero, 0);
+                this.HOffscreenDC = NativeMethods.CreateCompatibleDC(hDC);
+                NativeMethods.SelectObject(this.HOffscreenDC, this.HOffscreen);
+            }
+            finally
+            {
+                if (hDC != IntPtr.Zero)
+                {
+                    NativeMethods.ReleaseDC(this.Handle, hDC);
+                    hDC = IntPtr.Zero;
+                }
+            }
+        }
+
         public int HScrollBarSmallChange
         {
             get { return this.HScrollBar.SmallChange; }
@@ -184,58 +231,6 @@ namespace Shrimp.Views
         private IntPtr HOffscreen = IntPtr.Zero;
         private IntPtr HOffscreenDC = IntPtr.Zero;
         private unsafe IntPtr OffscreenPixels = IntPtr.Zero;
-
-        protected override void OnLayout(LayoutEventArgs e)
-        {
-            base.OnLayout(e);
-            this.AdjustScrollBars(this.EditorState, this.Map);
-            if (this.HOffscreen != IntPtr.Zero)
-            {
-                NativeMethods.DeleteDC(this.HOffscreenDC);
-                NativeMethods.DeleteObject(this.HOffscreen);
-                this.OffscreenPixels = IntPtr.Zero;
-                this.HOffscreenDC = IntPtr.Zero;
-                this.HOffscreen = IntPtr.Zero;
-                this.OffscreenSize = Size.Empty;
-            }
-            this.OffscreenSize = new Size
-            {
-                Width = this.HScrollBar.Width,
-                Height = this.VScrollBar.Height,
-            };
-            NativeMethods.BITMAPINFO bitmapInfo = new NativeMethods.BITMAPINFO
-            {
-                bmiHeader = new NativeMethods.BITMAPINFOHEADER
-                {
-                    biSize = (uint)Marshal.SizeOf(typeof(NativeMethods.BITMAPINFOHEADER)),
-                    biWidth = this.OffscreenSize.Width,
-                    biHeight = -this.OffscreenSize.Height,
-                    biPlanes = 1,
-                    biBitCount = 32,
-                    biCompression = NativeMethods.BI_RGB,
-                },
-            };
-            IntPtr hDC = IntPtr.Zero;
-            try
-            {
-                hDC = NativeMethods.GetDC(this.Handle);
-                this.HOffscreen = NativeMethods.CreateDIBSection(hDC, ref bitmapInfo,
-                    NativeMethods.DIB_RGB_COLORS, out this.OffscreenPixels, IntPtr.Zero, 0);
-                this.HOffscreenDC = NativeMethods.CreateCompatibleDC(hDC);
-                NativeMethods.SelectObject(this.HOffscreenDC, this.HOffscreen);
-            }
-            finally
-            {
-                if (hDC != IntPtr.Zero)
-                {
-                    NativeMethods.ReleaseDC(this.Handle, hDC);
-                    hDC = IntPtr.Zero;
-                }
-            }
-            this.Invalidate();
-            this.UpdateOffscreen();
-            this.Update();
-        }
 
         public void UpdateOffscreen()
         {

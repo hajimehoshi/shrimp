@@ -23,6 +23,7 @@ namespace Shrimp.IViews
         void Invalidate();
         void Invalidate(Rectangle rect);
         void InvalidateScrolling(int dx, int dy);
+        void RecreateOffscreen();
         void Update();
         void UpdateOffscreen();
         void UpdateOffscreen(Rectangle rect);
