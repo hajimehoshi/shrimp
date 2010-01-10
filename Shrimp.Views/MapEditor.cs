@@ -613,74 +613,58 @@ namespace Shrimp.Views
         private void MapEditor_Paint(object sender, PaintEventArgs e)
         {
             Graphics g = e.Graphics;
-            NativeMethods.RECT rect;
+            Rectangle clipRect = e.ClipRectangle;
             Size offscreenSize = this.OffscreenSize;
-            bool renderCorner = false;
-            if (NativeMethods.GetUpdateRect(this.Handle, out rect, false))
+            bool renderCorner;
+            if (clipRect != Rectangle.Empty)
             {
-                renderCorner = (offscreenSize.Width < rect.Right) &&
-                    (offscreenSize.Height < rect.Bottom);
-                if (offscreenSize.Width < rect.Right)
+                renderCorner = (offscreenSize.Width < clipRect.Right) &&
+                    (offscreenSize.Height < clipRect.Bottom);
+            }
+            else
+            {
+                renderCorner = true;
+            }
+            if (this.EditorState != null && this.Map != null)
+            {
+                IntPtr hDstDC = IntPtr.Zero;
+                try
                 {
-                    rect.Right = offscreenSize.Width;
+                    hDstDC = g.GetHdc();
+                    NativeMethods.BitBlt(
+                        hDstDC, clipRect.Left, clipRect.Top, clipRect.Width, clipRect.Height,
+                        this.HOffscreenDC, clipRect.Left, clipRect.Top,
+                        NativeMethods.TernaryRasterOperations.SRCCOPY);
                 }
-                if (offscreenSize.Height < rect.Bottom)
+                finally
                 {
-                    rect.Bottom = offscreenSize.Height;
+                    if (hDstDC != IntPtr.Zero)
+                    {
+                        g.ReleaseHdc(hDstDC);
+                    }
                 }
             }
             else
             {
-                rect.Left = 0;
-                rect.Top = 0;
-                rect.Right = offscreenSize.Width;
-                rect.Bottom = offscreenSize.Height;
-                renderCorner = true;
+                g.FillRectangle(SystemBrushes.Control, clipRect);
             }
-            IntPtr hDstDC = IntPtr.Zero;
-            try
+            Point mousePosition = this.PointToClient(Control.MousePosition);
+            if ((this.EditorState.LayerMode == LayerMode.Event) ||
+                (0 <= mousePosition.X && mousePosition.X < offscreenSize.Width &&
+                 0 <= mousePosition.Y && mousePosition.Y < offscreenSize.Height))
             {
-                hDstDC = g.GetHdc();
-                if (this.EditorState != null && this.Map != null)
-                {
-                    NativeMethods.BitBlt(
-                        hDstDC, rect.Left, rect.Top, rect.Width, rect.Height,
-                        this.HOffscreenDC, rect.Left, rect.Top,
-                        NativeMethods.TernaryRasterOperations.SRCCOPY);
-                }
-                else
-                {
-                    NativeMethods.FillRect(hDstDC, ref rect, (IntPtr)(NativeMethods.COLOR_BTNFACE + 1));
-                }
-                Rectangle frameRect = this.GetFrameRect(this.EditorState, this.Map);
-                Point mousePosition = this.PointToClient(Control.MousePosition);
-                if ((this.EditorState.LayerMode == LayerMode.Event) ||
-                    (0 <= mousePosition.X && mousePosition.X < offscreenSize.Width &&
-                     0 <= mousePosition.Y && mousePosition.Y < offscreenSize.Height))
-                {
-                    using (Graphics g2 = Graphics.FromHdc(hDstDC))
-                    {
-                        Util.DrawFrame(g2, frameRect);
-                    }
-                }
-                if (renderCorner)
-                {
-                    NativeMethods.RECT cornerRect = new NativeMethods.RECT
-                    {
-                        Left = offscreenSize.Width,
-                        Top = offscreenSize.Height,
-                        Right = offscreenSize.Width + this.HScrollBar.Width,
-                        Bottom = offscreenSize.Height + this.VScrollBar.Height,
-                    };
-                    NativeMethods.FillRect(hDstDC, ref cornerRect, (IntPtr)(NativeMethods.COLOR_BTNFACE + 1));
-                }
+                Util.DrawFrame(g, this.GetFrameRect(this.EditorState, this.Map));
             }
-            finally
+            if (renderCorner)
             {
-                if (hDstDC != IntPtr.Zero)
+                Rectangle cornerRect = new Rectangle
                 {
-                    g.ReleaseHdc(hDstDC);
-                }
+                    X = offscreenSize.Width,
+                    Y = offscreenSize.Height,
+                    Width = this.HScrollBar.Width,
+                    Height = this.VScrollBar.Height,
+                };
+                g.FillRectangle(SystemBrushes.Control, cornerRect);
             }
         }
     }
