@@ -217,10 +217,6 @@ namespace Shrimp.Views
         }
 
         private ViewModel ViewModel;
-        private Map Map
-        {
-            get { return this.EditorState != null ? this.ViewModel.EditorState.Map : null; }
-        }
 
         private EditorState EditorState
         {
