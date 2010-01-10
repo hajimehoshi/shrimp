@@ -188,6 +188,8 @@ namespace Shrimp.Views
             this.HScrollBar.Scroll += (sender, e) => { this.OnHScrollBarScroll(e); };
             this.VScrollBar.Scroll += (sender, e) => { this.OnVScrollBarScroll(e); };
 
+            this.Paint += this.MapEditor_Paint;
+
             this.ViewModel = viewModel;
         }
 
@@ -608,37 +610,37 @@ namespace Shrimp.Views
             }
         }
 
-        protected override void WndProc(ref Message m)
+        private void MapEditor_Paint(object sender, PaintEventArgs e)
         {
-            switch (m.Msg)
+            Graphics g = e.Graphics;
+            NativeMethods.RECT rect;
+            Size offscreenSize = this.OffscreenSize;
+            bool renderCorner = false;
+            if (NativeMethods.GetUpdateRect(this.Handle, out rect, false))
             {
-            case NativeMethods.WM_PAINT:
-                NativeMethods.PAINTSTRUCT ps;
-                NativeMethods.RECT rect;
-                Size offscreenSize = this.OffscreenSize;
-                bool renderCorner = false;
-                if (NativeMethods.GetUpdateRect(m.HWnd, out rect, false))
+                renderCorner = (offscreenSize.Width < rect.Right) &&
+                    (offscreenSize.Height < rect.Bottom);
+                if (offscreenSize.Width < rect.Right)
                 {
-                    renderCorner = (offscreenSize.Width < rect.Right) &&
-                        (offscreenSize.Height < rect.Bottom);
-                    if (offscreenSize.Width < rect.Right)
-                    {
-                        rect.Right = offscreenSize.Width;
-                    }
-                    if (offscreenSize.Height < rect.Bottom)
-                    {
-                        rect.Bottom = offscreenSize.Height;
-                    }
-                }
-                else
-                {
-                    rect.Left = 0;
-                    rect.Top = 0;
                     rect.Right = offscreenSize.Width;
-                    rect.Bottom = offscreenSize.Height;
-                    renderCorner = true;
                 }
-                IntPtr hDstDC = NativeMethods.BeginPaint(m.HWnd, out ps);
+                if (offscreenSize.Height < rect.Bottom)
+                {
+                    rect.Bottom = offscreenSize.Height;
+                }
+            }
+            else
+            {
+                rect.Left = 0;
+                rect.Top = 0;
+                rect.Right = offscreenSize.Width;
+                rect.Bottom = offscreenSize.Height;
+                renderCorner = true;
+            }
+            IntPtr hDstDC = IntPtr.Zero;
+            try
+            {
+                hDstDC = g.GetHdc();
                 if (this.EditorState != null && this.Map != null)
                 {
                     NativeMethods.BitBlt(
@@ -656,9 +658,9 @@ namespace Shrimp.Views
                     (0 <= mousePosition.X && mousePosition.X < offscreenSize.Width &&
                      0 <= mousePosition.Y && mousePosition.Y < offscreenSize.Height))
                 {
-                    using (Graphics g = Graphics.FromHdc(hDstDC))
+                    using (Graphics g2 = Graphics.FromHdc(hDstDC))
                     {
-                        Util.DrawFrame(g, frameRect);
+                        Util.DrawFrame(g2, frameRect);
                     }
                 }
                 if (renderCorner)
@@ -672,10 +674,14 @@ namespace Shrimp.Views
                     };
                     NativeMethods.FillRect(hDstDC, ref cornerRect, (IntPtr)(NativeMethods.COLOR_BTNFACE + 1));
                 }
-                NativeMethods.EndPaint(m.HWnd, ref ps);
-                break;
             }
-            base.WndProc(ref m);
+            finally
+            {
+                if (hDstDC != IntPtr.Zero)
+                {
+                    g.ReleaseHdc(hDstDC);
+                }
+            }
         }
     }
 }

@@ -148,8 +148,6 @@ namespace Shrimp.Views
                   ^ ((Height << 7) | (Height >> 0x19));
             }
 
-            #region Operator overloads
-
             public static implicit operator Rectangle(RECT rect)
             {
                 return rect.ToRectangle();
@@ -159,8 +157,6 @@ namespace Shrimp.Views
             {
                 return FromRectangle(rect);
             }
-
-            #endregion
         }
 
         [StructLayout(LayoutKind.Sequential)]
