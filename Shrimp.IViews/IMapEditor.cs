@@ -29,8 +29,8 @@ namespace Shrimp.IViews
         void RecreateOffscreen();
         void RenderOffscreen(Graphics g, Rectangle rect);
         void Update();
-        void UpdateOffscreen(EditorState editorState, Map map, int gridSize);
-        void UpdateOffscreen(EditorState editorState, Map map, int gridSize, Rectangle rect);
+        void UpdateOffscreen(EditorState editorState, TileSetCollection tileSetCollection, Map map, int gridSize);
+        void UpdateOffscreen(EditorState editorState, TileSetCollection tileSetCollection, Map map, int gridSize, Rectangle rect);
 
         Point CurrentMousePosition { get; }
         int CursorOffsetX { get; set; }

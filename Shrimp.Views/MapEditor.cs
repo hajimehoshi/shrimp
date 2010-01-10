@@ -192,7 +192,7 @@ namespace Shrimp.Views
             get { return this.VScrollBar.Height; }
         }
 
-        public MapEditor(ViewModel viewModel)
+        public MapEditor()
         {
             this.InitializeComponent();
 
@@ -211,11 +211,7 @@ namespace Shrimp.Views
 
             this.HScrollBar.Scroll += (sender, e) => { this.OnHScrollBarScroll(e); };
             this.VScrollBar.Scroll += (sender, e) => { this.OnVScrollBarScroll(e); };
-
-            this.ViewModel = viewModel;
         }
-
-        private ViewModel ViewModel;
 
         public void AdjustScrollBars(EditorState editorState, Map map, int gridSize)
         {
@@ -284,13 +280,13 @@ namespace Shrimp.Views
         private IntPtr HOffscreenDC = IntPtr.Zero;
         private unsafe IntPtr OffscreenPixels = IntPtr.Zero;
 
-        public void UpdateOffscreen(EditorState editorState, Map map, int gridSize)
+        public void UpdateOffscreen(EditorState editorState, TileSetCollection tileSetCollection, Map map, int gridSize)
         {
             Rectangle rect = new Rectangle(new Point(0, 0), this.OffscreenSize);
-            this.UpdateOffscreen(editorState, map, gridSize, rect);
+            this.UpdateOffscreen(editorState, tileSetCollection, map, gridSize, rect);
         }
 
-        public void UpdateOffscreen(EditorState editorState, Map map, int gridSize, Rectangle rect)
+        public void UpdateOffscreen(EditorState editorState, TileSetCollection tileSetCollection, Map map, int gridSize, Rectangle rect)
         {
             if (editorState == null || map == null)
             {
@@ -335,7 +331,6 @@ namespace Shrimp.Views
                 Dictionary<Bitmap, BitmapData> bdHash = null;
                 try
                 {
-                    TileSetCollection tileSetCollection = this.ViewModel.TileSetCollection;
                     bdHash = new Dictionary<Bitmap, BitmapData>();
                     LayerMode layerMode = editorState.LayerMode;
                     ScaleMode scaleMode = editorState.ScaleMode;
