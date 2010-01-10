@@ -274,17 +274,7 @@ namespace Shrimp.Presenters
                 Graphics g = e.Graphics;
                 Rectangle clipRect = e.ClipRectangle;
                 Size offscreenSize = this.MapEditor.OffscreenSize;
-                bool renderCorner;
-                if (clipRect != Rectangle.Empty)
-                {
-                    renderCorner = (offscreenSize.Width < clipRect.Right) &&
-                        (offscreenSize.Height < clipRect.Bottom);
-                }
-                else
-                {
-                    renderCorner = true;
-                }
-                if (this.ViewModel.EditorState != null && this.Map != null)
+                if (this.Map != null)
                 {
                     this.MapEditor.RenderOffscreen(g, clipRect);
                 }
@@ -299,7 +289,9 @@ namespace Shrimp.Presenters
                 {
                     Util.DrawFrame(g, this.MapEditor.GetFrameRect(this.ViewModel.EditorState, this.Map));
                 }
-                if (renderCorner)
+                if (((offscreenSize.Width < clipRect.Right) &&
+                     (offscreenSize.Height < clipRect.Bottom)) ||
+                    clipRect == Rectangle.Empty)
                 {
                     Rectangle cornerRect = new Rectangle
                     {
