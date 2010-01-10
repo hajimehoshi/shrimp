@@ -298,11 +298,7 @@ namespace Shrimp.Views
 
         public void UpdateOffscreen(EditorState editorState, Map map, Rectangle rect)
         {
-            if (this.ViewModel == null || editorState == null)
-            {
-                return;
-            }
-            if (map == null)
+            if (editorState == null || map == null)
             {
                 return;
             }
@@ -643,7 +639,7 @@ namespace Shrimp.Views
                     renderCorner = true;
                 }
                 IntPtr hDstDC = NativeMethods.BeginPaint(m.HWnd, out ps);
-                if (this.ViewModel != null && this.EditorState != null && this.Map != null)
+                if (this.EditorState != null && this.Map != null)
                 {
                     NativeMethods.BitBlt(
                         hDstDC, rect.Left, rect.Top, rect.Width, rect.Height,
