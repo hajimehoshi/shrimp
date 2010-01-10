@@ -168,6 +168,11 @@ namespace Shrimp.Views
             }
         }
 
+        public new Point CurrentMousePosition
+        {
+            get { return this.PointToClient(Control.MousePosition); }
+        }
+
         public int HScrollBarSmallChange
         {
             get { return this.HScrollBar.SmallChange; }
@@ -176,11 +181,6 @@ namespace Shrimp.Views
         public int HScrollBarWidth
         {
             get { return this.HScrollBar.Width; }
-        }
-
-        public Point MousePosition
-        {
-            get { return this.PointToClient(Control.MousePosition); }
         }
 
         public int VScrollBarSmallChange

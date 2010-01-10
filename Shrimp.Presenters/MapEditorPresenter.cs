@@ -282,7 +282,7 @@ namespace Shrimp.Presenters
                 {
                     g.FillRectangle(SystemBrushes.Control, clipRect);
                 }
-                Point mousePosition = this.MapEditor.MousePosition;
+                Point mousePosition = this.MapEditor.CurrentMousePosition;
                 if ((this.ViewModel.EditorState.LayerMode == LayerMode.Event) ||
                     (0 <= mousePosition.X && mousePosition.X < offscreenSize.Width &&
                      0 <= mousePosition.Y && mousePosition.Y < offscreenSize.Height))

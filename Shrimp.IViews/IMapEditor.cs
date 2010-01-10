@@ -32,7 +32,7 @@ namespace Shrimp.IViews
         void UpdateOffscreen(EditorState editorState, Map map);
         void UpdateOffscreen(EditorState editorState, Map map, Rectangle rect);
 
-        Size OffscreenSize { get; }
+        Point CurrentMousePosition { get; }
         int CursorOffsetX { get; set; }
         int CursorOffsetY { get; set; }
         int CursorTileX { get; set; }
@@ -40,7 +40,7 @@ namespace Shrimp.IViews
         int HScrollBarSmallChange { get; }
         int HScrollBarWidth { get; }
         bool IsPickingTiles { get; set; }
-        Point MousePosition { get; }
+        Size OffscreenSize { get; }
         int PickerStartX { get; set; }
         int PickerStartY { get; set; }
         int RenderingTileStartX { get; set; }
