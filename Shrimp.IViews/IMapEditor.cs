@@ -21,16 +21,16 @@ namespace Shrimp.IViews
         event PaintEventHandler Paint;
         event ScrollEventHandler VScrollBarScroll;
 
-        void AdjustScrollBars(EditorState editorState, Map map);
-        Rectangle GetFrameRect(EditorState editorState, Map map);
+        void AdjustScrollBars(EditorState editorState, Map map, int gridSize);
+        Rectangle GetFrameRect(EditorState editorState, Map map, int gridSize);
         void Invalidate();
         void Invalidate(Rectangle rect);
         void InvalidateScrolling(int dx, int dy);
         void RecreateOffscreen();
         void RenderOffscreen(Graphics g, Rectangle rect);
         void Update();
-        void UpdateOffscreen(EditorState editorState, Map map);
-        void UpdateOffscreen(EditorState editorState, Map map, Rectangle rect);
+        void UpdateOffscreen(EditorState editorState, Map map, int gridSize);
+        void UpdateOffscreen(EditorState editorState, Map map, int gridSize, Rectangle rect);
 
         Point CurrentMousePosition { get; }
         int CursorOffsetX { get; set; }

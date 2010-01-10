@@ -44,12 +44,11 @@ namespace Shrimp.Views
             }
         }
 
-        public Rectangle GetFrameRect(EditorState editorState, Map map)
+        public Rectangle GetFrameRect(EditorState editorState, Map map, int gridSize)
         {
             if (map != null)
             {
                 Point offset = editorState.GetMapOffset(map.Id);
-                int gridSize = this.GridSize;
                 if (!this.IsPickingTiles)
                 {
                     SelectedTiles selectedTiles = editorState.SelectedTiles;
@@ -168,7 +167,7 @@ namespace Shrimp.Views
             }
         }
 
-        public new Point CurrentMousePosition
+        public Point CurrentMousePosition
         {
             get { return this.PointToClient(Control.MousePosition); }
         }
@@ -218,17 +217,12 @@ namespace Shrimp.Views
 
         private ViewModel ViewModel;
 
-        private EditorState EditorState
-        {
-            get { return this.ViewModel != null ? this.ViewModel.EditorState : null; }
-        }
-
-        public void AdjustScrollBars(EditorState editorState, Map map)
+        public void AdjustScrollBars(EditorState editorState, Map map, int gridSize)
         {
             if (map != null)
             {
                 Point offset = editorState.GetMapOffset(map.Id);
-                int hMax = map.Width * this.GridSize - this.HScrollBar.Width;
+                int hMax = map.Width * gridSize - this.HScrollBar.Width;
                 if (0 < hMax)
                 {
                     this.HScrollBar.Enabled = true;
@@ -244,7 +238,7 @@ namespace Shrimp.Views
                     this.HScrollBar.Enabled = false;
                     this.HScrollBar.Value = 0;
                 }
-                int vMax = map.Height * this.GridSize - this.VScrollBar.Height;
+                int vMax = map.Height * gridSize - this.VScrollBar.Height;
                 if (0 < vMax)
                 {
                     this.VScrollBar.Enabled = true;
@@ -285,39 +279,18 @@ namespace Shrimp.Views
         public int RenderingTileStartX { get; set; }
         public int RenderingTileStartY { get; set; }
 
-        // TODO: Remove this later
-        private int GridSize
-        {
-            get
-            {
-                switch (this.EditorState.ScaleMode)
-                {
-                case ScaleMode.Scale1:
-                    return 32;
-                case ScaleMode.Scale2:
-                    return 16;
-                case ScaleMode.Scale4:
-                    return 8;
-                case ScaleMode.Scale8:
-                    return 4;
-                default:
-                    Debug.Fail("Invalid scale");
-                    return 0;
-                }
-            }
-        }
-
         public Size OffscreenSize { get; private set; }
         private IntPtr HOffscreen = IntPtr.Zero;
         private IntPtr HOffscreenDC = IntPtr.Zero;
         private unsafe IntPtr OffscreenPixels = IntPtr.Zero;
 
-        public void UpdateOffscreen(EditorState editorState, Map map)
+        public void UpdateOffscreen(EditorState editorState, Map map, int gridSize)
         {
-            this.UpdateOffscreen(editorState, map, new Rectangle(new Point(0, 0), this.OffscreenSize));
+            Rectangle rect = new Rectangle(new Point(0, 0), this.OffscreenSize);
+            this.UpdateOffscreen(editorState, map, gridSize, rect);
         }
 
-        public void UpdateOffscreen(EditorState editorState, Map map, Rectangle rect)
+        public void UpdateOffscreen(EditorState editorState, Map map, int gridSize, Rectangle rect)
         {
             if (editorState == null || map == null)
             {
@@ -329,7 +302,7 @@ namespace Shrimp.Views
             int offscreenHeight = this.OffscreenSize.Height;
             Size offscreenSize = this.OffscreenSize;
 
-            int tileGridSize = this.GridSize;
+            int tileGridSize = gridSize;
             int tileStartI = Math.Max(-offset.X / tileGridSize, 0);
             int tileEndI = Math.Min((offscreenWidth - offset.X) / tileGridSize + 1, map.Width);
             int tileStartJ = Math.Max(-offset.Y / tileGridSize, 0);
@@ -337,25 +310,25 @@ namespace Shrimp.Views
 
             using (Graphics g = Graphics.FromHdc(this.HOffscreenDC))
             {
-                if (0 < offscreenHeight - map.Height * this.GridSize)
+                if (0 < offscreenHeight - map.Height * gridSize)
                 {
                     NativeMethods.RECT win32Rect = new NativeMethods.RECT
                     {
                         Left = 0,
                         Right = offscreenWidth,
-                        Top = map.Height * this.GridSize,
+                        Top = map.Height * gridSize,
                         Bottom = offscreenHeight,
                     };
                     NativeMethods.FillRect(this.HOffscreenDC, ref win32Rect, (IntPtr)(NativeMethods.COLOR_BTNFACE + 1));
                 }
-                if (0 < offscreenWidth - map.Width * this.GridSize)
+                if (0 < offscreenWidth - map.Width * gridSize)
                 {
                     NativeMethods.RECT win32Rect = new NativeMethods.RECT
                     {
-                        Left = map.Width * this.GridSize,
+                        Left = map.Width * gridSize,
                         Right = offscreenWidth,
                         Top = 0,
-                        Bottom = map.Height * this.GridSize,
+                        Bottom = map.Height * gridSize,
                     };
                     NativeMethods.FillRect(this.HOffscreenDC, ref win32Rect, (IntPtr)(NativeMethods.COLOR_BTNFACE + 1));
                 }

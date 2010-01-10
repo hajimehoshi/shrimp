@@ -19,10 +19,10 @@ namespace Shrimp.Presenters
 
             this.MapEditor.AfterLayout += (sender, e) =>
             {
-                this.MapEditor.AdjustScrollBars(this.ViewModel.EditorState, this.Map);
+                this.MapEditor.AdjustScrollBars(this.ViewModel.EditorState, this.Map, this.GridSize);
                 this.MapEditor.RecreateOffscreen();
                 this.MapEditor.Invalidate();
-                this.MapEditor.UpdateOffscreen(this.ViewModel.EditorState, this.Map);
+                this.MapEditor.UpdateOffscreen(this.ViewModel.EditorState, this.Map, this.GridSize);
                 this.MapEditor.Update();
             };
 
@@ -39,7 +39,7 @@ namespace Shrimp.Presenters
                     X = e.X - offset.X,
                     Y = e.Y - offset.Y,
                 };
-                Rectangle oldFrameRect = this.MapEditor.GetFrameRect(this.ViewModel.EditorState, this.Map);
+                Rectangle oldFrameRect = this.MapEditor.GetFrameRect(this.ViewModel.EditorState, this.Map, this.GridSize);
                 this.MapEditor.CursorTileX =
                     Math.Min(Math.Max(mousePosition.X / this.GridSize, 0), this.Map.Width - 1);
                 this.MapEditor.CursorTileY =
@@ -79,7 +79,7 @@ namespace Shrimp.Presenters
                 else
                 {
                     this.MapEditor.Invalidate(oldFrameRect);
-                    Rectangle frameRect = this.MapEditor.GetFrameRect(this.ViewModel.EditorState, this.Map);
+                    Rectangle frameRect = this.MapEditor.GetFrameRect(this.ViewModel.EditorState, this.Map, this.GridSize);
                     this.MapEditor.Invalidate(frameRect);
                     this.MapEditor.Update();
                 }
@@ -127,7 +127,7 @@ namespace Shrimp.Presenters
                         }
                     }
                 }
-                Rectangle frameRect = this.MapEditor.GetFrameRect(this.ViewModel.EditorState, this.Map);
+                Rectangle frameRect = this.MapEditor.GetFrameRect(this.ViewModel.EditorState, this.Map, this.GridSize);
                 if (this.PreviousFrameRect != frameRect)
                 {
                     this.MapEditor.Invalidate(this.PreviousFrameRect);
@@ -202,7 +202,7 @@ namespace Shrimp.Presenters
                         foreach (var c in commands.Reverse()) { c.Undo(); }
                         this.Map.Updated += this.Map_Updated;
                         this.MapEditor.Invalidate();
-                        this.MapEditor.UpdateOffscreen(this.ViewModel.EditorState, this.Map);
+                        this.MapEditor.UpdateOffscreen(this.ViewModel.EditorState, this.Map, this.GridSize);
                         this.MapEditor.Update();
                     };
                     this.ViewModel.EditorState.AddCommand(command);
@@ -220,7 +220,7 @@ namespace Shrimp.Presenters
                 Point offset = this.ViewModel.EditorState.GetMapOffset(this.Map.Id);
                 previousFrameRect.X += -mapOffsetOnSavingFrameRect.X + offset.X;
                 previousFrameRect.Y += -mapOffsetOnSavingFrameRect.Y + offset.Y;
-                Rectangle frameRect = this.MapEditor.GetFrameRect(this.ViewModel.EditorState, this.Map);
+                Rectangle frameRect = this.MapEditor.GetFrameRect(this.ViewModel.EditorState, this.Map, this.GridSize);
                 if (previousFrameRect != frameRect)
                 {
                     this.MapEditor.Invalidate(previousFrameRect);
@@ -287,7 +287,7 @@ namespace Shrimp.Presenters
                     (0 <= mousePosition.X && mousePosition.X < offscreenSize.Width &&
                      0 <= mousePosition.Y && mousePosition.Y < offscreenSize.Height))
                 {
-                    Util.DrawFrame(g, this.MapEditor.GetFrameRect(this.ViewModel.EditorState, this.Map));
+                    Util.DrawFrame(g, this.MapEditor.GetFrameRect(this.ViewModel.EditorState, this.Map, this.GridSize));
                 }
                 if (((offscreenSize.Width < clipRect.Right) &&
                      (offscreenSize.Height < clipRect.Bottom)) ||
@@ -319,14 +319,14 @@ namespace Shrimp.Presenters
                 else if (e.Property == editorState.GetProperty(_ => _.LayerMode))
                 {
                     this.MapEditor.Invalidate();
-                    this.MapEditor.UpdateOffscreen(editorState, this.Map);
+                    this.MapEditor.UpdateOffscreen(editorState, this.Map, this.GridSize);
                     this.MapEditor.Update();
                 }
                 else if (e.Property == editorState.GetProperty(_ => _.ScaleMode))
                 {
-                    this.MapEditor.AdjustScrollBars(editorState, this.Map);
+                    this.MapEditor.AdjustScrollBars(editorState, this.Map, this.GridSize);
                     this.MapEditor.Invalidate();
-                    this.MapEditor.UpdateOffscreen(editorState, this.Map);
+                    this.MapEditor.UpdateOffscreen(editorState, this.Map, this.GridSize);
                     this.MapEditor.Update();
                 }
                 else if (e.Property == editorState.GetProperty(_ => _.MapOffsets))
@@ -335,7 +335,7 @@ namespace Shrimp.Presenters
                     {
                         return;
                     }
-                    this.MapEditor.AdjustScrollBars(editorState, this.Map);
+                    this.MapEditor.AdjustScrollBars(editorState, this.Map, this.GridSize);
                     int mapId = this.Map.Id;
                     Point offset = editorState.GetMapOffset(mapId);
                     if (!previousMapOffsets.ContainsKey(mapId))
@@ -346,7 +346,7 @@ namespace Shrimp.Presenters
                     int dy = offset.Y - previousMapOffsets[mapId].Y;
                     if (dx != 0)
                     {
-                        this.MapEditor.UpdateOffscreen(editorState, this.Map, new Rectangle
+                        this.MapEditor.UpdateOffscreen(editorState, this.Map, this.GridSize, new Rectangle
                         {
                             X = (0 < dx) ? this.MapEditor.OffscreenSize.Width - dx : 0,
                             Y = 0,
@@ -356,7 +356,7 @@ namespace Shrimp.Presenters
                     }
                     if (dy != 0)
                     {
-                        this.MapEditor.UpdateOffscreen(editorState, this.Map, new Rectangle
+                        this.MapEditor.UpdateOffscreen(editorState, this.Map, this.GridSize, new Rectangle
                         {
                             X = 0,
                             Y = (0 < dy) ? this.MapEditor.OffscreenSize.Height - dy : 0,
@@ -402,9 +402,9 @@ namespace Shrimp.Presenters
                     {
                         this.map.Updated += this.Map_Updated;
                     }
-                    this.MapEditor.AdjustScrollBars(this.ViewModel.EditorState, this.map);
+                    this.MapEditor.AdjustScrollBars(this.ViewModel.EditorState, this.map, this.GridSize);
                     this.MapEditor.Invalidate();
-                    this.MapEditor.UpdateOffscreen(this.ViewModel.EditorState, this.map);
+                    this.MapEditor.UpdateOffscreen(this.ViewModel.EditorState, this.map, this.GridSize);
                     this.MapEditor.Update();
                 }
             }
@@ -416,9 +416,9 @@ namespace Shrimp.Presenters
             if (e.Property == this.Map.GetProperty(_ => _.Width) ||
                 e.Property == this.Map.GetProperty(_ => _.Height))
             {
-                this.MapEditor.AdjustScrollBars(this.ViewModel.EditorState, this.Map);
+                this.MapEditor.AdjustScrollBars(this.ViewModel.EditorState, this.Map, this.GridSize);
                 this.MapEditor.Invalidate();
-                this.MapEditor.UpdateOffscreen(this.ViewModel.EditorState, this.Map);
+                this.MapEditor.UpdateOffscreen(this.ViewModel.EditorState, this.Map, this.GridSize);
                 this.MapEditor.Update();
             }
             else if (e.Property == this.Map.GetProperty(_ => _.Tiles))
@@ -433,7 +433,7 @@ namespace Shrimp.Presenters
                     Height = updatedTilesRect.Height * this.GridSize,
                 };
                 this.MapEditor.Invalidate(updatedRect);
-                this.MapEditor.UpdateOffscreen(this.ViewModel.EditorState, this.Map, updatedRect);
+                this.MapEditor.UpdateOffscreen(this.ViewModel.EditorState, this.Map, this.GridSize, updatedRect);
                 this.MapEditor.Update();
             }
         }
