@@ -272,8 +272,6 @@ namespace Shrimp.Views
         public bool IsPickingTiles { get; set; }
         public int PickerStartX { get; set; }
         public int PickerStartY { get; set; }
-        public int RenderingTileStartX { get; set; }
-        public int RenderingTileStartY { get; set; }
 
         public Size OffscreenSize { get; private set; }
         private IntPtr HOffscreen = IntPtr.Zero;

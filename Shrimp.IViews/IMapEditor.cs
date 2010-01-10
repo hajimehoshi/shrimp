@@ -43,8 +43,6 @@ namespace Shrimp.IViews
         Size OffscreenSize { get; }
         int PickerStartX { get; set; }
         int PickerStartY { get; set; }
-        int RenderingTileStartX { get; set; }
-        int RenderingTileStartY { get; set; }
         int VScrollBarSmallChange { get; }
         int VScrollBarHeight { get; }
     }

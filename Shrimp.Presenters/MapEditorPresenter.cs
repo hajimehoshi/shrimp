@@ -26,6 +26,7 @@ namespace Shrimp.Presenters
                 this.MapEditor.Update();
             };
 
+            Point renderingTileStart = Point.Empty;
             var tempCommands = new List<ICommand>();
             this.MapEditor.MouseDown += (sender, e) =>
             {
@@ -58,8 +59,7 @@ namespace Shrimp.Presenters
                         }
                         int x = this.MapEditor.CursorTileX + this.MapEditor.CursorOffsetX;
                         int y = this.MapEditor.CursorTileY + this.MapEditor.CursorOffsetY;
-                        this.MapEditor.RenderingTileStartX = x;
-                        this.MapEditor.RenderingTileStartY = y;
+                        renderingTileStart = new Point(x, y);
                         Command command =
                             this.Map.CreateSettingTilesCommand(layer, x, y, this.ViewModel.EditorState.SelectedTiles, 0, 0);
                         command.Do();
@@ -119,7 +119,7 @@ namespace Shrimp.Presenters
                                     int y = this.MapEditor.CursorTileY + this.MapEditor.CursorOffsetY;
                                     Command command = this.Map.CreateSettingTilesCommand(
                                         layer, x, y, selectedTiles,
-                                        x - this.MapEditor.RenderingTileStartX, y - this.MapEditor.RenderingTileStartY);
+                                        x - renderingTileStart.X, y - renderingTileStart.Y);
                                     command.Do();
                                     tempCommands.Add(command);
                                 }
