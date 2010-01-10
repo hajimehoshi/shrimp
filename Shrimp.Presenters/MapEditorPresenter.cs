@@ -26,6 +26,7 @@ namespace Shrimp.Presenters
                 this.MapEditor.Update();
             };
 
+            bool isPickingTiles = false;
             Point renderingTileStart = Point.Empty;
             var tempCommands = new List<ICommand>();
             this.MapEditor.MouseDown += (sender, e) =>
@@ -40,7 +41,7 @@ namespace Shrimp.Presenters
                     X = e.X - offset.X,
                     Y = e.Y - offset.Y,
                 };
-                Rectangle oldFrameRect = this.MapEditor.GetFrameRect(this.ViewModel.EditorState, this.Map, this.GridSize);
+                Rectangle oldFrameRect = this.MapEditor.GetFrameRect(this.ViewModel.EditorState, this.Map, this.GridSize, isPickingTiles);
                 this.MapEditor.CursorTileX =
                     Math.Min(Math.Max(mousePosition.X / this.GridSize, 0), this.Map.Width - 1);
                 this.MapEditor.CursorTileY =
@@ -71,7 +72,7 @@ namespace Shrimp.Presenters
                         this.MapEditor.CursorOffsetY = 0;
                         this.MapEditor.PickerStartX = this.MapEditor.CursorTileX;
                         this.MapEditor.PickerStartY = this.MapEditor.CursorTileY;
-                        this.MapEditor.IsPickingTiles = true;
+                        isPickingTiles = true;
                         this.MapEditor.Invalidate(oldFrameRect);
                         this.MapEditor.Update();
                     }
@@ -79,7 +80,7 @@ namespace Shrimp.Presenters
                 else
                 {
                     this.MapEditor.Invalidate(oldFrameRect);
-                    Rectangle frameRect = this.MapEditor.GetFrameRect(this.ViewModel.EditorState, this.Map, this.GridSize);
+                    Rectangle frameRect = this.MapEditor.GetFrameRect(this.ViewModel.EditorState, this.Map, this.GridSize, isPickingTiles);
                     this.MapEditor.Invalidate(frameRect);
                     this.MapEditor.Update();
                 }
@@ -101,7 +102,7 @@ namespace Shrimp.Presenters
                             Math.Min(Math.Max(mousePosition.X / this.GridSize, 0), this.Map.Width - 1);
                         this.MapEditor.CursorTileY =
                             Math.Min(Math.Max(mousePosition.Y / this.GridSize, 0), this.Map.Height - 1);
-                        if (!this.MapEditor.IsPickingTiles)
+                        if (!isPickingTiles)
                         {
                             if ((e.Button & MouseButtons.Left) != 0)
                             {
@@ -127,7 +128,7 @@ namespace Shrimp.Presenters
                         }
                     }
                 }
-                Rectangle frameRect = this.MapEditor.GetFrameRect(this.ViewModel.EditorState, this.Map, this.GridSize);
+                Rectangle frameRect = this.MapEditor.GetFrameRect(this.ViewModel.EditorState, this.Map, this.GridSize, isPickingTiles);
                 if (this.PreviousFrameRect != frameRect)
                 {
                     this.MapEditor.Invalidate(this.PreviousFrameRect);
@@ -150,7 +151,7 @@ namespace Shrimp.Presenters
                 {
                     return;
                 }
-                if (this.MapEditor.IsPickingTiles)
+                if (isPickingTiles)
                 {
                     if ((e.Button & MouseButtons.Right) != 0)
                     {
@@ -186,7 +187,7 @@ namespace Shrimp.Presenters
                                 SelectedTiles.Picker(tiles, pickedRegionWidth, pickedRegionHeight);
                         }
                     }
-                    this.MapEditor.IsPickingTiles = false;
+                    isPickingTiles = false;
                 }
                 if (0 < tempCommands.Count)
                 {
@@ -220,7 +221,7 @@ namespace Shrimp.Presenters
                 Point offset = this.ViewModel.EditorState.GetMapOffset(this.Map.Id);
                 previousFrameRect.X += -mapOffsetOnSavingFrameRect.X + offset.X;
                 previousFrameRect.Y += -mapOffsetOnSavingFrameRect.Y + offset.Y;
-                Rectangle frameRect = this.MapEditor.GetFrameRect(this.ViewModel.EditorState, this.Map, this.GridSize);
+                Rectangle frameRect = this.MapEditor.GetFrameRect(this.ViewModel.EditorState, this.Map, this.GridSize, isPickingTiles);
                 if (previousFrameRect != frameRect)
                 {
                     this.MapEditor.Invalidate(previousFrameRect);
@@ -287,7 +288,7 @@ namespace Shrimp.Presenters
                     (0 <= mousePosition.X && mousePosition.X < offscreenSize.Width &&
                      0 <= mousePosition.Y && mousePosition.Y < offscreenSize.Height))
                 {
-                    Util.DrawFrame(g, this.MapEditor.GetFrameRect(this.ViewModel.EditorState, this.Map, this.GridSize));
+                    Util.DrawFrame(g, this.MapEditor.GetFrameRect(this.ViewModel.EditorState, this.Map, this.GridSize, isPickingTiles));
                 }
                 if (((offscreenSize.Width < clipRect.Right) &&
                      (offscreenSize.Height < clipRect.Bottom)) ||

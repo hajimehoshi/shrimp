@@ -44,12 +44,12 @@ namespace Shrimp.Views
             }
         }
 
-        public Rectangle GetFrameRect(EditorState editorState, Map map, int gridSize)
+        public Rectangle GetFrameRect(EditorState editorState, Map map, int gridSize, bool isPickingTiles)
         {
             if (map != null)
             {
                 Point offset = editorState.GetMapOffset(map.Id);
-                if (!this.IsPickingTiles)
+                if (!isPickingTiles)
                 {
                     SelectedTiles selectedTiles = editorState.SelectedTiles;
                     int cursorHorizontalCount, cursorVerticalCount;
@@ -269,7 +269,6 @@ namespace Shrimp.Views
         public int CursorTileY { get; set; }
         public int CursorOffsetX { get; set; }
         public int CursorOffsetY { get; set; }
-        public bool IsPickingTiles { get; set; }
         public int PickerStartX { get; set; }
         public int PickerStartY { get; set; }
 

@@ -22,7 +22,7 @@ namespace Shrimp.IViews
         event ScrollEventHandler VScrollBarScroll;
 
         void AdjustScrollBars(EditorState editorState, Map map, int gridSize);
-        Rectangle GetFrameRect(EditorState editorState, Map map, int gridSize);
+        Rectangle GetFrameRect(EditorState editorState, Map map, int gridSize, bool isPickingTiles);
         void Invalidate();
         void Invalidate(Rectangle rect);
         void InvalidateScrolling(int dx, int dy);
@@ -39,7 +39,6 @@ namespace Shrimp.IViews
         int CursorTileY { get; set; }
         int HScrollBarSmallChange { get; }
         int HScrollBarWidth { get; }
-        bool IsPickingTiles { get; set; }
         Size OffscreenSize { get; }
         int PickerStartX { get; set; }
         int PickerStartY { get; set; }
