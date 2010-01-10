@@ -148,6 +148,26 @@ namespace Shrimp.Views
             }
         }
 
+        public void RenderOffscreen(Graphics g, Rectangle rect)
+        {
+            IntPtr hDstDC = IntPtr.Zero;
+            try
+            {
+                hDstDC = g.GetHdc();
+                NativeMethods.BitBlt(
+                    hDstDC, rect.Left, rect.Top, rect.Width, rect.Height,
+                    this.HOffscreenDC, rect.Left, rect.Top,
+                    NativeMethods.TernaryRasterOperations.SRCCOPY);
+            }
+            finally
+            {
+                if (hDstDC != IntPtr.Zero)
+                {
+                    g.ReleaseHdc(hDstDC);
+                }
+            }
+        }
+
         public int HScrollBarSmallChange
         {
             get { return this.HScrollBar.SmallChange; }
@@ -156,6 +176,11 @@ namespace Shrimp.Views
         public int HScrollBarWidth
         {
             get { return this.HScrollBar.Width; }
+        }
+
+        public Point MousePosition
+        {
+            get { return this.PointToClient(Control.MousePosition); }
         }
 
         public int VScrollBarSmallChange
@@ -187,8 +212,6 @@ namespace Shrimp.Views
 
             this.HScrollBar.Scroll += (sender, e) => { this.OnHScrollBarScroll(e); };
             this.VScrollBar.Scroll += (sender, e) => { this.OnVScrollBarScroll(e); };
-
-            this.Paint += this.MapEditor_Paint;
 
             this.ViewModel = viewModel;
         }
@@ -607,64 +630,6 @@ namespace Shrimp.Views
                         }
                     }
                 }
-            }
-        }
-
-        private void MapEditor_Paint(object sender, PaintEventArgs e)
-        {
-            Graphics g = e.Graphics;
-            Rectangle clipRect = e.ClipRectangle;
-            Size offscreenSize = this.OffscreenSize;
-            bool renderCorner;
-            if (clipRect != Rectangle.Empty)
-            {
-                renderCorner = (offscreenSize.Width < clipRect.Right) &&
-                    (offscreenSize.Height < clipRect.Bottom);
-            }
-            else
-            {
-                renderCorner = true;
-            }
-            if (this.EditorState != null && this.Map != null)
-            {
-                IntPtr hDstDC = IntPtr.Zero;
-                try
-                {
-                    hDstDC = g.GetHdc();
-                    NativeMethods.BitBlt(
-                        hDstDC, clipRect.Left, clipRect.Top, clipRect.Width, clipRect.Height,
-                        this.HOffscreenDC, clipRect.Left, clipRect.Top,
-                        NativeMethods.TernaryRasterOperations.SRCCOPY);
-                }
-                finally
-                {
-                    if (hDstDC != IntPtr.Zero)
-                    {
-                        g.ReleaseHdc(hDstDC);
-                    }
-                }
-            }
-            else
-            {
-                g.FillRectangle(SystemBrushes.Control, clipRect);
-            }
-            Point mousePosition = this.PointToClient(Control.MousePosition);
-            if ((this.EditorState.LayerMode == LayerMode.Event) ||
-                (0 <= mousePosition.X && mousePosition.X < offscreenSize.Width &&
-                 0 <= mousePosition.Y && mousePosition.Y < offscreenSize.Height))
-            {
-                Util.DrawFrame(g, this.GetFrameRect(this.EditorState, this.Map));
-            }
-            if (renderCorner)
-            {
-                Rectangle cornerRect = new Rectangle
-                {
-                    X = offscreenSize.Width,
-                    Y = offscreenSize.Height,
-                    Width = this.HScrollBar.Width,
-                    Height = this.VScrollBar.Height,
-                };
-                g.FillRectangle(SystemBrushes.Control, cornerRect);
             }
         }
     }

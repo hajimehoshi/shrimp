@@ -269,6 +269,49 @@ namespace Shrimp.Presenters
                 });
             };
 
+            this.MapEditor.Paint += (sender, e) =>
+            {
+                Graphics g = e.Graphics;
+                Rectangle clipRect = e.ClipRectangle;
+                Size offscreenSize = this.MapEditor.OffscreenSize;
+                bool renderCorner;
+                if (clipRect != Rectangle.Empty)
+                {
+                    renderCorner = (offscreenSize.Width < clipRect.Right) &&
+                        (offscreenSize.Height < clipRect.Bottom);
+                }
+                else
+                {
+                    renderCorner = true;
+                }
+                if (this.ViewModel.EditorState != null && this.Map != null)
+                {
+                    this.MapEditor.RenderOffscreen(g, clipRect);
+                }
+                else
+                {
+                    g.FillRectangle(SystemBrushes.Control, clipRect);
+                }
+                Point mousePosition = this.MapEditor.MousePosition;
+                if ((this.ViewModel.EditorState.LayerMode == LayerMode.Event) ||
+                    (0 <= mousePosition.X && mousePosition.X < offscreenSize.Width &&
+                     0 <= mousePosition.Y && mousePosition.Y < offscreenSize.Height))
+                {
+                    Util.DrawFrame(g, this.MapEditor.GetFrameRect(this.ViewModel.EditorState, this.Map));
+                }
+                if (renderCorner)
+                {
+                    Rectangle cornerRect = new Rectangle
+                    {
+                        X = offscreenSize.Width,
+                        Y = offscreenSize.Height,
+                        Width = this.MapEditor.HScrollBarWidth,
+                        Height = this.MapEditor.VScrollBarHeight,
+                    };
+                    g.FillRectangle(SystemBrushes.Control, cornerRect);
+                }
+            };
+
             this.ViewModel.IsOpenedChanged += delegate
             {
                 this.Map = this.ViewModel.EditorState.Map;

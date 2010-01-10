@@ -18,6 +18,7 @@ namespace Shrimp.IViews
         event LayoutEventHandler Layout;
         event MouseEventHandler MouseUp;
         event MouseEventHandler MouseWheel;
+        event PaintEventHandler Paint;
         event ScrollEventHandler VScrollBarScroll;
 
         void AdjustScrollBars(EditorState editorState, Map map);
@@ -26,6 +27,7 @@ namespace Shrimp.IViews
         void Invalidate(Rectangle rect);
         void InvalidateScrolling(int dx, int dy);
         void RecreateOffscreen();
+        void RenderOffscreen(Graphics g, Rectangle rect);
         void Update();
         void UpdateOffscreen(EditorState editorState, Map map);
         void UpdateOffscreen(EditorState editorState, Map map, Rectangle rect);
@@ -38,6 +40,7 @@ namespace Shrimp.IViews
         int HScrollBarSmallChange { get; }
         int HScrollBarWidth { get; }
         bool IsPickingTiles { get; set; }
+        Point MousePosition { get; }
         int PickerStartX { get; set; }
         int PickerStartY { get; set; }
         int RenderingTileStartX { get; set; }
