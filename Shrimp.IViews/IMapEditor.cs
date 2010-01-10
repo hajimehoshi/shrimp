@@ -22,7 +22,6 @@ namespace Shrimp.IViews
         event ScrollEventHandler VScrollBarScroll;
 
         void AdjustScrollBars(EditorState editorState, Map map, int gridSize);
-        Rectangle GetFrameRect(EditorState editorState, Map map, int gridSize, bool isPickingTiles);
         void Invalidate();
         void Invalidate(Rectangle rect);
         void InvalidateScrolling(int dx, int dy);
@@ -33,15 +32,9 @@ namespace Shrimp.IViews
         void UpdateOffscreen(EditorState editorState, TileSetCollection tileSetCollection, Map map, int gridSize, Rectangle rect);
 
         Point CurrentMousePosition { get; }
-        int CursorOffsetX { get; set; }
-        int CursorOffsetY { get; set; }
-        int CursorTileX { get; set; }
-        int CursorTileY { get; set; }
         int HScrollBarSmallChange { get; }
         int HScrollBarWidth { get; }
         Size OffscreenSize { get; }
-        int PickerStartX { get; set; }
-        int PickerStartY { get; set; }
         int VScrollBarSmallChange { get; }
         int VScrollBarHeight { get; }
     }

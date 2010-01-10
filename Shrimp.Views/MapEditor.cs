@@ -44,7 +44,7 @@ namespace Shrimp.Views
             }
         }
 
-        public Rectangle GetFrameRect(EditorState editorState, Map map, int gridSize, bool isPickingTiles)
+        /*public Rectangle GetFrameRect(EditorState editorState, Map map, int gridSize, bool isPickingTiles)
         {
             if (map != null)
             {
@@ -91,7 +91,7 @@ namespace Shrimp.Views
             {
                 return Rectangle.Empty;
             }
-        }
+        }*/
 
         public void InvalidateScrolling(int dx, int dy)
         {
@@ -264,13 +264,6 @@ namespace Shrimp.Views
                 this.VScrollBar.Value = 0;
             }
         }
-
-        public int CursorTileX { get; set; }
-        public int CursorTileY { get; set; }
-        public int CursorOffsetX { get; set; }
-        public int CursorOffsetY { get; set; }
-        public int PickerStartX { get; set; }
-        public int PickerStartY { get; set; }
 
         public Size OffscreenSize { get; private set; }
         private IntPtr HOffscreen = IntPtr.Zero;
