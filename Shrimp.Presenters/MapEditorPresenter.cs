@@ -294,31 +294,6 @@ namespace Shrimp.Presenters
                 {
                     g.FillRectangle(SystemBrushes.Control, clipRect);
                 }
-                // TODO: Refactoring
-                if (this.Offscreen != null)
-                {
-                    Point mousePosition = this.MapEditor.CurrentMousePosition;
-                    Size offscreenSize = this.Offscreen.Size;
-                    if ((this.ViewModel.EditorState.LayerMode == LayerMode.Event) ||
-                        (0 <= mousePosition.X && mousePosition.X < offscreenSize.Width &&
-                         0 <= mousePosition.Y && mousePosition.Y < offscreenSize.Height))
-                    {
-                        Util.DrawFrame(g, this.GetFrameRect(isPickingTiles, cursorTile, cursorOffset, pickerStart));
-                    }
-                    if (((offscreenSize.Width < clipRect.Right) &&
-                         (offscreenSize.Height < clipRect.Bottom)) ||
-                        clipRect == Rectangle.Empty)
-                    {
-                        Rectangle cornerRect = new Rectangle
-                        {
-                            X = offscreenSize.Width,
-                            Y = offscreenSize.Height,
-                            Width = this.MapEditor.HScrollBarWidth,
-                            Height = this.MapEditor.VScrollBarHeight,
-                        };
-                        g.FillRectangle(SystemBrushes.Control, cornerRect);
-                    }
-                }
             };
 
             this.ViewModel.IsOpenedChanged += delegate
