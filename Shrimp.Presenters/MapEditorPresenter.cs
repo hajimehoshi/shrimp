@@ -215,10 +215,7 @@ namespace Shrimp.Presenters
                         foreach (var c in commands.Reverse()) { c.Undo(); }
                         this.Map.Updated += this.Map_Updated;
                         this.MapEditor.Invalidate();
-                        if (this.Offscreen != null)
-                        {
-                            this.Offscreen.Update(this.ViewModel.EditorState, this.ViewModel.TileSetCollection, this.Map, this.GridSize);
-                        }
+                        this.Offscreen.Update(this.ViewModel.EditorState, this.ViewModel.TileSetCollection, this.Map, this.GridSize);
                         this.MapEditor.Update();
                     };
                     this.ViewModel.EditorState.AddCommand(command);
@@ -291,15 +288,13 @@ namespace Shrimp.Presenters
                 Rectangle clipRect = e.ClipRectangle;
                 if (this.Map != null)
                 {
-                    if (this.Offscreen != null)
-                    {
-                        this.MapEditor.RenderOffscreen(this.Offscreen, g, clipRect);
-                    }
+                    this.MapEditor.RenderOffscreen(this.Offscreen, g, clipRect);
                 }
                 else
                 {
                     g.FillRectangle(SystemBrushes.Control, clipRect);
                 }
+                // TODO: Refactoring
                 if (this.Offscreen != null)
                 {
                     Point mousePosition = this.MapEditor.CurrentMousePosition;
@@ -342,20 +337,14 @@ namespace Shrimp.Presenters
                 else if (e.Property == editorState.GetProperty(_ => _.LayerMode))
                 {
                     this.MapEditor.Invalidate();
-                    if (this.Offscreen != null)
-                    {
-                        this.Offscreen.Update(editorState, tileSetCollection, this.Map, this.GridSize);
-                    }
+                    this.Offscreen.Update(editorState, tileSetCollection, this.Map, this.GridSize);
                     this.MapEditor.Update();
                 }
                 else if (e.Property == editorState.GetProperty(_ => _.ScaleMode))
                 {
                     this.MapEditor.AdjustScrollBars(editorState, this.Map, this.GridSize);
                     this.MapEditor.Invalidate();
-                    if (this.Offscreen != null)
-                    {
-                        this.Offscreen.Update(editorState, tileSetCollection, this.Map, this.GridSize);
-                    }
+                    this.Offscreen.Update(editorState, tileSetCollection, this.Map, this.GridSize);
                     this.MapEditor.Update();
                 }
                 else if (e.Property == editorState.GetProperty(_ => _.MapOffsets))
@@ -364,7 +353,6 @@ namespace Shrimp.Presenters
                     {
                         return;
                     }
-                    Debug.Assert(this.Offscreen != null);
                     this.MapEditor.AdjustScrollBars(editorState, this.Map, this.GridSize);
                     int mapId = this.Map.Id;
                     Point offset = editorState.GetMapOffset(mapId);
@@ -428,10 +416,7 @@ namespace Shrimp.Presenters
                     }
                     this.MapEditor.AdjustScrollBars(this.ViewModel.EditorState, this.map, this.GridSize);
                     this.MapEditor.Invalidate();
-                    if (this.Offscreen != null)
-                    {
-                        this.Offscreen.Update(this.ViewModel.EditorState, this.ViewModel.TileSetCollection, this.map, this.GridSize);
-                    }
+                    this.Offscreen.Update(this.ViewModel.EditorState, this.ViewModel.TileSetCollection, this.map, this.GridSize);
                     this.MapEditor.Update();
                 }
             }
@@ -445,10 +430,8 @@ namespace Shrimp.Presenters
             {
                 this.MapEditor.AdjustScrollBars(this.ViewModel.EditorState, this.Map, this.GridSize);
                 this.MapEditor.Invalidate();
-                if (this.Offscreen != null)
-                {
-                    this.Offscreen.Update(this.ViewModel.EditorState, this.ViewModel.TileSetCollection, this.Map, this.GridSize);
-                }
+                Debug.Assert(this.Offscreen != null);
+                this.Offscreen.Update(this.ViewModel.EditorState, this.ViewModel.TileSetCollection, this.Map, this.GridSize);
                 this.MapEditor.Update();
             }
             else if (e.Property == this.Map.GetProperty(_ => _.Tiles))
@@ -463,10 +446,8 @@ namespace Shrimp.Presenters
                     Height = updatedTilesRect.Height * this.GridSize,
                 };
                 this.MapEditor.Invalidate(updatedRect);
-                if (this.Offscreen != null)
-                {
-                    this.Offscreen.Update(this.ViewModel.EditorState, this.ViewModel.TileSetCollection, this.Map, this.GridSize, updatedRect);
-                }
+                Debug.Assert(this.Offscreen != null);
+                this.Offscreen.Update(this.ViewModel.EditorState, this.ViewModel.TileSetCollection, this.Map, this.GridSize, updatedRect);
                 this.MapEditor.Update();
             }
         }
