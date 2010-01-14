@@ -17,7 +17,7 @@ namespace Shrimp.Views
         public Size Size { get; private set; }
         private IntPtr Handle = IntPtr.Zero;
         public IntPtr DeviceContext { get; private set; }
-        private unsafe IntPtr OffscreenPixels = IntPtr.Zero;
+        private unsafe IntPtr Pixels = IntPtr.Zero;
 
         public MapEditorOffscreen(IntPtr parentHandle, Size size)
         {
@@ -39,7 +39,7 @@ namespace Shrimp.Views
             {
                 hDC = NativeMethods.GetDC(parentHandle);
                 this.Handle = NativeMethods.CreateDIBSection(hDC, ref bitmapInfo,
-                    NativeMethods.DIB_RGB_COLORS, out this.OffscreenPixels, IntPtr.Zero, 0);
+                    NativeMethods.DIB_RGB_COLORS, out this.Pixels, IntPtr.Zero, 0);
                 this.DeviceContext = NativeMethods.CreateCompatibleDC(hDC);
                 NativeMethods.SelectObject(this.DeviceContext, this.Handle);
             }
@@ -59,7 +59,7 @@ namespace Shrimp.Views
             {
                 NativeMethods.DeleteDC(this.DeviceContext);
                 NativeMethods.DeleteObject(this.Handle);
-                this.OffscreenPixels = IntPtr.Zero;
+                this.Pixels = IntPtr.Zero;
                 this.DeviceContext = IntPtr.Zero;
                 this.Handle = IntPtr.Zero;
                 this.Size = Size.Empty;
@@ -163,7 +163,7 @@ namespace Shrimp.Views
                                         }
                                         int srcX = (tileId % Util.PaletteHorizontalCount) * tileGridSize;
                                         int srcY = (tileId / Util.PaletteHorizontalCount) * tileGridSize;
-                                        Util.DrawBitmap(this.OffscreenPixels, offscreenSize,
+                                        Util.DrawBitmap(this.Pixels, offscreenSize,
                                             x, y, tileGridSize, tileGridSize, srcBD, srcX, srcY, alpha);
                                     }
                                 }
@@ -266,7 +266,7 @@ namespace Shrimp.Views
 
         private void DrawRectOffscreen(Rectangle rect, byte r, byte g, byte b)
         {
-            Debug.Assert(this.OffscreenPixels != IntPtr.Zero);
+            Debug.Assert(this.Pixels != IntPtr.Zero);
             Size dstSize = this.Size;
             rect.X = Math.Max(rect.X, 0);
             rect.Y = Math.Max(rect.Y, 0);
@@ -287,7 +287,7 @@ namespace Shrimp.Views
             unsafe
             {
                 int color = (0xff << 24) | (r << 16) | (g << 8) | b;
-                int* dst = (int*)this.OffscreenPixels + startI + startJ * stride / 4;
+                int* dst = (int*)this.Pixels + startI + startJ * stride / 4;
                 for (int j = startJ; j < endJ; j++, dst += padding)
                 {
                     for (int i = startI; i < endI; i++, dst++)
@@ -300,7 +300,7 @@ namespace Shrimp.Views
 
         private void DarkenOffscreen(Rectangle rect)
         {
-            Debug.Assert(this.OffscreenPixels != IntPtr.Zero);
+            Debug.Assert(this.Pixels != IntPtr.Zero);
             Size dstSize = this.Size;
             rect.X = Math.Max(rect.X, 0);
             rect.Y = Math.Max(rect.Y, 0);
@@ -320,7 +320,7 @@ namespace Shrimp.Views
             int endJ = rect.Bottom;
             unsafe
             {
-                byte* dst = (byte*)this.OffscreenPixels + startI * 4 + startJ * stride;
+                byte* dst = (byte*)this.Pixels + startI * 4 + startJ * stride;
                 for (int j = startJ; j < endJ; j++, dst += padding)
                 {
                     for (int i = startI; i < endI; i++, dst += 4)
@@ -352,7 +352,7 @@ namespace Shrimp.Views
             int stride = (dstSize.Width * 4 + 3) / 4 * 4;
             unsafe
             {
-                byte* dst = (byte*)this.OffscreenPixels + x1 * 4 + y1 * stride;
+                byte* dst = (byte*)this.Pixels + x1 * 4 + y1 * stride;
                 if (x1 == x2)
                 {
                     for (int j = y1; j < y2; j++, dst += stride)
