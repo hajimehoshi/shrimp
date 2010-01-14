@@ -289,6 +289,14 @@ namespace Shrimp.Presenters
                 if (this.Map != null)
                 {
                     this.MapEditor.RenderOffscreen(this.Offscreen, g, clipRect);
+                    Point mousePosition = this.MapEditor.CurrentMousePosition;
+                    Size offscreenSize = this.Offscreen.Size;
+                    if ((this.ViewModel.EditorState.LayerMode == LayerMode.Event) ||
+                        (0 <= mousePosition.X && mousePosition.X < offscreenSize.Width &&
+                         0 <= mousePosition.Y && mousePosition.Y < offscreenSize.Height))
+                    {
+                        Util.DrawFrame(g, this.GetFrameRect(isPickingTiles, cursorTile, cursorOffset, pickerStart));
+                    }
                 }
                 else
                 {

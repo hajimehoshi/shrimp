@@ -37,8 +37,7 @@ namespace Shrimp.Views
             IntPtr hDC = IntPtr.Zero;
             try
             {
-                hDC = NativeMethods.GetDC(parentHandle);
-                this.Handle = NativeMethods.CreateDIBSection(hDC, ref bitmapInfo,
+                this.Handle = NativeMethods.CreateDIBSection(IntPtr.Zero, ref bitmapInfo,
                     NativeMethods.DIB_RGB_COLORS, out this.Pixels, IntPtr.Zero, 0);
                 this.DeviceContext = NativeMethods.CreateCompatibleDC(hDC);
                 NativeMethods.SelectObject(this.DeviceContext, this.Handle);
