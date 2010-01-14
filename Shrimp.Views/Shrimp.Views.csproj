@@ -67,6 +67,7 @@
     <Compile Include="MapEditor.Designer.cs">
       <DependentUpon>MapEditor.cs</DependentUpon>
     </Compile>
+    <Compile Include="MapEditorOffscreen.cs" />
     <Compile Include="MapTreeView.cs">
       <SubType>Component</SubType>
     </Compile>

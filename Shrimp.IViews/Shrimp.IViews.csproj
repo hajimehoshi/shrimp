@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="IMainForm.cs" />
     <Compile Include="IMapEditor.cs" />
+    <Compile Include="IMapEditorOffscreen.cs" />
     <Compile Include="IMapTreeView.cs" />
     <Compile Include="INewProjectDialog.cs" />
     <Compile Include="ITileSetPalette.cs" />
