@@ -12,7 +12,6 @@ namespace Shrimp.IViews
         void Update(EditorState editorState, TileSetCollection tileSetCollection, Map map, int gridSize);
         void Update(EditorState editorState, TileSetCollection tileSetCollection, Map map, int gridSize, Rectangle rect);
 
-        IntPtr DeviceContext { get; }
         Size Size { get; }
     }
 }

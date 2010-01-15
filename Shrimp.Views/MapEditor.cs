@@ -59,13 +59,14 @@ namespace Shrimp.Views
 
         public void RenderOffscreen(IMapEditorOffscreen offscreen, Graphics g, Rectangle rect)
         {
+            Debug.Assert(offscreen is MapEditorOffscreen);
             IntPtr hDstDC = IntPtr.Zero;
             try
             {
                 hDstDC = g.GetHdc();
                 NativeMethods.BitBlt(
                     hDstDC, rect.Left, rect.Top, rect.Width, rect.Height,
-                    offscreen.DeviceContext, rect.Left, rect.Top,
+                    (offscreen as MapEditorOffscreen).DeviceContext, rect.Left, rect.Top,
                     NativeMethods.TernaryRasterOperations.SRCCOPY);
             }
             finally

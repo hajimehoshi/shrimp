@@ -16,7 +16,7 @@ namespace Shrimp.Views
     {
         public Size Size { get; private set; }
         private IntPtr Handle = IntPtr.Zero;
-        public IntPtr DeviceContext { get; private set; }
+        internal IntPtr DeviceContext { get; private set; }
         private unsafe IntPtr Pixels = IntPtr.Zero;
 
         public MapEditorOffscreen(IntPtr parentHandle, Size size)
