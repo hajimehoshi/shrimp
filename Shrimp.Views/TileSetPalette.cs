@@ -22,9 +22,7 @@ namespace Shrimp.Views
         public TileSetPalette(ViewModel viewModel)
         {
             this.ViewModel = viewModel;
-            this.ViewModel.IsOpenedChanged += this.ViewModel_IsOpenedChanged;
-            this.ViewModel.EditorState.Updated += this.EditorState_Updated;
-
+            
             this.InitializeComponent();
             this.VScroll = true;
             this.VerticalScroll.SmallChange = Util.PaletteGridSize;
@@ -84,37 +82,7 @@ namespace Shrimp.Views
             }
         }
 
-        private void ViewModel_IsOpenedChanged(object sender, EventArgs e)
-        {
-            if (this.ViewModel.IsOpened)
-            {
-                this.TileSet = this.EditorState.SelectedTileSet;
-            }
-            else
-            {
-                this.TileSet = null;
-            }
-        }
-
-        private void EditorState_Updated(object sender, UpdatedEventArgs e)
-        {
-            EditorState editorState = (EditorState)sender;
-            if (e.Property == editorState.GetProperty(_ => _.MapId) ||
-                e.Property == editorState.GetProperty(_ => _.SelectedTileSetIds))
-            {
-                this.TileSet = this.EditorState.SelectedTileSet;
-            }
-            else if (e.Property == editorState.GetProperty(_ => _.SelectedTiles))
-            {
-                this.Invalidate();
-            }
-            else if (e.Property == editorState.GetProperty(_ => _.TileSetMode))
-            {
-                this.Invalidate();
-            }
-        }
-
-        private TileSet TileSet
+        public TileSet TileSet
         {
             get { return tileSet; }
             set

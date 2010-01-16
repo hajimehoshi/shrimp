@@ -95,9 +95,11 @@ namespace Shrimp.Presenters
             this.IsOpenedChanged();
             this.MapTreeViewPresenter = new MapTreeViewPresenter(this.MainForm.MapTreeView, this.ViewModel);
             this.MapEditorPresenter = new MapEditorPresenter(this.MainForm.MapEditor, this.ViewModel);
+            this.TileSetPalettePresenter = new TileSetPalettePresenter(this.MainForm.TileSetPalette, this.ViewModel);
         }
         private MapTreeViewPresenter MapTreeViewPresenter;
         private MapEditorPresenter MapEditorPresenter;
+        private TileSetPalettePresenter TileSetPalettePresenter;
 
         private IMainForm MainForm;
 
