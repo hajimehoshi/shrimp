@@ -19,8 +19,12 @@ namespace Shrimp.Views
     {
         private enum AutoScrollingState { Up, Down, }
 
-        public TileSetPalette()
+        public TileSetPalette(ViewModel viewModel)
         {
+            this.ViewModel = viewModel;
+            this.ViewModel.IsOpenedChanged += this.ViewModel_IsOpenedChanged;
+            this.ViewModel.EditorState.Updated += this.EditorState_Updated;
+
             this.InitializeComponent();
             this.VScroll = true;
             this.VerticalScroll.SmallChange = Util.PaletteGridSize;
@@ -47,28 +51,8 @@ namespace Shrimp.Views
             };
         }
 
-        public ViewModel ViewModel
-        {
-            get { return this.viewModel; }
-            set
-            {
-                if (this.viewModel != value)
-                {
-                    if (this.viewModel != null)
-                    {
-                        this.viewModel.IsOpenedChanged -= this.ViewModel_IsOpenedChanged;
-                        this.viewModel.EditorState.Updated -= this.EditorState_Updated;
-                    }
-                    this.viewModel = value;
-                    if (this.viewModel != null)
-                    {
-                        this.viewModel.IsOpenedChanged += this.ViewModel_IsOpenedChanged;
-                        this.viewModel.EditorState.Updated += this.EditorState_Updated;
-                    }
-                }
-            }
-        }
-        private ViewModel viewModel;
+        // TODO: Remove it
+        private ViewModel ViewModel;
 
         private EditorState EditorState
         {

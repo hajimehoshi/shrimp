@@ -298,7 +298,7 @@ namespace Shrimp.Views
             this.mapEditor.Dock = DockStyle.Fill;
             this.MainSplitContainer.Panel2.Controls.Add(this.mapEditor);
 
-            this.tileSetPalette = new Shrimp.Views.TileSetPalette();
+            this.tileSetPalette = new Shrimp.Views.TileSetPalette(viewModel);
             this.tileSetPalette.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
             this.tileSetPalette.AutoScroll = true;
             this.LeftSplitContainer.Panel1.Controls.Add(this.tileSetPalette);
@@ -314,8 +314,6 @@ namespace Shrimp.Views
             };
             this.MainSplitContainer.SplitterDistance -=
                 this.tileSetPalette.Parent.ClientSize.Width - this.tileSetPalette.Width;
-            
-            this.tileSetPalette.ViewModel = viewModel;
 
             this.ResumeLayout(false);
 
