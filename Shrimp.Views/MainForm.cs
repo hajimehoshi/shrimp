@@ -298,6 +298,11 @@ namespace Shrimp.Views
             this.mapEditor.Dock = DockStyle.Fill;
             this.MainSplitContainer.Panel2.Controls.Add(this.mapEditor);
 
+            this.tileSetPalette = new Shrimp.Views.TileSetPalette();
+            this.tileSetPalette.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
+            this.tileSetPalette.AutoScroll = true;
+            this.LeftSplitContainer.Panel1.Controls.Add(this.tileSetPalette);
+
             this.ToolStrip.Renderer = new CustomToolStripSystemRenderer();
             this.TileSetPaletteToolStrip.Renderer = new CustomToolStripSystemRenderer();
             this.tileSetPalette.Size = new Size
@@ -350,8 +355,9 @@ namespace Shrimp.Views
             }
         }
 
-        private MapTreeView mapTreeView;
         private MapEditor mapEditor;
+        private MapTreeView mapTreeView;
+        private TileSetPalette tileSetPalette;
 
         private IEnumerable<ToolStripButton> LayerModeSwitchers
         {

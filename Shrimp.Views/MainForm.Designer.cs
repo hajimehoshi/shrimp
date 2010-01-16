@@ -35,7 +35,6 @@
             this.TileSetPaletteToolStrip = new System.Windows.Forms.ToolStrip();
             this.TileSetsToolStripComboBox = new System.Windows.Forms.ToolStripComboBox();
             this.PassageToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.tileSetPalette = new Shrimp.Views.TileSetPalette();
             this.ToolStripContainer = new System.Windows.Forms.ToolStripContainer();
             this.ToolStrip = new System.Windows.Forms.ToolStrip();
             this.NewToolStripButton = new System.Windows.Forms.ToolStripButton();
@@ -95,7 +94,6 @@
             // LeftSplitContainer.Panel1
             // 
             this.LeftSplitContainer.Panel1.Controls.Add(this.TileSetPaletteToolStrip);
-            this.LeftSplitContainer.Panel1.Controls.Add(this.tileSetPalette);
             // 
             // LeftSplitContainer.Panel2
             // 
@@ -133,17 +131,6 @@
             this.PassageToolStripButton.Size = new System.Drawing.Size(23, 23);
             this.PassageToolStripButton.Text = "Passage";
             this.PassageToolStripButton.Click += new System.EventHandler(this.PassageToolStripButton_Click);
-            // 
-            // TileSetPalette
-            // 
-            this.tileSetPalette.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)));
-            this.tileSetPalette.AutoScroll = true;
-            this.tileSetPalette.Location = new System.Drawing.Point(0, 0);
-            this.tileSetPalette.Name = "TileSetPalette";
-            this.tileSetPalette.Size = new System.Drawing.Size(100, 105);
-            this.tileSetPalette.TabIndex = 0;
-            this.tileSetPalette.ViewModel = null;
             // 
             // ToolStripContainer
             // 
@@ -379,7 +366,6 @@
         private System.Windows.Forms.SplitContainer LeftSplitContainer;
         private System.Windows.Forms.ToolStripButton OpenToolStripButton;
         private System.Windows.Forms.ToolStripButton CloseToolStripButton;
-        private TileSetPalette tileSetPalette;
         private System.Windows.Forms.ToolStrip TileSetPaletteToolStrip;
         private System.Windows.Forms.ToolStripButton SaveToolStripButton;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
