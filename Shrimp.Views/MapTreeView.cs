@@ -180,7 +180,6 @@ namespace Shrimp.Views
         }
 
         public MapTreeView()
-            : base()
         {
             this.InitializeComponent();
             this.ItemHeight = (int)(this.Font.Height * 1.8);
