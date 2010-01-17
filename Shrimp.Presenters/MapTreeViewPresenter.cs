@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -109,6 +110,58 @@ namespace Shrimp.Presenters
                         }
                     }
                 }
+            };
+            this.MapTreeView.DrawNode += (sender, e) =>
+            {
+                if (!this.MapTreeView.Enabled)
+                {
+                    return;
+                }
+                Graphics g = e.Graphics;
+                TreeNode node = e.Node;
+                int id = (int)node.Tag;
+                Rectangle bounds = e.Bounds;
+                bool isSelected = (e.State & TreeNodeStates.Selected) != 0;
+                if (isSelected)
+                {
+                    g.FillRectangle(SystemBrushes.Highlight, bounds);
+                    if ((e.State & TreeNodeStates.Focused) != 0)
+                    {
+                        ControlPaint.DrawFocusRectangle(g, bounds,
+                            SystemColors.HighlightText, SystemColors.Highlight);
+                    }
+                }
+                else
+                {
+                    g.FillRectangle(new SolidBrush(this.MapTreeView.BackColor), bounds);
+                }
+                if (0 < node.Level && 0 < node.GetNodeCount(false))
+                {
+                    Image toggleImage = node.IsExpanded ?
+                        this.MapTreeView.GetImage(MapTreeViewImage.Minus) :
+                        this.MapTreeView.GetImage(MapTreeViewImage.Plus);
+                    g.DrawImage(toggleImage,
+                        bounds.X + this.MapTreeView.Indent * (node.Level - 1) + 1,
+                        bounds.Y + 2);
+                }
+                Image image;
+                switch (node.ImageKey)
+                {
+                case "Home":
+                    image = this.MapTreeView.GetImage(MapTreeViewImage.Home);
+                    break;
+                case "Bin":
+                    image = this.MapTreeView.GetImage(MapTreeViewImage.Bin);
+                    break;
+                default:
+                    image = this.MapTreeView.GetImage(MapTreeViewImage.Map);
+                    break;
+                }
+                g.DrawImage(image, bounds.X + this.MapTreeView.Indent * node.Level + 1, bounds.Y + 2);
+                g.DrawString(node.Text, this.MapTreeView.Font,
+                    isSelected ? SystemBrushes.HighlightText : new SolidBrush(this.MapTreeView.ForeColor),
+                    bounds.X + this.MapTreeView.Indent * node.Level + 16 + 2,
+                    bounds.Y + (this.MapTreeView.ItemHeight - this.MapTreeView.Font.Height) / 2);
             };
 
             this.ViewModel.IsOpenedChanged += delegate

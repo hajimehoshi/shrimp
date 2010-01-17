@@ -115,6 +115,26 @@ namespace Shrimp.Views
             this.GetTreeNode(id).Expand();
         }
 
+        public Image GetImage(MapTreeViewImage image)
+        {
+            switch (image)
+            {
+            case MapTreeViewImage.Plus:
+                return Resources.ToggleSmall;
+            case MapTreeViewImage.Minus:
+                return Resources.ToggleSmallCollapse;
+            case MapTreeViewImage.Map:
+                return Resources.Card;
+            case MapTreeViewImage.Home:
+                return Resources.Home;
+            case MapTreeViewImage.Bin:
+                return Resources.Bin;
+            default:
+                Debug.Fail("Invalid MapTreeViewImage");
+                return null;
+            }
+        }
+
         public bool HasSelectedNode
         {
             get { return this.SelectedNode != null; }
@@ -212,23 +232,6 @@ namespace Shrimp.Views
             };
         }
 
-        private IEnumerable<TreeNode> AllNodes
-        {
-            get { return this.Traverse(this.Nodes); }
-        }
-
-        private IEnumerable<TreeNode> Traverse(TreeNodeCollection nodeCollection)
-        {
-            foreach (TreeNode node in nodeCollection)
-            {
-                yield return node;
-                foreach (TreeNode node2 in this.Traverse(node.Nodes))
-                {
-                    yield return node2;
-                }
-            }
-        }
-
         private ContextMenuStrip contextMenuStrip;
         private ToolStripMenuItem InsertToolStripMenuItem;
         private ToolStripMenuItem DeleteToolStripMenuItem;
@@ -263,58 +266,6 @@ namespace Shrimp.Views
             {
                 this.EditToolStripMenuItem.PerformClick();
             }
-        }
-
-        protected override void OnDrawNode(DrawTreeNodeEventArgs e)
-        {
-            base.OnDrawNode(e);
-            if (!this.Enabled)
-            {
-                return;
-            }
-            Graphics g = e.Graphics;
-            TreeNode node = e.Node;
-            int id = (int)node.Tag;
-            Rectangle bounds = e.Bounds;
-            bool isSelected = (e.State & TreeNodeStates.Selected) != 0;
-            if (isSelected)
-            {
-                g.FillRectangle(SystemBrushes.Highlight, bounds);
-                if ((e.State & TreeNodeStates.Focused) != 0)
-                {
-                    ControlPaint.DrawFocusRectangle(g, bounds,
-                        SystemColors.HighlightText, SystemColors.Highlight);
-                }
-            }
-            else
-            {
-                g.FillRectangle(new SolidBrush(this.BackColor), bounds);
-            }
-            if (0 < node.Level && 0 < node.GetNodeCount(false))
-            {
-                Image toggleImage = node.IsExpanded ? Resources.ToggleSmallCollapse : Resources.ToggleSmall;
-                g.DrawImage(toggleImage,
-                    bounds.X + this.Indent * (node.Level - 1) + 1,
-                    bounds.Y + 2);
-            }
-            Image image;
-            switch (node.ImageKey)
-            {
-            case "Home":
-                image = Resources.Home;
-                break;
-            case "Bin":
-                image = Resources.Bin;
-                break;
-            default:
-                image = Resources.Card;
-                break;
-            }
-            g.DrawImage(image, bounds.X + this.Indent * node.Level + 1, bounds.Y + 2);
-            g.DrawString(node.Text, this.Font,
-                isSelected ? SystemBrushes.HighlightText : new SolidBrush(this.ForeColor),
-                bounds.X + this.Indent * node.Level + 16 + 2,
-                bounds.Y + (this.ItemHeight - this.Font.Height) / 2);
         }
 
         private void InitializeComponent()
